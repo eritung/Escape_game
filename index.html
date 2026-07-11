@@ -537,19 +537,42 @@
   #modal ::-webkit-scrollbar-track,#phone ::-webkit-scrollbar-track{background:#d6c7a3;}
 
   @media(max-width:640px){
-    #wrap{padding:16px 8px 42px;}
-    h1.title{padding:16px 16px 12px;font-size:16px;letter-spacing:4px;}
+    #wrap{padding:14px 8px 40px;}
+    h1.title{padding:15px 14px 12px;font-size:17px;letter-spacing:4px;}
     h1.title::before{letter-spacing:2px;}
-    #topbar{padding:11px 10px;}
+    #topbar{padding:10px;display:grid;gap:8px;}
+    #clock{text-align:center;}
+    .btnrow{width:100%;gap:6px;}
+    .btnrow .abtn{flex:1 1 30%;padding:9px 4px;font-size:13px;letter-spacing:0;}
     #navbar{gap:4px;}
-    .navbtn{padding:7px 10px;font-size:11.5px;}
-    #stage{padding:10px;}
-    #stage::before{left:14px;}
-    #stage::after{right:14px;}
-    #scenename{left:17px;top:17px;}
-    #modal.panel{padding:22px 15px 18px;}
-    #modal h3{font-size:15px;}
-    #phone{padding:14px 10px;}
+    .navbtn{padding:8px 10px;font-size:12.5px;}
+    #stage{padding:8px;}
+    #stage::before{left:12px;top:2px;}
+    #stage::after{right:12px;top:2px;}
+    #scenename{left:14px;top:16px;font-size:11px;}
+    #invbar{padding:10px;margin:10px 0 8px;}
+    .invitem{font-size:12.5px;padding:8px 10px;}
+    #modal.panel{padding:20px 14px 16px;}
+    #modal h3{font-size:16px;}
+    #modal .body{font-size:14.5px;line-height:2;}
+    .opt{font-size:14px;padding:12px 11px;}
+    .getitem,.getfrag{font-size:12.5px;}
+    #lockinput{width:200px;font-size:24px;}
+    .padbtn{font-size:20px;padding:13px 0;}
+    #phone{padding:14px 10px;height:min(640px,88vh);}
+    #phone h3{font-size:16px;}
+    .chatrow,.callrow{padding:12px 10px;}
+    .chatname{font-size:14px;}
+    .preview{font-size:12px;}
+    .msg .bub{font-size:14px;line-height:1.9;}
+    .msg .who{font-size:12px;}
+    .mailrow .mailsubject{font-size:14px;}
+    .clueline{font-size:12.5px;}
+    .cluegroup b{font-size:13.5px;}
+    .fullin .story,.paper .story{font-size:14px;line-height:2;}
+    .clause{font-size:13.5px;}
+    .paperhead{letter-spacing:5px;font-size:19px;}
+    #toast{font-size:13.5px;max-width:92vw;}
   }
 
 </style>
@@ -559,7 +582,7 @@
   <h1 class="title">◆ 《協和大樓逃脫計劃》 ◆</h1>
 
   <div id="topbar">
-    <span id="clock">🌙 23:07 <span class="batt">無時間限制</span></span>
+    <span id="clock">🌙 23:07</span>
     <div class="btnrow">
       <button class="abtn gray" id="btnRules">📜 守則</button>
       <button class="abtn gray" id="btnPhone">📱 手機<span class="badge" id="msgbadge"></span></button>
@@ -575,7 +598,6 @@
     <canvas id="cv" width="400" height="225"></canvas>
     <div id="scenename"></div>
   </div>
-  <div id="touchhint">手機操作：可互動物件會常駐淡描邊；點一下顯示名稱，再點一次進行調查。</div>
 
   <div id="invbar"><span id="invlabel">背包｜</span><span id="invlist" style="display:contents"></span></div>
 
@@ -599,9 +621,8 @@
       </div>
       <div id="phoneBody">
         <div id="phoneHome">
-          <div class="phonehint">聊天室依聯絡人分開顯示；姓名與訊息內容會各自換行。</div>
           <div id="chatlist"></div>
-          <button class="callrow" onclick="callKat()"><span class="avatar">📞</span><span><span class="chatname">打給 Kat</span><span class="preview">第 10 通也許會觸發人資隱藏機制</span></span></button>
+          <button class="callrow" onclick="callKat()"><span class="avatar">📞</span><span><span class="chatname">打給 Kat</span><span class="preview">深夜來電，多半只會轉進語音信箱</span></span></button>
         </div>
         <div id="threadView" style="display:none"><div id="msglist"></div></div>
         <div id="callPanel" style="display:none">
@@ -641,8 +662,6 @@
         </div>
         <span class="stamp round">七樓管委會<br>之印</span>
       </div>
-      <div class="paperfoot">操作：滑鼠移到物件上顯示名稱，點擊調查（手機點兩下）｜📜 可隨時重讀守則｜🔮 卡關可求助
-簽收後，背景音樂將自動播放</div>
     </div>
   </div>
 
@@ -834,7 +853,7 @@ function initialState(){return {zone:'office2',inv:{},frags:{},flags:{},msgs:[],
 let S=initialState();
 
 function tick(){} // 無倒數、無步數扣時
-function renderClock(){document.getElementById('clock').innerHTML='🌙 23:07 <span class="batt">無時間限制</span>';}
+function renderClock(){document.getElementById('clock').innerHTML='🌙 23:07';}
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';
   clearTimeout(toast._t);toast._t=setTimeout(()=>el.style.display='none',2600);}
 function showReward(name){const card=document.getElementById('rewardCard'),parts=name.trim().split(/\s+/);document.getElementById('rewardIcon').textContent=parts.shift()||'◆';document.getElementById('rewardName').textContent='重要道具取得\n'+parts.join(' ');card.style.display='block';clearTimeout(showReward._t);showReward._t=setTimeout(()=>card.style.display='none',1500);}
@@ -1094,9 +1113,7 @@ function endGame(type){
 「我說露營用的==」
 
 封鎖確實解除了。
-用的是消防系統，不是腦子。
-
-（壞結局。可以回到選擇前，進度不會消失。）`;
+用的是消防系統，不是腦子。`;
   }else if(type==='pipe'){
     AudioEngine.sfx('endingBad');T.classList.add('bad');T.textContent='✖ 壞結局：七樓不是動作片';
     B.textContent=`你抓住排水管，往下爬。
@@ -1107,9 +1124,7 @@ function endGame(type){
 「深夜大樓驚見行動藝術（還在動）」
 
 雲梯車把你接下來的時候，觀看人數突破三萬。
-你和招牌上的公司 LOGO，合了一張時代的照片。
-
-（壞結局。可以回到選擇前，進度不會消失。）`;
+你和招牌上的公司 LOGO，合了一張時代的照片。`;
   }else if(type==='firestairs'){
     AudioEngine.sfx('endingGood');T.textContent='◆ 安全結局：消防梯的綠燈';
     B.textContent=`「嗶。」「嗶。」
@@ -1126,8 +1141,8 @@ function endGame(type){
 出是出來了。
 有些問題，留給明天。
 
-（安全結局：B 路線消防梯）
-（提示：帶齊 3 份文件走「正門」，可以看到今晚完整的真相。）`;
+你隱約覺得——如果帶齊那三份「不該存在的文件」，
+再打開正門，今晚也許會有完整的解釋。`;
   }else if(type==='side'){
     AudioEngine.sfx('endingGood');T.textContent='◆ 機械結局：不插電的勝利';
     B.textContent=`把手插進凹槽，逆時針轉半圈——
@@ -1142,8 +1157,8 @@ function endGame(type){
 
 Kat，記你一功。
 
-（機械結局：C 路線後勤側門）
-（提示：帶齊 3 份文件走「正門」，可以看到今晚完整的真相。）`;
+只是你隱約覺得——如果帶齊那三份「不該存在的文件」，
+再打開正門，今晚也許會有完整的解釋。`;
   }else if(type==='true'){
     AudioEngine.sfx('endingTrue');T.classList.add('true');T.textContent='★ 真結局：排程比鬼更可怕';
     B.textContent=`「嗶——喀。」
@@ -1174,9 +1189,7 @@ Kat，記你一功。
 已讀。
 
 七樓重新亮起。你替公司完成了一次
-非常昂貴、非常真實、非常不自願的上線前測試。
-
-（★ 真結局：集齊 3 份文件，從正門離開）`;
+非常昂貴、非常真實、非常不自願的上線前測試。`;
   }else{
     AudioEngine.sfx('endingGood');T.textContent='◆ 好結局：封鎖解除';
     B.textContent=`「嗶——喀。」
@@ -1194,8 +1207,9 @@ Kat 為什麼永遠只剩語音信箱——
 這間公司最可靠的備援從來不是系統，
 是知道每個同事會把東西藏在哪裡的、你。
 
-（好結局：一般逃脫）
-（提示：這層樓藏著 3 份「文件」。帶齊再開正門，今晚的一切會有解釋。）`;
+只是……口袋好像太輕了。
+這層樓還藏著幾份「不該存在的文件」——
+下次，把它們帶齊，再開這扇門。`;
   }
   const btn=document.getElementById('endingBtn');
   if(type==='fire'||type==='pipe'){btn.textContent='↩ 回到選擇前';btn.dataset.mode='resume';}
@@ -1208,7 +1222,7 @@ function endingAction(){
   const btn=document.getElementById('endingBtn');
   if(btn.dataset.mode==='resume'){
     document.getElementById('ending').style.display='none';
-    toast('已回到選擇前，探索進度完整保留。');
+    toast('你深呼吸一口氣，回到了剛才站的位置。');
     return;
   }
   restartGame();
@@ -1963,7 +1977,7 @@ function startGame(){
   AudioEngine.start(); // 直接在使用者點擊「開始」時啟動，符合瀏覽器自動播放規則
   document.getElementById('intro').style.display='none';S.started=true;
   if(!S.msgs.length){MSG0.forEach(m=>S.msgs.push({...m,unread:true}));S.unread=MSG0.length;}
-  renderBadge();renderPhone();AudioEngine.sfx('message');toast('🔊 BGM 已開始｜📱 '+MSG0.length+' 個聊天室有新訊息'+(TOUCH_MODE?'｜點兩下物件進行調查':''));draw();
+  renderBadge();renderPhone();AudioEngine.sfx('message');toast('📱 '+MSG0.length+' 個聊天室有新訊息');draw();
 }
 renderNav();renderInv();renderClock();renderChips();renderPhone();AudioEngine.updateButton();draw();
 document.getElementById('scenename').textContent='▸ '+ZONES[S.zone].label;
