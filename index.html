@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《協和大樓逃脫計劃》</title>
+<style>
+  :root{
+    --bg:#07070f; --panel:#101022; --panel2:#0c0c1a; --line:#3a3a6e;
+    --ink:#dcdcf0; --dim:#8b8bb2; --neon:#6ee7ff; --pink:#ff6ea9;
+    --amber:#ffc46a; --red:#ff5a5a; --green:#7dffa8;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Cubic11","Zpix","Microsoft JhengHei","PingFang TC",sans-serif;}
+  #wrap{max-width:920px;margin:0 auto;padding:10px 10px 40px;}
+  h1.title{font-size:18px;letter-spacing:2px;color:var(--neon);margin:8px 0 2px;text-align:center;
+    text-shadow:0 0 14px rgba(110,231,255,.4);}
+  .sub{text-align:center;color:var(--dim);font-size:12px;margin-bottom:8px;letter-spacing:1px;}
+  .panel{background:var(--panel);border:3px solid var(--line);box-shadow:0 0 0 3px #050510, inset 0 0 0 2px #050510;
+    padding:10px;image-rendering:pixelated;}
+  #topbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between;margin:8px 0;}
+  #clock{color:var(--amber);font-size:14px;letter-spacing:2px;}
+  #clock .batt{color:var(--dim);font-size:12px;margin-left:8px;}
+  .btnrow{display:flex;gap:6px;flex-wrap:wrap;}
+  .abtn{background:#141430;border:2px solid var(--neon);color:var(--neon);padding:6px 12px;font-size:13px;cursor:pointer;
+    font-family:inherit;letter-spacing:1px;position:relative;}
+  .abtn.gray{border-color:var(--line);color:var(--dim);}
+  .abtn.pink{border-color:var(--pink);color:var(--pink);}
+  .abtn:disabled{opacity:.4;cursor:not-allowed;}
+  .badge{position:absolute;top:-7px;right:-7px;background:var(--red);color:#fff;font-size:11px;
+    min-width:16px;height:16px;line-height:16px;text-align:center;border:1px solid #fff;display:none;}
+  #navbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0;}
+  .navbtn{background:var(--panel2);border:2px solid var(--line);color:var(--dim);padding:6px 9px;font-size:13px;
+    cursor:pointer;font-family:inherit;letter-spacing:1px;}
+  .navbtn.active{color:var(--neon);border-color:var(--neon);background:#141434;box-shadow:0 0 8px rgba(110,231,255,.25);}
+  .navbtn.locked{color:#55556a;}
+  .navbtn:hover{color:var(--ink);}
+  #stage{position:relative;width:100%;}
+  #cv{width:100%;display:block;image-rendering:pixelated;image-rendering:crisp-edges;
+    border:3px solid var(--line);box-shadow:0 0 0 3px #050510, 0 0 30px rgba(0,0,0,.7);background:#000;cursor:default;touch-action:manipulation;}
+  #touchhint{display:none;margin:7px 2px 0;color:var(--dim);font-size:11px;letter-spacing:1px;text-align:center;}
+  @media (hover:none),(pointer:coarse){#touchhint{display:block}.navbtn,.abtn,.invitem{min-height:40px}}
+  #scenename{position:absolute;top:8px;left:8px;background:rgba(5,5,16,.82);border:2px solid var(--line);
+    color:var(--neon);font-size:13px;padding:3px 8px;letter-spacing:2px;pointer-events:none;}
+  /* inventory */
+  #invbar{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;align-items:center;}
+  #invlabel{color:var(--dim);font-size:12px;letter-spacing:2px;}
+  .invitem{background:#141430;border:2px solid var(--amber);color:var(--amber);padding:4px 9px;font-size:12px;
+    letter-spacing:1px;cursor:pointer;font-family:inherit;}
+  .invitem.frag{border-color:var(--pink);color:var(--pink);}
+  /* canvas-only exploration: no clickable item list */
+  #actions{display:none;}
+  /* modal */
+  #modalbg{display:none;position:fixed;inset:0;background:rgba(3,3,12,.85);z-index:50;
+    align-items:center;justify-content:center;padding:14px;}
+  #modal{max-width:600px;width:100%;max-height:84vh;overflow-y:auto;}
+  #modal h3{color:var(--amber);letter-spacing:2px;margin:0 0 8px;font-size:16px;}
+  #modal .body{font-size:14px;line-height:1.95;white-space:pre-wrap;}
+  .closex{background:none;border:2px solid var(--line);color:var(--dim);cursor:pointer;padding:4px 10px;
+    font-family:inherit;float:right;font-size:12px;}
+  .keymark{color:var(--amber);}
+  .getitem{display:inline-block;background:#241c10;border:2px solid var(--amber);color:var(--amber);font-size:12px;
+    padding:3px 8px;margin:8px 6px 0 0;letter-spacing:1px;}
+  .getfrag{display:inline-block;background:#241019;border:2px solid var(--pink);color:var(--pink);font-size:12px;
+    padding:3px 8px;margin:8px 6px 0 0;letter-spacing:1px;}
+  /* lock pad */
+  #lockpad{margin-top:12px;text-align:center;}
+  #lockinput{background:#050510;border:3px solid var(--neon);color:var(--green);font-size:26px;letter-spacing:12px;
+    text-align:center;width:230px;padding:8px 0 8px 12px;font-family:inherit;}
+  #lockinput.txt{letter-spacing:3px;font-size:18px;padding:12px 8px;}
+  #padgrid{display:grid;grid-template-columns:repeat(3,64px);gap:6px;justify-content:center;margin:12px auto;}
+  .padbtn{background:#141430;border:2px solid var(--line);color:var(--ink);font-size:18px;padding:10px 0;
+    cursor:pointer;font-family:inherit;}
+  .padbtn:hover{border-color:var(--neon);color:var(--neon);}
+  .padbtn.ok{border-color:var(--green);color:var(--green);}
+  .padbtn.del{border-color:var(--red);color:var(--red);}
+  #lockmsg{min-height:20px;font-size:13px;margin-top:6px;letter-spacing:2px;}
+  .shake{animation:shk .35s;}
+  @keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+  .optlist{display:flex;flex-direction:column;gap:6px;margin:10px 0 2px;}
+  .opt{background:var(--panel2);border:2px solid var(--line);padding:9px;font-size:13px;cursor:pointer;text-align:left;
+    color:var(--ink);line-height:1.6;font-family:inherit;}
+  .opt:hover{border-color:var(--neon);color:var(--neon);}
+  .opt.danger{border-color:var(--red);color:#ffb8b0;}
+  .opt.danger:hover{border-color:var(--red);color:var(--red);}
+  /* phone */
+  #phonebg{display:none;position:fixed;inset:0;background:rgba(3,3,12,.85);z-index:52;
+    align-items:center;justify-content:center;padding:14px;}
+  #phone{width:100%;max-width:440px;height:min(700px,86vh);display:flex;flex-direction:column;background:#0a0a18;
+    border:3px solid var(--neon);box-shadow:0 0 24px rgba(110,231,255,.25);padding:10px;overflow:hidden;}
+  .phonehead{display:flex;align-items:center;gap:8px;border-bottom:1px dashed var(--line);padding-bottom:8px;flex:0 0 auto;}
+  #phone h3{color:var(--neon);font-size:14px;letter-spacing:2px;margin:0;flex:1;}
+  #phoneBack{display:none;background:#141430;border:2px solid var(--line);color:var(--dim);font-family:inherit;cursor:pointer;padding:4px 8px;}
+  #phoneBody{overflow-y:auto;min-height:0;flex:1;padding-top:8px;}
+  .phonehint{color:var(--dim);font-size:11px;letter-spacing:2px;margin:4px 0 8px;}
+  .chatrow,.callrow{width:100%;display:grid;grid-template-columns:42px 1fr auto;gap:9px;align-items:center;
+    background:#111126;border:2px solid #282852;color:var(--ink);padding:9px;margin:7px 0;cursor:pointer;text-align:left;font-family:inherit;}
+  .chatrow:hover,.callrow:hover{border-color:var(--neon);background:#151535;}
+  .avatar{width:36px;height:36px;display:grid;place-items:center;background:#202044;border:2px solid var(--line);font-size:18px;}
+  .chatmeta{min-width:0;}.chatname{display:block;font-size:13px;color:var(--ink);margin-bottom:4px;line-height:1.35}.preview{display:block;font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.45}
+  .chatcount{background:var(--red);color:#fff;border-radius:20px;min-width:18px;height:18px;line-height:18px;text-align:center;font-size:10px;padding:0 5px;}
+  .callrow{grid-template-columns:42px 1fr; border-color:#2f5a40;}.callrow .chatname{color:var(--green);}
+  .msg{margin:12px 0;}.msg .who{display:block;font-size:11px;color:var(--pink);letter-spacing:1px;margin-bottom:4px;line-height:1.4}.msg .who.me{color:var(--green);}
+  .msg .bub{background:#16162e;border:2px solid var(--line);padding:7px 9px;font-size:13px;line-height:1.8;margin-top:3px;white-space:pre-wrap;}
+  .msg.me .bub{background:#0f2418;border-color:#2f5a40;}.msg .tm{color:#55556a;font-size:10px;margin-top:2px;}
+  #callPanel{text-align:center;padding:28px 12px;}.callavatar{width:84px;height:84px;margin:0 auto 14px;display:grid;place-items:center;font-size:38px;background:#16162e;border:3px solid var(--green);border-radius:50%;}
+  .callstatus{color:var(--green);letter-spacing:2px;margin:8px 0;}.voicemail{display:none;text-align:left;background:#16162e;border:2px solid var(--line);padding:12px;line-height:1.8;margin-top:16px;font-size:13px;white-space:pre-wrap;}
+
+  #rewardCard{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:80;
+    min-width:220px;max-width:80vw;background:#0b0b1d;border:3px solid var(--amber);box-shadow:0 0 0 3px #050510,0 0 32px rgba(255,196,106,.35);
+    padding:18px;text-align:center;pointer-events:none;animation:rewardPop .28s steps(4);}
+  #rewardIcon{font-size:54px;line-height:1;margin-bottom:10px;filter:drop-shadow(0 0 9px rgba(255,196,106,.4));}
+  #rewardName{color:var(--amber);font-size:14px;letter-spacing:2px;line-height:1.5;white-space:pre-line;}
+  @keyframes rewardPop{0%{transform:translate(-50%,-46%) scale(.76);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+  /* clue board / mailbox */
+  .clueboard{display:grid;gap:9px;margin-top:10px;}
+  .cluegroup{background:#0c0c1a;border:2px solid #2b2b55;padding:9px;}
+  .cluegroup b{display:block;color:var(--neon);font-size:13px;margin-bottom:6px;letter-spacing:1px;}
+  .clueline{font-size:12px;line-height:1.75;color:var(--dim);}
+  .clueline.found{color:var(--ink);}.clueline.found::before{content:'✓ ';color:var(--green)}
+  .clueline.missing::before{content:'□ ';color:#55556a}
+  .mailbox{display:grid;gap:7px;margin-top:10px;}
+  .mailrow{width:100%;background:#111126;border:2px solid #2b2b55;color:var(--ink);padding:9px;text-align:left;cursor:pointer;font-family:inherit;}
+  .mailrow:hover{border-color:var(--neon)}
+  .mailrow .mailfrom{display:block;color:var(--pink);font-size:11px;margin-bottom:4px;}
+  .mailrow .mailsubject{display:block;font-size:13px;line-height:1.5;}
+  .mailrow.read{border-style:dashed;color:var(--dim)}
+  /* overlays */
+  .fullov{display:none;position:fixed;inset:0;background:rgba(3,3,12,.96);z-index:60;overflow-y:auto;padding:20px 14px;}
+  .fullin{max-width:680px;margin:0 auto;}
+  .fullin h2{color:var(--neon);letter-spacing:3px;text-align:center;font-size:22px;text-shadow:0 0 18px rgba(110,231,255,.45);}
+  .fullin h2.bad{color:var(--red);text-shadow:0 0 18px rgba(255,90,90,.45);}
+  .fullin h2.true{color:var(--pink);text-shadow:0 0 18px rgba(255,110,169,.5);}
+  .fullin .story{font-size:14px;line-height:2.05;white-space:pre-wrap;}
+  .center{text-align:center;margin-top:16px;}
+  .blink{animation:bk 1.1s steps(2) infinite;}
+  @keyframes bk{50%{opacity:.25}}
+  #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#141430;border:2px solid var(--amber);
+    color:var(--amber);padding:8px 14px;font-size:13px;letter-spacing:1px;z-index:70;display:none;max-width:86vw;}
+  /* ── 公文／守則文件風 ── */
+  .paper{position:relative;background:
+      repeating-linear-gradient(0deg,rgba(90,70,40,.045) 0 2px,transparent 2px 4px),
+      linear-gradient(160deg,#ece3c8 0%,#e4d9ba 55%,#dbcfae 100%);
+    color:#241d12;font-family:"Kaiti TC","DFKai-SB","標楷體","BiauKai","Noto Serif TC","PMingLiU",serif;
+    padding:24px 24px 60px;box-shadow:0 14px 44px rgba(0,0,0,.75), inset 0 0 60px rgba(120,95,50,.18);
+    transform:rotate(-.35deg);line-height:2;border:1px solid #b8a97f;}
+  .paper::after{content:'';position:absolute;inset:6px;border:1px solid rgba(90,70,40,.35);pointer-events:none;}
+  .papermeta{display:flex;justify-content:space-between;font-size:11px;color:#6a5c40;letter-spacing:1px;margin-bottom:10px;}
+  .paperhead{text-align:center;letter-spacing:8px;font-size:21px;font-weight:bold;color:#241d12;
+    border-bottom:2px solid #4a3f2a;padding-bottom:10px;margin-bottom:4px;}
+  .paperorg{text-align:center;font-size:11px;color:#6a5c40;letter-spacing:3px;margin-bottom:12px;}
+  .clause{margin:7px 0;font-size:13.5px;line-height:1.9;position:relative;z-index:1;}
+  .clause b{color:#5a4526;margin-right:7px;white-space:nowrap;}
+  .clause.dead{color:#8a7c5e;}
+  .redactbar{display:inline-block;background:#241d12;border-radius:1px;padding:0 34px;height:12px;vertical-align:middle;}
+  .stamp{position:absolute;right:26px;bottom:20px;color:#b3312c;border:3px double #b3312c;border-radius:8px;
+    padding:5px 12px;font-size:17px;letter-spacing:5px;transform:rotate(-11deg);opacity:.82;font-weight:bold;
+    text-shadow:0 0 1px #b3312c;z-index:2;background:rgba(179,49,44,.05);}
+  .stamp.round{border-radius:50%;width:74px;height:74px;display:grid;place-items:center;font-size:14px;
+    letter-spacing:2px;line-height:1.5;text-align:center;padding:0;border:3px solid #b3312c;}
+  .papersign{margin-top:16px;border-top:1px dashed #6a5c40;padding-top:12px;display:flex;flex-wrap:wrap;gap:10px;
+    justify-content:space-between;align-items:center;font-size:13px;position:relative;z-index:2;}
+  .papersign .abtn{background:#241d12;border-color:#241d12;color:#ece3c8;}
+  .papersign .abtn:hover{background:#3a2f1c;}
+  .paperlead{color:var(--dim);font-size:13px;line-height:2;white-space:pre-wrap;text-align:center;margin-bottom:14px;}
+  .paperfoot{color:#55556a;font-size:11px;letter-spacing:1px;text-align:center;margin-top:12px;line-height:1.9;}
+  .paper h2{color:#241d12;text-shadow:none;letter-spacing:6px;font-size:19px;text-align:center;
+    border-bottom:2px solid #4a3f2a;padding-bottom:10px;margin:0 0 6px;}
+  .paper h2.bad{color:#b3312c;text-shadow:none;}
+  .paper h2.true{color:#6d1f5e;text-shadow:none;}
+  .paper .story{color:#241d12;font-size:13.5px;line-height:2.05;white-space:pre-wrap;position:relative;z-index:1;}
+  @media(max-width:560px){.paper{padding:16px 14px 56px}.paperhead{letter-spacing:4px;font-size:18px}.clause{font-size:12.5px}}
+  @media(max-width:560px){h1.title{font-size:15px}#lockinput{width:190px}.fullin .story{font-size:13px}.chatrow,.callrow{padding:11px 9px}}
+
+  /* =========================================================
+     深夜檔案視覺 v2：乾淨現代暗色殼 × 泛黃公文面板 × 暖色場景
+     ========================================================= */
+  :root{
+    --bg:#14110c;
+    --panel:#e8dec4;
+    --panel2:#d8caa7;
+    --line:#6c5a36;
+    --ink:#2b2216;
+    --dim:#77694d;
+    --neon:#7b2f28;
+    --pink:#6d315e;
+    --amber:#955923;
+    --red:#b3312c;
+    --green:#45603b;
+    --paper:#ece2c6;
+    --paper2:#dccdaa;
+    --pline:#a08d63;
+    --shell-card:rgba(255,244,214,.045);
+    --shell-line:rgba(214,195,154,.2);
+    --shell-ink:#e8ddc0;
+    --shell-dim:#9c8f74;
+    --accent:#a8322c;
+    --radius:8px;
+  }
+  html{background:#100d09;}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(1100px 500px at 50% -10%,rgba(121,92,45,.13),transparent 70%),
+      linear-gradient(170deg,#1a160f 0%,#100d09 58%,#151109 100%);
+    color:var(--shell-ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  }
+  body::before{content:none;}
+  #wrap{max-width:960px;padding:26px 16px 56px;}
+
+  h1.title{
+    position:relative;
+    width:min(760px,96%);
+    margin:6px auto 0;
+    padding:17px 24px 14px;
+    color:var(--ink);
+    background:linear-gradient(165deg,#efe6cd,#ddcfac);
+    border:1px solid var(--pline);
+    border-radius:var(--radius);
+    box-shadow:0 14px 36px rgba(0,0,0,.45);
+    text-shadow:none;
+    letter-spacing:6px;
+    font-size:20px;
+    font-family:"Kaiti TC","DFKai-SB","標楷體","BiauKai","Noto Serif TC",serif;
+  }
+  h1.title::before{
+    content:"夜間事件檔案 · 7F";
+    position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+    padding:2px 14px;white-space:nowrap;
+    color:#efe3c7;background:#4e3c24;border-radius:999px;
+    font-size:10px;letter-spacing:3px;
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+  }
+  h1.title::after{content:none;}
+  .sub{
+    width:auto;margin:12px auto 2px;padding:0;border:none;
+    color:var(--shell-dim);font-size:11px;letter-spacing:4px;
+  }
+  .versionnote{
+    text-align:center;color:#6f6450;font-size:10px;letter-spacing:2px;margin:0 0 14px;
+  }
+
+  #topbar{
+    margin:14px 0 10px;
+    padding:11px 14px;
+    background:var(--shell-card);
+    border:1px solid var(--shell-line);
+    border-radius:var(--radius);
+    box-shadow:none;
+    color:var(--shell-ink);
+  }
+  #topbar::after{content:none;}
+  #clock{color:#e3c88d;font-size:14px;font-weight:600;letter-spacing:2px;}
+  #clock .batt{color:var(--shell-dim);font-weight:400;}
+  .btnrow{gap:8px;}
+  .abtn{
+    background:rgba(255,244,214,.07);
+    border:1px solid rgba(214,195,154,.35);
+    color:var(--shell-ink);
+    border-radius:6px;
+    box-shadow:none;
+    padding:7px 13px;font-size:12.5px;letter-spacing:1px;
+    transition:background .15s ease,border-color .15s ease,color .15s ease;
+  }
+  .abtn:hover:not(:disabled){
+    background:rgba(255,244,214,.14);color:#f6ebcd;border-color:#cfae74;
+    transform:none;box-shadow:none;
+  }
+  .abtn:active:not(:disabled){transform:translateY(1px);box-shadow:none;}
+  .abtn.gray{border-color:rgba(214,195,154,.3);color:#cfc3a5;background:rgba(255,244,214,.05);}
+  .abtn.pink{border-color:rgba(199,138,182,.45);color:#d9a9cb;background:rgba(199,138,182,.07);}
+  .badge{background:#c4372f;border:1px solid #100d09;border-radius:50%;transform:none;}
+
+  #navbar{
+    gap:6px;justify-content:center;align-items:center;
+    margin:2px 0 10px;padding:0;position:relative;z-index:2;
+  }
+  .navbtn{
+    background:rgba(255,244,214,.05);
+    border:1px solid var(--shell-line);
+    color:var(--shell-dim);padding:7px 13px;font-size:12.5px;letter-spacing:1px;
+    border-radius:999px;
+    box-shadow:none;transform:none;
+    transition:background .15s ease,color .15s ease,border-color .15s ease;
+  }
+  .navbtn:hover{background:rgba(255,244,214,.1);color:#eee2c4;}
+  .navbtn.active{
+    z-index:2;background:#e9dec2;color:#7b2f28;border-color:#e9dec2;
+    font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.35);transform:none;
+  }
+  .navbtn.active::before{content:none;}
+  .navbtn.locked{color:#655b49;background:rgba(255,244,214,.02);}
+
+  #stage{
+    width:100%;
+    margin:0 auto;
+    padding:14px;
+    background:linear-gradient(165deg,#ece2c8,#d6c7a2);
+    border:1px solid var(--pline);
+    border-radius:var(--radius);
+    box-shadow:0 18px 44px rgba(0,0,0,.5);
+  }
+  #stage::before{
+    content:"現場影像紀錄";
+    position:absolute;left:20px;top:3px;z-index:4;
+    padding:0;background:none;color:#8a774f;
+    font-size:9px;letter-spacing:3px;pointer-events:none;
+  }
+  #stage::after{
+    content:"CONFIDENTIAL";
+    position:absolute;right:20px;top:3px;bottom:auto;z-index:4;
+    color:#9c302b;border:none;padding:0;
+    font-size:9px;letter-spacing:3px;transform:none;opacity:.55;pointer-events:none;
+  }
+  #cv{
+    border:1px solid #4e3d27;border-radius:4px;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.3),0 8px 20px rgba(0,0,0,.28);
+    filter:sepia(.34) saturate(.8) brightness(1.05) contrast(1.02);
+  }
+  #scenename{
+    top:22px;left:22px;background:rgba(238,228,203,.94);
+    border:1px solid #8a7752;border-radius:4px;color:#6f2924;
+    font-size:12px;padding:4px 10px;letter-spacing:2px;
+    box-shadow:0 3px 10px rgba(0,0,0,.3);
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+  }
+  #touchhint{color:#877a5f;margin-top:10px;}
+
+  #invbar{
+    min-height:52px;margin:12px 0 10px;padding:11px 14px;
+    background:var(--shell-card);
+    border:1px solid var(--shell-line);
+    border-radius:var(--radius);
+    box-shadow:none;
+  }
+  #invlabel{
+    color:#cfa96a;font-weight:600;font-size:12px;letter-spacing:3px;
+    padding-right:4px;
+  }
+  .invitem{
+    background:#ece1c5;border:1px solid #8b6537;border-radius:5px;color:#75491f;
+    padding:6px 11px;font-size:11.5px;box-shadow:none;
+    transition:background .15s ease,border-color .15s ease;
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+  }
+  .invitem:hover{background:#f6ecd6;border-color:#a52e29;color:#7e2925;}
+  .invitem.frag{border-color:#743663;color:#6d315e;background:#eadcc2;}
+
+  #modalbg,#phonebg{
+    background:rgba(10,8,5,.88);
+    backdrop-filter:blur(3px);
+  }
+  #modal.panel{
+    position:relative;
+    background:linear-gradient(165deg,#eee5cc,#dbcda9);
+    border:1px solid var(--pline);
+    border-radius:10px;
+    box-shadow:0 24px 64px rgba(0,0,0,.65);
+    color:var(--ink);padding:26px 24px 22px;
+    transform:none;
+  }
+  #modal.panel::before{
+    content:"調查紀錄 · 7F";
+    display:block;width:fit-content;
+    background:#4b3922;color:#eee2c5;border:none;border-radius:999px;
+    padding:3px 13px;font-size:9px;letter-spacing:3px;margin:-6px 0 14px;
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+  }
+  #modal.panel::after{
+    content:"7F-01";
+    position:absolute;right:24px;bottom:16px;
+    color:#a1302b;border:2px solid #a1302b;border-radius:50%;
+    width:50px;height:50px;display:grid;place-items:center;
+    font-size:10px;transform:rotate(-13deg);opacity:.22;pointer-events:none;
+  }
+  #modal h3{
+    color:#702923;border-bottom:2px solid #4b3b24;
+    padding:0 44px 9px 0;margin:0 0 12px;font-size:17px;letter-spacing:3px;
+    font-family:"Kaiti TC","DFKai-SB","標楷體","Noto Serif TC",serif;
+  }
+  #modal .body{color:var(--ink);font-size:13.5px;line-height:2.05;position:relative;z-index:1;}
+  .closex{
+    background:rgba(43,34,22,.06);border:1px solid #85754f;border-radius:5px;
+    color:#5f533c;padding:5px 10px;font-size:11px;position:relative;z-index:3;
+    transition:color .15s ease,border-color .15s ease;
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+  }
+  .closex:hover{border-color:#9a302b;color:#9a302b;background:rgba(154,48,43,.06);}
+  .keymark{color:#7e2c27;}
+  .getitem,.getfrag{
+    background:#eee1c3;border:1px solid #85592c;border-radius:5px;color:#774817;
+    box-shadow:none;
+  }
+  .getfrag{border-color:#73315f;color:#6d315e;background:#eadbc0;}
+
+  #lockpad{
+    border-top:1px dashed #8a7854;margin-top:15px;padding-top:16px;
+  }
+  #lockinput{
+    background:#2e271c;border:1px solid #765f38;border-radius:6px;color:#e9d8a8;
+    box-shadow:inset 0 2px 10px rgba(0,0,0,.4);
+  }
+  #lockinput.txt{background:#f4e9d0;color:#3a2b1a;border-color:#8a7550;box-shadow:inset 0 1px 6px rgba(86,61,27,.12);}
+  .padbtn{
+    background:#e7dabc;border:1px solid #8a7550;border-radius:6px;color:#392c1c;
+    box-shadow:none;
+    transition:background .12s ease,border-color .12s ease,color .12s ease;
+  }
+  .padbtn:hover{border-color:#8e2e29;color:#8e2e29;background:#f1e6ce;}
+  .padbtn.ok{border-color:#45603b;color:#45603b;}
+  .padbtn.del{border-color:#9a342f;color:#9a342f;}
+  #lockmsg{color:#5b4a31;}
+
+  .optlist{gap:8px;margin-top:14px;}
+  .opt{
+    position:relative;background:#eadec1;border:1px solid #8a7550;border-radius:6px;
+    color:#312719;padding:10px 12px;box-shadow:none;
+    transition:background .13s ease,border-color .13s ease,color .13s ease;
+  }
+  .opt::before{content:"▸";margin-right:8px;color:#8c302b;}
+  .opt:hover{border-color:#8d2e29;color:#792923;background:#f2e7cf;}
+  .opt.danger{border-color:#9b302b;color:#8b2925;background:#e7d2b4;}
+  .opt.danger:hover{background:#ecd9bd;color:#a32622;}
+
+  #phone{
+    position:relative;
+    max-width:470px;
+    background:linear-gradient(165deg,#eee5cc,#d9c9a5);
+    border:1px solid var(--pline);
+    border-radius:12px;
+    box-shadow:0 24px 64px rgba(0,0,0,.68);
+    padding:16px;color:var(--ink);
+  }
+  #phone::before{
+    content:"通訊紀錄 · 7F";
+    display:block;width:fit-content;flex:0 0 auto;
+    background:#4c3921;color:#eee2c5;
+    border:none;border-radius:999px;padding:3px 13px;font-size:9px;letter-spacing:3px;
+    margin:-4px 0 10px;
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+  }
+  .phonehead{border-bottom:2px solid #514128;padding:3px 0 10px;}
+  #phone h3{color:#752a25;font-size:15px;}
+  #phoneBack{background:#e2d5b6;border:1px solid #8a7550;border-radius:5px;color:#62563d;}
+  .phonehint{color:#77694e;}
+  .chatrow,.callrow{
+    background:#e8dcbe;border:1px solid #98865f;border-radius:8px;color:#2d2418;
+    box-shadow:none;
+    transition:background .13s ease,border-color .13s ease;
+  }
+  .chatrow:hover,.callrow:hover{border-color:#93322d;background:#f2e7cd;}
+  .avatar{
+    background:#d5c6a0;border:1px solid #8a7550;border-radius:8px;color:#312519;
+    box-shadow:none;
+  }
+  .chatname{color:#302719;}
+  .preview{color:#74664b;}
+  .chatcount{background:#a52e29;border-radius:999px;}
+  .callrow{border-color:#62724e;}
+  .callrow .chatname{color:#405738;}
+  .msg .who{color:#6c315e;}
+  .msg .who.me{color:#405738;}
+  .msg .bub{
+    background:#e9ddbf;border:1px solid #98865f;border-radius:8px;color:#2d2418;
+    box-shadow:none;
+  }
+  .msg.me .bub{background:#dce2c8;border-color:#667652;}
+  .msg .tm{color:#8f8269;}
+  .callavatar{background:#dcceb0;border-color:#5c7047;color:#35452e;}
+  .callstatus{color:#405738;}
+  .voicemail{background:#e8dcbe;border:1px solid #98865f;border-radius:8px;color:#302619;}
+
+  #rewardCard{
+    background:linear-gradient(165deg,#efe5cc,#dbcba7);
+    border:1px solid #8b5b2a;border-radius:10px;
+    box-shadow:0 22px 52px rgba(0,0,0,.6);
+    color:var(--ink);
+  }
+  #rewardCard::before{
+    content:"物 件 移 交 單";display:block;color:#6d2924;
+    border-bottom:1px solid #6f5a36;padding-bottom:7px;margin-bottom:10px;
+    font-size:10px;letter-spacing:3px;
+  }
+  #rewardName{color:#75491f;}
+  #rewardIcon{filter:drop-shadow(0 4px 8px rgba(70,49,24,.3));}
+
+  .clueboard{gap:10px;}
+  .cluegroup{
+    background:rgba(240,230,204,.55);border:1px solid #98865f;border-radius:8px;padding:12px;
+    box-shadow:none;
+  }
+  .cluegroup b{color:#712b26;border-bottom:1px dashed #9b8965;padding-bottom:5px;}
+  .clueline{color:#76694e;}
+  .clueline.found{color:#302619;}
+  .clueline.found::before{color:#45603b;}
+  .clueline.missing::before{color:#9a8c73;}
+  .mailrow{
+    background:#e8dcbe;border:1px solid #98865f;border-radius:8px;color:#302619;
+    box-shadow:none;
+    transition:background .13s ease,border-color .13s ease;
+  }
+  .mailrow:hover{border-color:#8f302b;background:#f2e7cd;}
+  .mailrow .mailfrom{color:#6d315e;}
+  .mailrow.read{color:#81745b;}
+
+  #toast{
+    background:#efe3c7;border:1px solid #8c5d2b;border-radius:8px;color:#70451e;
+    box-shadow:0 12px 30px rgba(0,0,0,.5);
+    transform:translateX(-50%);
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+  }
+  #toast::before{content:"記錄｜";color:#822e29;font-weight:600;}
+
+  .fullov{
+    background:
+      radial-gradient(900px 420px at 50% 0%,rgba(105,78,38,.12),transparent 70%),
+      rgba(11,9,5,.96);
+  }
+  .paperlead{
+    max-width:620px;margin:0 auto 18px;padding:14px 18px;
+    color:#d3c4a0;background:rgba(255,244,214,.04);
+    border:1px solid rgba(205,189,153,.22);border-radius:var(--radius);
+    font-family:"Noto Sans TC","PingFang TC",sans-serif;
+  }
+  .paperfoot{color:#9f9279;}
+  .center .abtn{background:#e9ddc1;color:#3b2d1b;border-color:#8a7753;}
+  .paper{transform:none;border-radius:6px;padding-bottom:110px;}
+  .paper .stamp{bottom:26px;}
+  .paper .stamp.round{right:30px;bottom:24px;}
+
+  *{scrollbar-width:thin;scrollbar-color:#8a7550 #2a241a;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-track{background:#2a241a;}
+  ::-webkit-scrollbar-thumb{background:#8a7550;border:2px solid #2a241a;border-radius:6px;}
+  #modal ::-webkit-scrollbar-track,#phone ::-webkit-scrollbar-track{background:#d6c7a3;}
+
+  @media(max-width:640px){
+    #wrap{padding:16px 8px 42px;}
+    h1.title{padding:16px 16px 12px;font-size:16px;letter-spacing:4px;}
+    h1.title::before{letter-spacing:2px;}
+    #topbar{padding:11px 10px;}
+    #navbar{gap:4px;}
+    .navbtn{padding:7px 10px;font-size:11.5px;}
+    #stage{padding:10px;}
+    #stage::before{left:14px;}
+    #stage::after{right:14px;}
+    #scenename{left:17px;top:17px;}
+    #modal.panel{padding:22px 15px 18px;}
+    #modal h3{font-size:15px;}
+    #phone{padding:14px 10px;}
+  }
+
+</style>
+</head>
+<body>
+<div id="wrap">
+  <h1 class="title">◆ 《協和大樓逃脫計劃》 ◆</h1>
+
+  <div id="topbar">
+    <span id="clock">🌙 23:07 <span class="batt">無時間限制</span></span>
+    <div class="btnrow">
+      <button class="abtn gray" id="btnRules">📜 守則</button>
+      <button class="abtn gray" id="btnPhone">📱 手機<span class="badge" id="msgbadge"></span></button>
+      <button class="abtn gray" id="btnClues">📋 線索板</button>
+      <button class="abtn pink" id="btnHint">🔮 遠端占卜</button>
+      <button class="abtn gray" id="btnAudio">🔊 BGM：開</button>
+    </div>
+  </div>
+
+  <div id="navbar"></div>
+
+  <div id="stage">
+    <canvas id="cv" width="400" height="225"></canvas>
+    <div id="scenename"></div>
+  </div>
+  <div id="touchhint">手機操作：可互動物件會常駐淡描邊；點一下顯示名稱，再點一次進行調查。</div>
+
+  <div id="invbar"><span id="invlabel">背包｜</span><span id="invlist" style="display:contents"></span></div>
+
+  <div id="actions"></div>
+
+  <div id="modalbg">
+    <div id="modal" class="panel">
+      <button class="closex" onclick="closeModal()">✕ 關閉</button>
+      <h3 id="mtitle"></h3>
+      <div class="body" id="mbody"></div>
+      <div id="mextra"></div>
+    </div>
+  </div>
+
+  <div id="phonebg">
+    <div id="phone">
+      <div class="phonehead">
+        <button id="phoneBack" onclick="showPhoneHome()">‹ 返回</button>
+        <h3 id="phoneTitle">📱 聊天室</h3>
+        <button class="closex" onclick="closePhone()">✕ 收起</button>
+      </div>
+      <div id="phoneBody">
+        <div id="phoneHome">
+          <div class="phonehint">聊天室依聯絡人分開顯示；姓名與訊息內容會各自換行。</div>
+          <div id="chatlist"></div>
+          <button class="callrow" onclick="callKat()"><span class="avatar">📞</span><span><span class="chatname">打給 Kat</span><span class="preview">第 10 通也許會觸發人資隱藏機制</span></span></button>
+        </div>
+        <div id="threadView" style="display:none"><div id="msglist"></div></div>
+        <div id="callPanel" style="display:none">
+          <div class="callavatar" id="callAvatar">K</div>
+          <div style="font-size:18px" id="callName">Kat</div>
+          <div class="callstatus" id="callStatus">撥號中⋯⋯</div>
+          <div class="voicemail" id="voicemailBox"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fullov" id="intro">
+    <div class="fullin">
+      <div class="paper">
+        <div class="papermeta"><span>七管字第 0407 號</span><span>發文日期：（字跡暈開，無法辨識）</span></div>
+        <div class="paperhead">七 樓 夜 間 守 則</div>
+        <div class="paperorg">Ad2 大樓管理委員會（七樓）｜本守則於 23:00 後自動生效</div>
+        <div class="story">週日 22:47，你為了週一上線的網站留在七樓加班。
+23:00 整——燈滅，大門磁扣「喀」一聲上鎖。
+角落那台「沒有接電源線」的印表機，無聲地吐出這張紙：
+
+「23:00 之後，七樓進入夜間狀態，
+你的門禁權限已經失效。
+想離開，需要的是『驗證』。
+
+驗證用的東西，藏在同事們今天下午
+被紙條指使著留下的物件裡。
+打不開的鎖，就想想上鎖的那個人。
+
+天亮之前，守則只保護遵守守則的人。
+祝週一愉快。」</div>
+        <div class="clause dead" style="margin-top:12px"><b>附註</b>【已刪除】<span class="redactbar"></span></div>
+        <div class="papersign">
+          <span>簽收人：<u>　測試者 7F-01　</u></span>
+          <button class="abtn" style="font-size:15px;padding:9px 22px" onclick="startGame()">✍ 按此視同簽收</button>
+        </div>
+        <span class="stamp round">七樓管委會<br>之印</span>
+      </div>
+      <div class="paperfoot">操作：滑鼠移到物件上顯示名稱，點擊調查（手機點兩下）｜📜 可隨時重讀守則｜🔮 卡關可求助
+簽收後，背景音樂將自動播放</div>
+    </div>
+  </div>
+
+  <div class="fullov" id="ending">
+    <div class="fullin">
+      <div class="paper">
+        <div class="papermeta"><span>Ad2 大樓管理委員會（七樓）｜事件報告書</span><span>案號 BP-2486</span></div>
+        <h2 id="endtitle"></h2>
+        <div class="story" id="endbody" style="margin-top:12px"></div>
+        <div class="papersign"><span>報告人：<u>　測試者 7F-01　</u></span><span style="color:#6a5c40;font-size:11px">歸檔：週一 00:00</span></div>
+        <span class="stamp" id="endstamp">結案</span>
+      </div>
+      <div class="center">
+        <button class="abtn" id="endingBtn" onclick="endingAction()">↻ 再玩一次</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="rewardCard"><div id="rewardIcon"></div><div id="rewardName"></div></div>
+  <div id="toast"></div>
+</div>
+
+<script>
+/* ================= GAME DATA ================= */
+const ZONES={
+ office2:{label:'我的辦公區（含茶水間）'},
+ window_:{label:'靠窗辦公區'},
+ sales:{label:'業務辦公區'},
+ meet_s:{label:'小會議室',needKey:'key_meet',lockText:'小會議室的門被鎖住了。門上貼著字條：「封鎖演練資料整理中，請勿進入。」\n備用鑰匙平常由 Gina 與 Ruru 收在共用抽屜。'},
+ meet_b:{label:'大會議室'},
+ director:{label:'主管辦公區'},
+ toilet:{label:'女廁',dark:true},
+ roof:{label:'頂樓',needKey:'key_roof',lockText:'通往頂樓的鐵門上了掛鎖。\n鎖上貼著一張小紙條：「電箱檢修中，鑰匙暫由劉世華保管。她堅持鑰匙要先做『能量防護』。——Kat」\n能量防護……全公司只有一個人會做這種事。'},
+ lobby:{label:'一樓玄關（大門）'},
+};
+const ZONE_ORDER=['office2','window_','sales','meet_s','meet_b','director','toilet','roof','lobby'];
+
+const ITEMS={
+ key_locker:{n:'🔑 冰凍的小鑰匙',d:`從反向封口的貢丸袋裡撈出來的，凍得黏手。
+鑰匙圈上掛著一枚小牌：「7F 備品櫃」。
+下午資涵說她被塞了一個「道具」……原來是這個。`},
+ flashlight:{n:'🔦 緊急手電筒',d:`置物櫃裡的手電筒。拿起來輕得可疑——轉開一看，沒有電池。
+緊急備品沒裝電池，很難不懷疑是故意的。`},
+ flashlight_on:{n:'🔦 緊急手電筒（亮）',d:`裝上電池的手電筒，亮得可以照進這層樓每一個陰暗角落。
+比稽核還亮。`},
+ battery:{n:'🔋 三號電池',d:`高于雯抽屜裡的三號電池，原本是逗貓棒備品。
+（她已透過已讀不回表達了同意。大概。）`},
+ selfie:{n:'📸 伸縮應援燈桿',d:`彭筠喬的伸縮應援燈桿，可以伸到 1.5 公尺。
+貼紙寫著：「子瑜專用。拿去勾東西者，粉籍除名。」
+……人命關天，特別赦免。`},
+ key_meet:{n:'🗝 小會議室鑰匙',d:`鑰匙牌寫著「小會議室・備用」。
+和一本「機密」手冊一起躺在業務的共用抽屜裡。
+這間公司對機密的理解，一如既往。`},
+ key_roof:{n:'🗝 頂樓鑰匙',d:`塔羅牌盒裡的鑰匙，纏著一條紫水晶手鍊。
+劉世華說這叫「鑰匙的能量防護」。不影響開門。`},
+ firekit:{n:'🔥 火種組',d:`固態火種、打火機油、月亮打火機。
+「露營用的。」高于雯是這麼說的。
+你有一種不太妙的預感——最好別讓自己有用到它的理由。`},
+ charm:{n:'🐶 帕恰狗吊飾',d:`Rickey 哭著找了一個月的那隻。眼神無辜。
+背蓋有點鬆，搖起來裡面好像有東西——
+但接縫咬得很緊，徒手撬不開。
+Rickey 到底把什麼藏在裡面？`},
+ tempcard:{n:'💳 無名的測試卡',d:`女廁洗手台下撿到的卡。沒有照片，沒有姓名，只印著：
+【BLACKOUT TESTER／7F-01】
+7F-01——門禁系統叫你的那個代號。
+這張卡在那裡等的人，就是你。`},
+ release_handle:{n:'🛠 方形金屬把手',d:`沉甸甸的金屬把手，標籤寫著「後勤側門・停電用」。
+不用電、不用密碼、不用網路。
+不插電的東西，最可靠。`},
+ sun_override:{n:'🪪 主管覆核卡',d:`孫寧抽屜裡的覆核卡，躺得端端正正。
+卡背印著【725】，和一行小字：「勿與識別碼分開保管。」
+——偏偏，就是分開保管了。`},
+};
+const ITEM_UNLOCK_HINTS={
+ key_locker:'鑰匙牌：「7F 備品櫃」……這層樓上鎖的鐵櫃，在哪一區？',
+ key_meet:'鑰匙牌：「小會議室・備用」',
+ key_roof:'鑰匙牌：「頂樓」',
+ release_handle:'標籤：「後勤側門・停電用」',
+ sun_override:'卡背的三位數……該接在什麼後面？',
+ tempcard:'7F-01……在哪裡見過這個代號？',
+ charm:'背蓋裡好像藏著什麼。',
+};
+const FRAGS={
+ frag1:{n:'📓 文件①佈置檢核表',d:`高于雯的小本本裡，夾著一張摺起來的表：
+「夜間守則・道具佈置檢核表」
+「冷凍庫鑰匙 ✓／牌盒鑰匙 ✓／測試卡 ✓／維修標籤 ✓／覆核卡 ✓」
+「佈置完成：本週日 16:40」
+
+負責人簽名欄，工整地寫著——【7F-01】。
+
+今天下午 16:40，你還在改網站。
+你還不是 7F-01。
+那時候，是誰用這個名字簽的名？`},
+ frag2:{n:'📒 文件②守則・原稿',d:`一疊泛黃的手寫紙，字跡老得不像這間公司的年紀：
+「七樓夜間守則（初稿）」
+
+每一條後面，都有一行小小的註記——
+「第三條（同事的遺留物）　驗證人：已離職」
+「第五條（女廁的鏡子）　驗證人：已離職」
+「第八條（排水管）　驗證人：（劃掉）已離職」
+「第十條（三份文件）　驗證人：（空白）」
+
+最後一頁只有一句話：
+「守則不是規定。
+　守則是活著離開的人，留下的筆記。」`},
+ frag3:{n:'📄 文件③下期守則草稿',d:`影印機吐出來的紙，墨還是溫的：
+「七樓夜間守則（下期修訂）」
+「生效日：下週五 22:00」
+「修訂內容：新增第十三條（內容待填）」
+「測試者欄位：7F-02（招募中）」
+
+下方有人手寫：「Kat，這台影印機沒有接電源線。」
+旁邊只蓋了一個「已讀」章。
+
+已讀。不回。
+然後，就是今晚。`},
+};
+
+/* ---- messages ---- */
+const MSG0=[
+ {thread:'董伊淇',who:'董伊淇',tm:'17:18',tx:`你還在七樓？？聽我說。
+如果印表機印出一張「守則」——那不是整人遊戲。我離職前一晚也收過一張。
+照著做。不要自作聰明。尤其是「出口」那段——看起來像出口的，不一定是。
+（跟怪談無關的補充：公用電腦密碼是 Kat 用外送菜單設的，還故意挑一個「我永遠忘不了」的。菜單應該還壓在我舊座位的杯塔下）`},
+ {thread:'陳資涵',who:'陳資涵',tm:'17:32',tx:`今天下午我桌上多了一張紙條，叫我把一支鑰匙封進貢丸袋、夾子反向收進冷凍庫？？
+字跡超像我自己的==但我沒寫過
+我照做了。因為紙條最後一行寫：「不照做的話，貢丸會知道。」
+什麼意思？？貢丸會知道什麼？？
+
+（對了我媽這次多塞了新口味「香菇貢丸」，我跟伊淇提了一句，
+她直接把我已讀。她這輩子最恨的就是香菇==）`},
+ {thread:'高于雯',who:'高于雯',tm:'18:05',tx:`我也收到紙條==叫我把東西鎖進抽屜，密碼「用妳會設的那種」
+它怎麼知道我會設哪種==
+反正看得懂柯南就打得開。看不懂的不要來吵我
+（還有，茶水間的豬血糕是我的，誰動誰死）`},
+ {thread:'劉世華',who:'劉世華',tm:'19:11',tx:`紙條叫我把鑰匙鎖進牌盒，我照做了🔮
+密碼是「我最怕的那張牌」的編號
+……那張牌今天自己從牌堆裡掉出來三次了
+第三次的時候是正面朝上。我把速查表也收起來了，不想再看到它`},
+ {thread:'彭筠喬',who:'彭筠喬',tm:'20:00',tx:`我的應援燈桿留在座位旁了！！紙條叫我留我就留！！
+（紙條上還抄了一句守則：「高處的東西想下來，給它一根桿子。」……說的該不會就是它？？）
+誰都不准弄斷！！子瑜看著你！！`},
+ {thread:'Gina',who:'Gina',tm:'21:51',tx:`我跟 Ruru 的共用抽屜照紙條指示上鎖了～
+密碼是我們兩個各自的「得意之作」，我的在前💅
+是說紙條連我得過什麼獎都知道，有點毛`},
+ {thread:'Ruru',who:'Ruru',tm:'21:53',tx:`我的在後🙂文件今天剛送去主管辦公區待簽
+另外，那張紙條上的釘書針，是我們公司沒進過的牌子。
+我查過。不要問我為什麼查。`}
+];
+
+/* contextual hint lines (劉世華遠端占卜) */
+function getHint(){
+ const has=id=>!!S.inv[id], f=id=>!!S.flags[id];
+ if(!has('key_locker')&&!f('fridgeDone'))return `「聖杯八，正位：有些東西沉睡在最冷的地方。」
+「資涵家的規矩是『開口朝左』。那不合規矩的一袋……就是留給你的。」`;
+ if(!has('flashlight')&&!has('flashlight_on'))return `「隱者需要一盞燈。」
+「靠窗辦公區的鐵櫃，影印機再過去一點。鑰匙——你其實已經摸到過了。」`;
+ if(has('flashlight')&&!has('battery'))return `「力量，逆位：光還缺一口氣。」
+「這層樓最兇的那個人，抽屜裡什麼都有。」`;
+ if(!f('kaoOpen'))return `「寶劍七：她的密碼，是一種『藥』。」
+「前半印在漫畫上。後半……牆上最黑的那一幅，你翻到背面看過嗎？」`;
+ if(!f('tarotOpen'))return `「我最怕哪張牌，你應該知道了吧。」
+「編號我從來不背。但大會議室有一幅畫，畫的就是它。」`;
+ if(!f('salesDrawerOpen'))return `「錢幣三：兩個人的得意之作。」
+「一件掛在一樓的牆上，一件躺在主管的待簽櫃裡。」`;
+ if(!has('key_meet'))return `「小會議室的備用鑰匙，在兩位業務的共用抽屜裡沉睡。」`;
+ if(!f('pcOpen'))return `「寶劍侍從，逆位：密碼是一道她死都不點的菜。」
+「菜單壓在舊座位的杯塔下。至於是哪一道——聊天室裡，有人抱怨過。」`;
+ if(S.inv.charm&&!S.flags.chipGot)return `「吊飾守著它的祕密。想打開它，先去讀信。」
+「Rickey 轉發過一封關於『測試件』的通知——就在公用電腦的信箱。」`;
+ if(!f('sunDrawerOpen'))return `「女祭司的抽屜要三個數字。」
+「數字站在她的桌上；順序，寫在大會議室的某份文件裡。」`;
+ if(!f('safeOpen'))return `「保險箱吃的是專案編號。」
+「一半投影在小會議室的牆上；另一半掛在主管辦公區——藍色的那幅。」`;
+ if(!S.power)return `「太陽，逆位：正門的面板沒有電。」
+「電箱需要一件長的東西，和一份接線的答案——
+長的東西在筠喬座位，答案壓在警衛伯伯的桌墊下。」`;
+ if(!f('code404')||!has('sun_override'))return `「審判：六位數，兩段。」
+「一段在公用電腦的系統信裡；一段被鎖在孫寧的抽屜。」`;
+ if(!(S.frags.frag1&&S.frags.frag2&&S.frags.frag3))return `「月亮：這棟樓今晚說了三次謊。」
+「檢核表、手冊、排程通知——三份都帶上，門後的真相才是完整的。」`;
+ return `「世界，正位。三條路都通了：正門、消防梯、側門。」
+「走哪條都出得去——差別在於，你想帶走多少答案。」`;
+}
+</script>
+<script>
+/* ================= STATE & CORE ================= */
+function initialState(){return {zone:'office2',inv:{},frags:{},flags:{},msgs:[],unread:0,power:false,min:7,phoneThread:null,started:false,katCalls:0,sunCalls:0};}
+let S=initialState();
+
+function tick(){} // 無倒數、無步數扣時
+function renderClock(){document.getElementById('clock').innerHTML='🌙 23:07 <span class="batt">無時間限制</span>';}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';
+  clearTimeout(toast._t);toast._t=setTimeout(()=>el.style.display='none',2600);}
+function showReward(name){const card=document.getElementById('rewardCard'),parts=name.trim().split(/\s+/);document.getElementById('rewardIcon').textContent=parts.shift()||'◆';document.getElementById('rewardName').textContent='重要道具取得\n'+parts.join(' ');card.style.display='block';clearTimeout(showReward._t);showReward._t=setTimeout(()=>card.style.display='none',1500);}
+function addItem(id){
+  if(S.inv[id])return;
+  S.inv[id]=1;renderInv();toast('取得：'+ITEMS[id].n);showReward(ITEMS[id].n);AudioEngine.sfx('item');
+  const hint=ITEM_UNLOCK_HINTS[id];if(hint)setTimeout(()=>toast('🧭 '+hint),850);
+  if(S.inv.flashlight&&S.inv.battery){delete S.inv.flashlight;delete S.inv.battery;S.inv.flashlight_on=1;
+    renderInv();setTimeout(()=>{showReward(ITEMS.flashlight_on.n);toast('🔦 手電筒已點亮｜現在可以探索女廁');AudioEngine.sfx('unlock');draw();},900);}
+}
+function addFrag(id){
+  if(S.frags[id])return;
+  S.frags[id]=1;renderInv();toast('重要文件：'+FRAGS[id].n);showReward(FRAGS[id].n);AudioEngine.sfx('item');
+}
+function renderInv(){
+  const box=document.getElementById('invlist');box.innerHTML='';
+  Object.keys(S.inv).forEach(id=>{const b=document.createElement('button');b.className='invitem';
+    b.textContent=ITEMS[id].n;b.onclick=()=>{AudioEngine.sfx('inspect');showModal(ITEMS[id].n,ITEMS[id].d);};box.appendChild(b);});
+  Object.keys(S.frags).forEach(id=>{const b=document.createElement('button');b.className='invitem frag';
+    b.textContent=FRAGS[id].n;b.onclick=()=>{AudioEngine.sfx('inspect');showModal(FRAGS[id].n,FRAGS[id].d);};box.appendChild(b);});
+  if(!Object.keys(S.inv).length&&!Object.keys(S.frags).length)box.innerHTML='<span style="color:#55556a;font-size:12px">（空空如也，跟你的週末一樣）</span>';
+}
+function pushMsg(who,tm,tx,me,thread){
+  const key=thread||who;S.msgs.push({thread:key,who,tm,tx,me:!!me,unread:!me});
+  if(!me){S.unread++;renderBadge();toast('📱 '+who+' 傳了訊息');AudioEngine.sfx('message');}
+  renderPhone();
+}
+function renderBadge(){const b=document.getElementById('msgbadge');b.style.display=S.unread>0?'block':'none';b.textContent=S.unread;}
+function threadTitle(key){return key==='group'?'今天也要笑著上班（12）':key;}
+function threadIcon(key){if(key==='group')return '💬';const icons={'董伊淇':'🧋','高于雯':'🐈','劉世華':'🔮','陳資涵':'🍢','彭筠喬':'⭐','孫寧':'📋','Gina':'☕','Ruru':'📎'};return icons[key]||'👤';}
+function renderChatList(){
+  const box=document.getElementById('chatlist');box.innerHTML='';
+  const keys=[];S.msgs.forEach(m=>{if(!keys.includes(m.thread))keys.push(m.thread);});
+  keys.sort((a,b)=>a==='group'?-1:b==='group'?1:0);
+  keys.forEach(key=>{
+    const arr=S.msgs.filter(m=>m.thread===key), last=arr[arr.length-1], unread=arr.filter(m=>m.unread).length;
+    const row=document.createElement('button');row.className='chatrow';row.onclick=()=>openThread(key);
+    row.innerHTML='<span class="avatar">'+threadIcon(key)+'</span><span class="chatmeta"><span class="chatname">'+threadTitle(key)+'</span><span class="preview"></span></span>'+(unread?'<span class="chatcount">'+unread+'</span>':'<span></span>');
+    row.querySelector('.preview').textContent=(key==='group'?last.who+'：':'')+last.tx.replace(/\n/g,' ');
+    box.appendChild(row);
+  });
+}
+function renderThread(key){
+  const L=document.getElementById('msglist');L.innerHTML='';
+  S.msgs.filter(m=>m.thread===key).forEach(m=>{const d=document.createElement('div');d.className='msg'+(m.me?' me':'');
+    d.innerHTML='<div class="who'+(m.me?' me':'')+'"></div><div class="bub"></div><div class="tm"></div>';
+    d.querySelector('.who').textContent=m.me?'我':m.who;d.querySelector('.bub').textContent=m.tx;d.querySelector('.tm').textContent=m.tm;L.appendChild(d);});
+  setTimeout(()=>{document.getElementById('phoneBody').scrollTop=document.getElementById('phoneBody').scrollHeight;},0);
+}
+function renderPhone(){renderChatList();if(S.phoneThread)renderThread(S.phoneThread);}
+function openPhone(){AudioEngine.sfx('messageOpen');document.getElementById('phonebg').style.display='flex';showPhoneHome();renderPhone();}
+function closePhone(){document.getElementById('phonebg').style.display='none';}
+function showPhoneHome(){
+  S.phoneThread=null;document.getElementById('phoneTitle').textContent='📱 聊天室';document.getElementById('phoneBack').style.display='none';
+  document.getElementById('phoneHome').style.display='block';document.getElementById('threadView').style.display='none';document.getElementById('callPanel').style.display='none';renderChatList();
+}
+function openThread(key){
+  AudioEngine.sfx('messageOpen');S.phoneThread=key;if(key==='陳資涵')S.flags.sawChanFood=1;S.msgs.forEach(m=>{if(m.thread===key&&m.unread){m.unread=false;S.unread=Math.max(0,S.unread-1);}});renderBadge();
+  document.getElementById('phoneTitle').textContent=threadTitle(key);document.getElementById('phoneBack').style.display='inline-block';
+  document.getElementById('phoneHome').style.display='none';document.getElementById('threadView').style.display='block';document.getElementById('callPanel').style.display='none';renderThread(key);
+}
+function startCall({name,avatar,message,delay=1500}){
+  document.getElementById('phoneTitle').textContent='📞 '+name;document.getElementById('phoneBack').style.display='inline-block';
+  document.getElementById('phoneHome').style.display='none';document.getElementById('threadView').style.display='none';document.getElementById('callPanel').style.display='block';
+  document.getElementById('callAvatar').textContent=avatar;document.getElementById('callName').textContent=name;
+  const st=document.getElementById('callStatus'),vm=document.getElementById('voicemailBox');st.textContent='撥號中⋯⋯';vm.style.display='none';vm.textContent=message;
+  AudioEngine.sfx('ring');setTimeout(()=>AudioEngine.sfx('ring'),430);
+  setTimeout(()=>{st.textContent='無人接聽／已轉接語音信箱';vm.style.display='block';AudioEngine.sfx('voicemail');},delay);
+}
+function callKat(){
+  S.katCalls++;
+  const tenth=S.katCalls>=10;
+  const msg=tenth
+    ?`系統偵測到同一聯絡人於非上班時間連續來電 10 次。
+
+為避免第 11 通，緊急資訊自動公開：
+【七樓大門管理密碼：404725】
+
+「請勿再撥。週一再說。」
+
+——嘟。`
+    :`您已進入 Kat 的語音信箱。
+
+「您好，目前非上班時間。若為門禁或系統權限問題，請先自行排除，謝謝。」
+
+本次為第 ${S.katCalls} 通。距離系統耐心上限似乎還有 ${10-S.katCalls} 通。`;
+  if(tenth){S.flags.code404=1;S.flags.code725=1;setTimeout(()=>{toast('🔢 Kat 被打到投降：404725');AudioEngine.sfx('unlock');},1750);}
+  startCall({name:'Kat',avatar:'K',message:msg});
+}
+function callSun(){
+  S.sunCalls++;
+  startCall({name:'孫寧',avatar:'孫',delay:1900,message:`電話響了很久，沒有人接。
+
+「您好，我是孫寧。若是急件，請先整理完資料再傳文字，不要只傳『在嗎』。」
+
+目前已撥第 ${S.sunCalls} 通。`});
+  if(S.sunCalls===5&&!S.flags.sunDoNotDisturb){S.flags.sunDoNotDisturb=1;setTimeout(()=>pushMsg('孫寧','23:23','== 勿擾',false,'孫寧'),2300);}
+}
+
+const MAILS={
+ facility:{from:'Kat',subject:'設備維修週報（節錄）',body:`1. 頂樓電箱把手斷裂，備料下週到貨。期間如需操作總開關，請使用長柄物，勿徒手伸入。\n2. 後勤側門緊急把手已拆下保養，暫存於大會議室 Kat 的保險箱。\n3. 保險箱密碼已更換為「本季專案編號」，相關同仁請自行查閱。`},
+ system:{from:'BLACKOUT PROTOCOL',subject:'【自動通知】離場驗證規格',body:`A 路線／正門：六位數驗證碼。\n組成方式：系統識別碼【404】＋ 主管覆核碼【詳見覆核卡背面】。\n覆核卡持有人：孫寧。\n\n本信由系統自動發送，請勿回覆。`},
+ tung:{from:'董伊淇',subject:'RE: 今晚的通知',body:`我到家了還在收系統通知，很不對勁。\n操作手冊上寫的正式演練明明是「下週五」。\n如果今晚跑的是測試，它不應該碰到真的門禁。\n\n……你該不會還在七樓吧？\n先別慌。這層樓到處都是今天下午才藏好的東西。`},
+ rickey:{from:'Rickey',subject:'FW: 消防梯備援讀卡器測試件',body:`轉發 Kat 的通知：B 路線消防梯的備援讀卡器採雙重驗證——測試卡＋維修標籤，缺一不可。\n\n維修標籤我藏在一個「絕對不會有人想偷」的地方：我帕恰狗吊飾的背蓋裡。\n……現在想想可能藏得太安全了，它在大會議室高櫃頂上，連我自己都搆不到。`},
+ kat:{from:'Kat／自動通知',subject:'排程同步完成',body:`排程：BLACKOUT_TEST\n環境：PROD-ACCESS\n時間：週日 23:00\n狀態：已同步\n\n此信由系統自動寄送，請勿回覆。`}
+};
+function openMailbox(){
+  let html='<div class="mailbox">';
+  Object.entries(MAILS).forEach(([id,m])=>{html+='<button class="mailrow '+(S.flags['mail_'+id]?'read':'')+'" onclick="readMail(\''+id+'\')"><span class="mailfrom">'+m.from+'</span><span class="mailsubject">'+m.subject+'</span></button>';});
+  html+='</div>';
+  showModal('💻 公用電腦／信箱','登入成功。收件匣最上面的五封信，全都和今晚有關。',html);
+}
+function gainChip(){
+  if(S.flags.chipGot||!S.inv.charm)return;
+  S.flags.chipGot=1;
+  ITEMS.charm.d=`Rickey 哭著找了一個月的那隻。眼神無辜。
+背蓋已經撬開，裡面嵌著一枚小小的晶片，刻著「MAINT.」。
+它不只是可愛。`;
+  toast('🐶 你撬開帕恰狗的背蓋——裡面是一枚刻著「MAINT.」的維修晶片');AudioEngine.sfx('unlock');
+}
+function readMail(id){
+  const m=MAILS[id];if(!m)return;S.flags['mail_'+id]=1;
+  if(id==='system'){S.flags.code404=1;toast('🔢 正門系統識別碼：404');AudioEngine.sfx('unlock');}
+  if(id==='rickey'){S.flags.pochaccoKnown=1;gainChip();}
+  showModal('✉ '+m.subject,'寄件者：'+m.from+'\n\n'+m.body,'<button class="opt" onclick="openMailbox()">← 回信箱</button>');
+}
+function clueText(found,text){return '<div class="clueline '+(found?'found':'missing')+'">'+(found?text:'尚未找到')+'</div>';}
+function showClueBoard(){
+  AudioEngine.sfx('messageOpen');
+  const has=id=>!!S.inv[id],f=id=>!!S.flags[id];
+  let h='<div class="clueboard">';
+  h+='<div class="cluegroup"><b>高于雯的抽屜｜四位數</b>'+clueText(f('sawConan'),'漫畫殘頁：【APTX-48□□】')+clueText(f('sawBlackArt'),'黑色畫作背面：收藏標籤【No. 69】')+'</div>';
+  h+='<div class="cluegroup"><b>塔羅牌盒｜兩位數</b>'+clueText(true,'劉世華：「密碼是我最怕的那張牌」')+clueText(f('sawTowerArt'),'古塔畫銘牌：【XVI／THE TOWER】')+'</div>';
+  h+='<div class="cluegroup"><b>Gina & Ruru 共用抽屜｜四位數</b>'+clueText(f('sawGinaAward'),'獎座刻字：【十二月・年度業務獎】')+clueText(f('sawRuruFile'),'結案文件：【final_v07】（Gina 前、Ruru 後）')+'</div>';
+  h+='<div class="cluegroup"><b>公用電腦｜英文</b>'+clueText(f('sawMenu'),'菜單：LUROUFAN／ZHUXUEGAO／GONGWAN／XIANGGU（紅圈：貢丸湯＝伊淇最愛）')+clueText(f('sawChanFood'),'陳資涵：「伊淇這輩子最恨的就是香菇」')+'</div>';
+  h+='<div class="cluegroup"><b>Kat 的保險箱｜四位數</b>'+clueText(f('slideSeen'),'簡報頁尾：【專案編號 BP-24□□】')+clueText(f('sawBlueArt'),'藍色畫標籤：【系列編號 86】')+'</div>';
+  h+='<div class="cluegroup"><b>孫寧的抽屜｜三位數</b>'+clueText(f('sawSunLabels'),'立牌數字：毛毛【7】花花【4】泡泡【9】')+clueText(f('sawSunOrder'),'紅筆排序：毛毛 ＞ 泡泡 ＞ 花花')+'</div>';
+  h+='<div class="cluegroup"><b>A 路線：正門</b>'+clueText(f('code404'),'系統信：識別碼【404】＋覆核碼')+clueText(has('sun_override')||f('code725'),'覆核卡背面：【725】')+clueText(f('sawWireMemo'),'檢線備忘：紅＝市電、藍＝備援、黃線不要動')+clueText(S.power,'正門面板已恢復供電')+'</div>';
+  h+='<div class="cluegroup"><b>B 路線：頂樓消防梯</b>'+clueText(has('tempcard'),'無名測試卡（7F-01）')+clueText(f('chipGot'),'帕恰狗吊飾裡的維修晶片（背蓋已撬開）')+'</div>';
+  h+='<div class="cluegroup"><b>C 路線：一樓後勤側門</b>'+clueText(has('release_handle'),'方形金屬把手（後勤側門・停電用）')+'</div>';
+  h+='</div>';
+  showModal('📋 線索板','這裡只記下你「親眼看過的原文」。怎麼拼、拼成什麼——是你的事。',h);
+}
+
+function showModal(t,b,extra){
+  document.getElementById('mtitle').textContent=t;
+  document.getElementById('mbody').textContent=b;
+  document.getElementById('mextra').innerHTML=extra||'';
+  document.getElementById('modalbg').style.display='flex';
+}
+function closeModal(){document.getElementById('modalbg').style.display='none';}
+
+/* ---- generic lock ---- */
+let LOCK=null;
+function openLock(cfg){
+  LOCK=cfg;
+  const isTxt=cfg.type==='txt';
+  let html='<div id="lockpad">'
+    +'<input id="lockinput" class="'+(isTxt?'txt':'')+'" maxlength="'+cfg.len+'" '
+    +(isTxt?'type="text" autocomplete="off" placeholder="輸入密碼"':'type="text" inputmode="numeric" readonly')+'>';
+  if(!isTxt){
+    html+='<div id="padgrid">';
+    for(let i=1;i<=9;i++)html+='<button class="padbtn" onclick="padKey(\''+i+'\')">'+i+'</button>';
+    html+='<button class="padbtn del" onclick="padKey(\'D\')">←</button>'
+        +'<button class="padbtn" onclick="padKey(\'0\')">0</button>'
+        +'<button class="padbtn ok" onclick="padKey(\'E\')">OK</button></div>';
+  }else{
+    html+='<div style="margin-top:10px"><button class="padbtn ok" style="width:120px" onclick="padKey(\'E\')">確認</button></div>';
+  }
+  html+='<div id="lockmsg"></div></div>';
+  showModal(cfg.title,cfg.desc,html);
+  if(isTxt)setTimeout(()=>document.getElementById('lockinput').focus(),50);
+}
+function padKey(k){
+  const inp=document.getElementById('lockinput');
+  if(k==='D'){AudioEngine.sfx('tap');inp.value=inp.value.slice(0,-1);return;}
+  if(k!=='E'){AudioEngine.sfx('tap');if(inp.value.length<LOCK.len)inp.value+=k;return;}
+  const v=inp.value.trim().toLowerCase();
+  if(v===String(LOCK.code).toLowerCase()){
+    AudioEngine.sfx('unlock');document.getElementById('lockmsg').innerHTML='<span style="color:var(--green)">✓ 喀。解鎖了。</span>';
+    setTimeout(()=>{closeModal();LOCK.onOK();},550);
+  }else{
+    AudioEngine.sfx('wrong');document.getElementById('lockmsg').innerHTML='<span style="color:var(--red)">✕ 錯誤。'+(LOCK.wrong||'')+'</span>';
+    inp.classList.add('shake');setTimeout(()=>inp.classList.remove('shake'),400);
+    if(LOCK.type!=='txt')inp.value='';
+  }
+}
+
+
+/* ================= WEB AUDIO BGM ================= */
+const AudioEngine=(()=>{
+  let ctx=null,musicGain=null,sfxGain=null,compressor=null,timer=null,step=0,musicEnabled=true,drone=[];
+  const AC=window.AudioContext||window.webkitAudioContext;
+  function ensure(){
+    if(!AC)return false;
+    if(!ctx){
+      ctx=new AC();compressor=ctx.createDynamicsCompressor();compressor.threshold.value=-18;compressor.knee.value=18;compressor.ratio.value=5;compressor.attack.value=.004;compressor.release.value=.2;
+      musicGain=ctx.createGain();sfxGain=ctx.createGain();musicGain.gain.value=.42;sfxGain.gain.value=.78;
+      musicGain.connect(compressor);sfxGain.connect(compressor);compressor.connect(ctx.destination);
+    }
+    if(ctx.state==='suspended')ctx.resume();return true;
+  }
+  function tone(freq,dur=.16,type='square',vol=.035,when=0,bus='music'){
+    if(!ensure())return;if(bus==='music'&&!musicEnabled)return;
+    const t=ctx.currentTime+when,o=ctx.createOscillator(),gain=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,t);
+    gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(vol,t+.012);gain.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.connect(gain);gain.connect(bus==='sfx'?sfxGain:musicGain);o.start(t);o.stop(t+dur+.03);
+  }
+  function pulse(){
+    const arp=[220,261.63,329.63,392,329.63,261.63,196,246.94];tone(arp[step%arp.length],.13,'square',.05,0,'music');
+    if(step%4===0)tone([55,65.41,49,61.74][Math.floor(step/4)%4],.58,'triangle',.075,0,'music');
+    if(step%8===7)tone(880,.055,'square',.024,.08,'music');step++;
+  }
+  function startDrone(){
+    if(drone.length||!ensure())return;[55,82.41].forEach((f,i)=>{const o=ctx.createOscillator(),gain=ctx.createGain();o.type=i?'sine':'triangle';o.frequency.value=f;gain.gain.value=i?.025:.038;o.connect(gain);gain.connect(musicGain);o.start();drone.push(o);});
+  }
+  function start(){
+    if(!ensure())return false;musicEnabled=true;musicGain.gain.setTargetAtTime(.42,ctx.currentTime,.03);startDrone();if(!timer){pulse();timer=setInterval(pulse,260);}updateButton();return true;
+  }
+  function toggle(){musicEnabled=!musicEnabled;if(musicEnabled)start();else if(musicGain&&ctx)musicGain.gain.setTargetAtTime(.0001,ctx.currentTime,.03);updateButton();}
+  function updateButton(){const b=document.getElementById('btnAudio');if(b)b.textContent=musicEnabled?'🔊 BGM：開（大）':'🔇 BGM：關';}
+  function sfx(kind){
+    if(!ensure())return;
+    if(kind==='inspect'){tone(310,.045,'square',.12,0,'sfx');tone(465,.055,'square',.075,.035,'sfx');}
+    else if(kind==='item'){tone(523.25,.08,'square',.14,0,'sfx');tone(783.99,.13,'square',.10,.08,'sfx');}
+    else if(kind==='message'){tone(659.25,.07,'square',.13,0,'sfx');tone(880,.09,'square',.11,.075,'sfx');}
+    else if(kind==='messageOpen'){tone(440,.04,'square',.08,0,'sfx');}
+    else if(kind==='ring'){tone(440,.18,'sine',.16,0,'sfx');tone(554.37,.18,'sine',.13,.22,'sfx');}
+    else if(kind==='voicemail'){tone(330,.18,'sine',.13,0,'sfx');}
+    else if(kind==='unlock'){tone(392,.07,'square',.14,0,'sfx');tone(523.25,.09,'square',.14,.07,'sfx');tone(783.99,.16,'square',.12,.15,'sfx');}
+    else if(kind==='wrong'){tone(110,.2,'sawtooth',.13,0,'sfx');}
+    else if(kind==='endingBad'){tone(146.83,.42,'sawtooth',.18,0,'sfx');tone(110,.55,'square',.15,.22,'sfx');tone(73.42,.75,'sawtooth',.12,.46,'sfx');}
+    else if(kind==='endingGood'){tone(392,.12,'square',.15,0,'sfx');tone(523.25,.16,'square',.15,.12,'sfx');tone(659.25,.22,'square',.13,.27,'sfx');}
+    else if(kind==='endingTrue'){tone(523.25,.12,'square',.16,0,'sfx');tone(659.25,.12,'square',.15,.10,'sfx');tone(783.99,.16,'square',.15,.20,'sfx');tone(1046.5,.36,'sine',.14,.34,'sfx');}
+    else tone(260,.045,'square',.08,0,'sfx');
+  }
+  return{start,toggle,sfx,updateButton};
+})();
+
+/* ================= ENDINGS ================= */
+function fmtTime(){return '23:07';}
+function endGame(type){
+  const T=document.getElementById('endtitle'),B=document.getElementById('endbody');
+  T.className='';
+  if(type==='fire'){
+    AudioEngine.sfx('endingBad');T.classList.add('bad');T.textContent='✖ 壞結局：消防演練超前部署';
+    B.textContent=`你點燃火種，湊近大門的門縫。
+
+0.8 秒後，灑水器全面啟動。
+1.2 秒後，警報響徹整條街。
+4 分鐘後，消防車抵達。
+
+你渾身濕透地獲救，站在滿地泡水的「機密」文件中間，
+手裡還握著那支月亮打火機。
+
+手機亮起。高于雯：
+「我說露營用的==」
+
+封鎖確實解除了。
+用的是消防系統，不是腦子。
+
+（壞結局。可以回到選擇前，進度不會消失。）`;
+  }else if(type==='pipe'){
+    AudioEngine.sfx('endingBad');T.classList.add('bad');T.textContent='✖ 壞結局：七樓不是動作片';
+    B.textContent=`你抓住排水管，往下爬。
+
+不到半層，你的核心肌群開始寫辭職信。
+最後你卡在公司招牌後面，進退不得——
+被路過的大學生開了直播：
+「深夜大樓驚見行動藝術（還在動）」
+
+雲梯車把你接下來的時候，觀看人數突破三萬。
+你和招牌上的公司 LOGO，合了一張時代的照片。
+
+（壞結局。可以回到選擇前，進度不會消失。）`;
+  }else if(type==='firestairs'){
+    AudioEngine.sfx('endingGood');T.textContent='◆ 安全結局：消防梯的綠燈';
+    B.textContent=`「嗶。」「嗶。」
+
+讀卡器亮起綠燈，消防梯的門彈開。
+緊急照明一路延伸到一樓，像一條替你鋪好的路。
+
+推開最下面那道門，夜風灌進來的瞬間，
+你回頭看了一眼漆黑的七樓——
+
+是誰把測試卡塞在女廁洗手台下的？
+為什麼卡上的編號，剛好是你？
+
+出是出來了。
+有些問題，留給明天。
+
+（安全結局：B 路線消防梯）
+（提示：帶齊 3 份文件走「正門」，可以看到今晚完整的真相。）`;
+  }else if(type==='side'){
+    AudioEngine.sfx('endingGood');T.textContent='◆ 機械結局：不插電的勝利';
+    B.textContent=`把手插進凹槽，逆時針轉半圈——
+
+「鏗。」
+
+沒有密碼。沒有讀卡器。沒有「系統忙碌中，請稍候」。
+門，就這麼開了。
+
+在全公司最先進的封鎖系統面前，
+最後獲勝的是一支被鎖在保險箱裡的鐵把手。
+
+Kat，記你一功。
+
+（機械結局：C 路線後勤側門）
+（提示：帶齊 3 份文件走「正門」，可以看到今晚完整的真相。）`;
+  }else if(type==='true'){
+    AudioEngine.sfx('endingTrue');T.classList.add('true');T.textContent='★ 真結局：排程比鬼更可怕';
+    B.textContent=`「嗶——喀。」
+
+大門解鎖。但你沒有立刻走出去。
+你把三份文件，在警衛桌上一字排開：
+
+佈置檢核表——道具，今天下午 16:40 全部就位。
+操作手冊——正式演練，排在下週五 22:00。
+排程通知——測試排程接錯了正式門禁，執行時間：今晚 23:00。
+
+拼起來，就是全部的真相：
+
+有人提前把演練道具佈置好了。
+有人把測試環境接到了正式系統。
+有人在手寫的警告旁邊，蓋了一個「已讀」章。
+
+然後今晚 23:00，系統準時醒來，
+把整層樓變成演練場——
+而你，只是週日晚上最後一個還沒下班的人。
+
+手機震了一下。系統通知：
+「BLACKOUT 演練完成率：100%。異常回報：1。」
+
+你回覆：
+「異常不是 1。異常是你們把下週五的事，排在今天。」
+
+已讀。
+
+七樓重新亮起。你替公司完成了一次
+非常昂貴、非常真實、非常不自願的上線前測試。
+
+（★ 真結局：集齊 3 份文件，從正門離開）`;
+  }else{
+    AudioEngine.sfx('endingGood');T.textContent='◆ 好結局：封鎖解除';
+    B.textContent=`「嗶——喀。」
+
+大門解鎖，七樓在你身後恢復照明。
+你走進雨後的夜色，自由的空氣混著滷味攤收攤的味道。
+
+至於系統為什麼半夜啟動、
+誰把你編成 7F-01、
+Kat 為什麼永遠只剩語音信箱——
+
+明天再說。今晚你只想睡覺。
+
+你只確定一件事：
+這間公司最可靠的備援從來不是系統，
+是知道每個同事會把東西藏在哪裡的、你。
+
+（好結局：一般逃脫）
+（提示：這層樓藏著 3 份「文件」。帶齊再開正門，今晚的一切會有解釋。）`;
+  }
+  const btn=document.getElementById('endingBtn');
+  if(type==='fire'||type==='pipe'){btn.textContent='↩ 回到選擇前';btn.dataset.mode='resume';}
+  else{btn.textContent='↻ 從頭再玩';btn.dataset.mode='restart';}
+  document.getElementById('ending').style.display='block';
+}
+
+
+function endingAction(){
+  const btn=document.getElementById('endingBtn');
+  if(btn.dataset.mode==='resume'){
+    document.getElementById('ending').style.display='none';
+    toast('已回到選擇前，探索進度完整保留。');
+    return;
+  }
+  restartGame();
+}
+function restartGame(){
+  S=initialState();LOCK=null;hoverSpot=null;
+  document.getElementById('ending').style.display='none';document.getElementById('intro').style.display='block';
+  var sg=document.querySelector('#intro .papersign .abtn');if(sg)sg.textContent='✍ 按此視同簽收';
+  closeModal();closePhone();renderNav();renderInv();renderClock();renderPhone();draw();
+  document.getElementById('scenename').textContent='▸ '+ZONES[S.zone].label;
+}
+
+/* ================= SPOTS & INTERACTIONS ================= */
+function checkSunDrawerCode(){
+  if(S.flags.sawSunLabels&&S.flags.sawSunOrder&&!S.flags.sunDrawerReady){
+    S.flags.sunDrawerReady=1;toast('📋 數字有了，順序也有了……好像能拼出什麼');AudioEngine.sfx('unlock');
+  }
+}
+function retryWire(){closeModal();SPOTS.roof.find(s=>s.id==='breaker').fn();}
+function wireTry(n){
+  if(n===1){
+    closeModal();S.power=true;draw();AudioEngine.sfx('unlock');
+    showModal('電力恢復',`紅線咬住【市電】，藍線扣上【備援】，黃線安分地垂在原處。
+你用燈桿頂住總開關，用力一撥——
+
+「碰。」
+
+腳下的大樓一層、一層亮了起來，
+最後是一樓玄關的一小點綠光。
+
+正門的密碼面板，活了。`,'<span class="getitem">⚡ 正門面板已恢復供電</span>');
+    return;
+  }
+  AudioEngine.sfx('wrong');
+  const t=n===2
+    ?`火花「啪」地炸開，汗毛集體立正。
+備援迴路發出一聲很不健康的嗡嗡聲，然後跳閘。
+
+……還好沒燒起來。再想想。`
+    :n===3
+    ?`三條全接上去的瞬間，電箱發出類似咳嗽的聲音，
+跳閘了。
+
+貪心，不是接線的美德。`
+    :`黃線輕輕晃了一下，像是在嘲笑你。
+然後，什麼都沒有發生。
+
+你隱約記得，好像有哪張備忘寫過：黃線，不要動它。`;
+  showModal('接線失敗',t,'<button class="opt" onclick="retryWire()">重新接線</button>');
+}
+const SPOTS={
+office2:[
+ {id:'workdesk',x:36,y:130,w:44,h:22,label:'你的座位',fn(){
+   showModal('你的座位',`週一提案網站的測試頁還開著，檔名：
+「最終版_真最終版_這次真的不改_v7」。
+
+螢幕角落彈出一則系統通知：
+【BLACKOUT PROTOCOL／測試者 7F-01 已簽到】
+
+你沒有簽任何到。
+手機在桌上，好幾個聊天室在下午閃過訊息。`);
+ }},
+ {id:'tungdesk',x:82,y:104,w:26,h:52,label:'董伊淇的舊座位',fn(){
+   S.flags.sawMenu=1;
+   showModal('董伊淇的舊座位',`她離職前的座位還沒清，七個手搖杯疊成一座塔，沒人敢動。
+
+杯塔下壓著一張油漬斑斑的「嘉常菜」外送菜單：
+・滷肉飯【LUROUFAN】 NT.50
+・豬血糕【ZHUXUEGAO】 NT.40
+・貢丸湯【GONGWAN SOUP】 NT.35
+・香菇雞湯【XIANGGU SOUP】 NT.45
+
+「貢丸湯」那行被紅筆圈了起來，旁邊一行小字：
+「本人最愛☆」
+
+——是董伊淇的字跡。`);
+ }},
+ {id:'kaodesk',x:150,y:126,w:40,h:20,label:'高于雯的桌面',fn(){
+   S.flags.sawConan=1;
+   showModal('高于雯的桌面',`桌面收得很整齊，殺氣也收得很整齊。
+
+一本《名偵探柯南》被撕掉了右下角，斷口處只剩半組編號：
+【APTX-48□□】
+
+撕掉的那一角不在桌上。便利貼只寫著：
+「另一半掛在牆上。夠黑的那面。==」`);
+ }},
+ {id:'kaodrawer',x:150,y:152,w:40,h:14,label:'高于雯的抽屜（密碼鎖）',fn(){
+   if(S.flags.kaoOpen){showModal('高于雯的抽屜','已經打開。裡面只剩逗貓棒和一包貓草。\n你決定不要動那些。為了活命。');return;}
+   openLock({title:'高于雯的抽屜',desc:'四位數密碼鎖，鎖上貼著警告：\n「打開之前，請先寫好遺書==」',len:4,code:'4869',wrong:'不對。背後彷彿傳來一聲冷笑。',onOK(){
+     S.flags.kaoOpen=1;addItem('battery');addItem('firekit');addFrag('frag1');
+     showModal('抽屜開了',`裡面整齊排著：
+・三號電池一排（逗貓棒備品）
+・固態火種、打火機油、月亮打火機
+・一本小本本——裡面夾著一張摺起來的表
+
+你全部帶走了。包括那張，看完手心會發涼的表。`,'<span class="getitem">🔋 三號電池</span><span class="getitem">🔥 火種組</span><span class="getfrag">📓 佈置檢核表</span>');
+     setTimeout(()=>pushMsg('高于雯','23:14',`我抽屜的防盜警報響了==
+電池拿去用。火種給我放回來。
+小本本裡夾的那張紙……你自己看吧。我下午收到的時候就覺得不對勁了`),900);
+   }});
+ }},
+ {id:'pengdesk',x:214,y:126,w:44,h:22,label:'彭筠喬的座位',fn(){
+   if(S.inv.selfie){showModal('彭筠喬的座位','子瑜的壓克力立牌守著空無一人的座位，角度 45 度，一絲不苟。');return;}
+   addItem('selfie');showModal('彭筠喬的座位',`座位被周子瑜的周邊嚴密防守，應援燈桿立在桌邊。
+貼紙寫著：「誰都不准拿去勾東西！！（除非人命關天）」
+
+現在就是人命關天。
+你恭敬地借走它，並把子瑜立牌的角度扶正了 0.5 度，以示敬意。`,'<span class="getitem">📸 伸縮應援燈桿</span>');
+ }},
+ {id:'plant',x:266,y:140,w:18,h:30,label:'座位旁盆栽',fn(){
+   showModal('盆栽',`葉片間藏著一顆小鏡頭，紅燈微微閃爍。
+底下貼著標籤：「演練紀錄用」。
+
+所以今晚發生的一切，都會有錄影。
+你對著鏡頭，比了一個「加油」的手勢。`);
+ }},
+ {id:'fridge',x:312,y:100,w:34,h:70,label:'茶水間冷凍庫',fn(){
+   if(S.flags.fridgeDone){showModal('冷凍庫','剩下的貢丸袋全部開口朝左，封印完好。\n溫體豬在寒風中沉睡。');return;}
+   S.flags.fridgeDone=1;addItem('key_locker');
+   showModal('冷凍庫',`拉開冷凍庫，一整箱陳資涵家的貢丸。
+每一袋的封口夾都開口朝左——除了一袋，夾子反向。
+
+袋子裡不是貢丸。
+是一支凍得黏手的小鑰匙，鑰匙圈上掛著小牌：「7F 備品櫃」。
+
+下午資涵在聊天室說的「道具」……原來是這個。`,'<span class="getitem">🔑 冰凍的小鑰匙</span>');
+   setTimeout(()=>pushMsg('陳資涵','23:11',`反向那袋被打開了齁（我媽的箱子有貼震動感應貼紙）
+就跟你說是道具吧！鑰匙拿去用
+貢丸不要偷吃==`),800);
+ }},
+ {id:'microwave',x:290,y:120,w:20,h:14,label:'微波爐',fn(){
+   showModal('微波爐',`時鐘閃著 88:88——從你入職那天起就是 88:88。
+
+門上的公告：「禁止微波：金屬、榴槤、以及來路不明的道具。」
+最後一項，是今天下午才新貼上去的。`);
+ }},
+],
+window_:[
+ {id:'liudesk',x:40,y:126,w:46,h:22,label:'劉世華的桌位',fn(){
+   showModal('劉世華的桌位',`占卜絨布、水晶陣，和一張字條：
+「牌盒上鎖了。密碼是我最怕的那張牌——編號自己想。」
+
+牆上原本貼「牌義速查表」的位置，只剩四個膠帶印。
+有人把它收走了。
+真是敬業的出題人。`);
+ }},
+ {id:'tarotbox',x:92,y:132,w:20,h:12,label:'塔羅牌盒（密碼鎖）',fn(){
+   if(S.flags.tarotOpen){showModal('塔羅牌盒','盒子開著，77 張牌安靜地躺著。\n鑰匙已經被你拿走了。');return;}
+   openLock({title:'塔羅牌盒',desc:'木盒掛著一個兩位數的小銅鎖。\n盒蓋內側刻著一行小字：「塔倒之處，即是出口。」',len:2,code:'16',wrong:'銅鎖紋絲不動。\n「那張牌」長什麼樣子——你見過嗎？',onOK(){
+     S.flags.tarotOpen=1;addItem('key_roof');showModal('牌盒開了',`盒裡躺著一支鑰匙，纏著紫水晶手鍊，鑰匙牌寫著「頂樓」。
+
+最上面的一張牌是「太陽」——正位。
+今晚第一個好兆頭。`,'<span class="getitem">🗝 頂樓鑰匙</span>');
+   }});
+ }},
+ {id:'copier',x:150,y:112,w:36,h:58,label:'影印機',fn(){
+   if(S.frags.frag3){showModal('影印機','面板顯示：「卡紙已排除。感謝您。」\n它今晚對你說的話，比某些同事一週說的還多。');return;}
+   addFrag('frag3');showModal('影印機',`面板閃著紅字：「E-04 卡紙」。
+你熟練地拉開側蓋（社畜的隱藏被動技），抽出卡住的紙——
+
+是一張系統自動列印的排程通知。
+讀完最後一行，你把它摺好收進口袋。
+手心，有一點冷。`,'<span class="getfrag">📄 排程同步通知</span>');
+ }},
+ {id:'pc',x:212,y:118,w:40,h:26,label:'公用電腦',fn(){
+   if(S.flags.pcOpen){openMailbox();return;}
+   openLock({title:'公用電腦',desc:'登入畫面。密碼提示只有一行：\n「伊淇永遠不會點的那道。——Kat」',len:12,type:'txt',code:'xianggu',wrong:'密碼錯誤。\n提示補充：只要那道菜的「主角」，不用連湯。',onOK(){S.flags.pcOpen=1;openMailbox();}});
+ }},
+ {id:'locker',x:360,y:112,w:28,h:58,label:'備品置物櫃',fn(){
+   if(S.flags.lockerOpen){showModal('置物櫃','空了。只剩貢丸乾的包裝袋，見證你的求生意志。');return;}
+   if(!S.inv.key_locker){showModal('置物櫃','鐵製置物櫃，上了鎖。門上貼著「7F 備品」。\n鎖孔小小的——配的應該也是一支小小的鑰匙。\n\n這層樓的哪裡，會藏著一支小小的鑰匙？');return;}
+   S.flags.lockerOpen=1;delete S.inv.key_locker;addItem('flashlight');renderInv();
+   showModal('置物櫃開了',`小鑰匙一轉，「喀」。
+
+裡面有：一支手電筒（拿起來輕得可疑）、
+一頂安全帽、一包陳家貢丸乾。
+
+你吃了貢丸乾。很好吃。士氣回復。`,'<span class="getitem">🔦 緊急手電筒</span>');
+ }},
+ {id:'windowglass',x:286,y:24,w:94,h:84,label:'七樓窗戶',fn(){
+   showModal('七樓窗戶',`玻璃上映著你自己，和身後一整層的黑。
+
+窗角貼著 Kat 的安全貼紙：
+「緊急逃生請走既有出口，請勿自行新增出口。」
+
+說得很有道理。`);
+ }},
+],
+sales:[
+ {id:'board',x:26,y:56,w:80,h:50,label:'業務白板',fn(){showModal('業務白板',`本月業績榜上，Gina 和 Ruru 的名字咬得很緊，
+差距小到用立可白就能改寫歷史。
+
+白板角落的公告：
+「白板筆沒水請登記領用，不要拿麥克筆假裝。——Kat」
+
+那行公告本身，就是麥克筆寫的。擦不掉了。`);}},
+ {id:'mavisbag',x:120,y:154,w:52,h:16,label:'桌底睡袋',fn(){showModal('桌底睡袋',`桌底捲著一條睡袋，枕頭繡著「使命必達」，
+提神飲料空瓶在旁邊排成一直線。
+
+你有點想躺。忍住了。
+躺下去，今晚就交代在這裡了。`);}},
+ {id:'ginadesk',x:184,y:120,w:52,h:28,label:'Gina 的座位',fn(){showModal('Gina 的座位',`桌上立著一個小相框：Gina 抱著獎座，笑得見牙不見眼。
+
+相框旁的便條：
+「正式的那張，掛一樓了💅」`);}},
+ {id:'rurudesk',x:250,y:120,w:52,h:28,label:'Ruru 的座位',fn(){showModal('Ruru 的座位',`桌面貼著一張自製流程圖：
+「結案 → 排版 → 送簽 → 慶祝🎉」
+
+「送簽」那格今天剛打勾，下面補了一行：
+「已送主管辦公區待簽櫃。等等，慶祝呢？」`);}},
+ {id:'salesdrawer',x:320,y:134,w:52,h:34,label:'Gina & Ruru 共用抽屜',fn(){
+   if(S.flags.salesDrawerOpen){showModal('共用抽屜','已打開。鑰匙與手冊都被你拿走了。');return;}
+   openLock({title:'Gina & Ruru 共用抽屜',desc:'四位數密碼鎖。抽屜上貼著兩人合寫的紙條：\n「密碼是我們各自的得意之作：Gina 在前，Ruru 在後。」',len:4,code:'1207',wrong:'不對。\n兩個人的「得意之作」……你都親眼看過了嗎？',onOK(){
+     S.flags.salesDrawerOpen=1;addItem('key_meet');addFrag('frag2');
+     showModal('共用抽屜開了',`裡面有一支鑰匙，鑰匙牌寫著「小會議室・備用」——
+和一本裝訂整齊的手冊，封面印著大大的「機密」。
+
+印著「機密」的東西，放在業務的共用抽屜裡。
+這間公司對機密的理解，一如既往。`,'<span class="getitem">🗝 小會議室鑰匙</span><span class="getfrag">📒 演練操作手冊</span>');
+     setTimeout(()=>pushMsg('董伊淇','23:20',`你找到操作手冊了？快翻「離場驗證」那章
+記住：出口不會只有正門一個`),900);
+   }});
+ }},
+],
+meet_s:[
+ {id:'projector',x:296,y:48,w:78,h:60,label:'投影幕',fn(){
+   S.flags.slideSeen=1;showModal('投影幕',`投影機循環播放著一份「BLACKOUT 預演簡報」。
+按到最後一頁，頁尾印著：
+
+【專案編號：BP-24□□】
+【完整編號請洽視覺識別組】
+
+視覺識別組做的東西……通常都掛在牆上。`);
+ }},
+ {id:'acremote',x:120,y:30,w:50,h:14,label:'冷氣遙控器',fn(){showModal('冷氣遙控器',`16 度、風速最強。
+遙控器下壓著紙條：「測試低溫環境用，請勿調整。」
+
+你把冷氣關了。
+測試個頭。`);}},
+ {id:'meettable',x:180,y:120,w:90,h:30,label:'會議桌上的草稿',fn(){showModal('會議桌上的草稿',`桌上攤著演練的流程草圖，三個箭頭通向樓外：
+正門旁畫了一個密碼面板；
+消防梯旁畫了兩張卡；
+側門旁畫了一支把手。
+
+草稿角落還有一隻塗鴉的帕恰狗。
+不知道為什麼，畫得特別用心。`);}},
+],
+meet_b:[
+ {id:'whiteboard',x:30,y:52,w:96,h:56,label:'白板議程',fn(){showModal('白板議程',`下週的議程排得滿滿的，其中一格用紅筆框起來：
+「週五 22:00 夜間封鎖演練（正式）」
+
+至於今晚？
+今晚在白板上，是一片空白。`);}},
+ {id:'towerart',x:140,y:52,w:68,h:54,label:'古塔畫作',fn(){S.flags.sawTowerArt=1;showModal('古塔畫作',`一幅古塔的版畫：塔頂劈著閃電，人影往下墜。
+看著就不太吉利。
+
+銘牌：【XVI／THE TOWER】
+
+畫框角落夾著劉世華的便條：「每次經過都心悸。」`);}},
+ {id:'blackart',x:220,y:52,w:64,h:54,label:'黑色畫作',fn(){S.flags.sawBlackArt=1;showModal('黑色畫作',`整幅畫幾乎全黑，還掛在整層樓最暗的牆角。黑上加黑。
+
+你把畫掀起來看背面——
+貼著一張收藏標籤：【No. 69】
+
+標籤旁邊有一道新的膠帶痕，
+形狀像是……漫畫的一角。`);}},
+ {id:'preferencefile',x:154,y:122,w:78,h:28,label:'主管偏好調查文件',fn(){
+   S.flags.sawSunOrder=1;showModal('主管偏好調查文件',`一份「主管辦公用品偏好調查」。
+孫寧的欄位，用紅筆寫著：
+
+毛毛 ＞ 泡泡 ＞ 花花
+
+下面補了一行小字：「這很重要。」
+主管的世界你不懂。但你把順序記下來了。`);checkSunDrawerCode();
+ }},
+ {id:'safe',x:40,y:140,w:34,h:32,label:'Kat 的保險箱',fn(){
+   if(S.flags.safeOpen){showModal('Kat 的保險箱','開著。裡面只剩零錢盒和一疊過期的停車券。');return;}
+   openLock({title:'Kat 的保險箱',desc:'四位數電子鎖。貼著 Kat 的紙條：\n「密碼＝本季專案編號」。',len:4,code:'2486',wrong:'錯誤。\n專案編號是「拼」出來的，不是猜出來的。',onOK(){
+     S.flags.safeOpen=1;addItem('release_handle');showModal('保險箱開了',`裡面放著一支方形金屬把手，
+標籤寫著：「後勤側門・停電用」。
+
+旁邊還有一張便條：
+「不插電的東西最可靠。——Kat」
+
+難得說了句人話。`,'<span class="getitem">🛠 方形金屬把手</span>');
+   }});
+ }},
+ {id:'cabinet',x:322,y:60,w:52,h:112,label:'高櫃頂端',fn(){
+   if(S.flags.charmGot){showModal('高櫃頂端','櫃頂的灰塵上留下一道燈桿掃過的痕跡，像某種現代藝術。');return;}
+   if(!S.inv.selfie){showModal('高櫃頂端',`櫃頂卡著一個小東西，在緊急照明下反著光。
+
+你跳了跳。差得遠。
+需要一根長的東西——最好還能伸縮。`);return;}
+   S.flags.charmGot=1;addItem('charm');if(S.flags.pochaccoKnown)setTimeout(gainChip,1400);showModal('高櫃頂端',`你伸長燈桿往櫃頂一掃——「啪嗒」。
+
+掉下來一枚帕恰狗吊飾。
+是 Rickey 哭著找了一個月的那隻。
+
+背蓋有點鬆，搖起來裡面有東西。
+你把它掛上背包。莫名感到安心。`,'<span class="getitem">🐶 帕恰狗吊飾</span>');
+ }},
+],
+director:[
+ {id:'sundesk',x:116,y:138,w:150,h:20,label:'孫寧的辦公桌',fn(){showModal('孫寧的辦公桌',`桌面乾淨得不像有人類使用過。
+左側站著三個小小的角色立牌，抽屜掛著三位數電子鎖。
+
+桌上的電話直通孫寧本人。
+理論上。`);}},
+ {id:'sunlabels',x:132,y:118,w:62,h:20,label:'三個角色立牌',fn(){S.flags.sawSunLabels=1;showModal('飛天小女警立牌',`三個立牌的底座，各貼著一個數字：
+
+毛毛【7】　花花【4】　泡泡【9】
+
+為什麼主管桌上會有這個？為什麼還要編號？
+你選擇不問，默默記下。`);checkSunDrawerCode();}},
+ {id:'sundrawer',x:116,y:158,w:180,h:16,label:'孫寧的上鎖抽屜',fn(){
+   if(S.flags.sunDrawerOpen){showModal('孫寧的抽屜','已打開。覆核卡被你拿走了。');return;}
+   openLock({title:'孫寧的上鎖抽屜',desc:'三位數電子鎖。鎖旁貼著孫寧的字條：\n「密碼＝我心中的排名。」',len:3,code:'794',wrong:'錯誤。\n她「心中的排名」……你在哪裡看過？',onOK(){
+     S.flags.sunDrawerOpen=1;S.flags.code725=1;addItem('sun_override');showModal('孫寧的抽屜開了',`抽屜裡只有一張卡，躺得端端正正——主管覆核卡。
+
+卡背印著【725】，和一行小字：
+「勿與識別碼分開保管。」
+
+偏偏，就是分開保管了。`,'<span class="getitem">🪪 主管覆核卡</span>');
+   }});
+ }},
+ {id:'blueart',x:60,y:74,w:70,h:42,label:'藍色幾何畫',fn(){S.flags.sawBlueArt=1;showModal('藍色幾何畫',`一幅藍色幾何畫，據說很貴。
+
+作品標籤：【系列編號 86】
+
+標籤下有人用鉛筆補了一行：
+「視覺識別組出品」。`);}},
+ {id:'sunphone',x:266,y:126,w:30,h:22,label:'孫寧的桌上電話',fn(){openPhone();callSun();}},
+ {id:'suntray',x:318,y:98,w:52,h:72,label:'待簽文件櫃',fn(){S.flags.sawRuruFile=1;showModal('待簽文件櫃',`第二層放著 Ruru 今天剛送來的結案文件：
+「weekly_close_final_v07」
+
+右上角的【07】被她自己用螢光筆圈起來，
+旁邊畫了一個戴墨鏡的小笑臉🙂`);}},
+],
+toilet:[
+ {id:'mirror',x:150,y:70,w:40,h:30,label:'起霧的鏡子',fn(){showModal('起霧的鏡子',`鏡面蒙著一層薄霧。手電筒斜著一照，
+浮出兩行事先用手指寫下的字：
+
+【B 路線＝卡 ＋ 標籤】
+【缺一不可】
+
+……是誰蹲在深夜的女廁寫操作說明？
+大概是佈置到崩潰的 Kat。`);}},
+ {id:'sink',x:60,y:130,w:80,h:14,label:'洗手台下方',fn(){
+   if(S.inv.tempcard){showModal('洗手台下方','已經沒有別的東西了。\n水管滴著水。一滴，一滴。你決定快點離開這裡。');return;}
+   addItem('tempcard');showModal('洗手台下方',`手電筒往洗手台下一照——縫隙裡塞著一張卡。
+
+沒有照片，沒有姓名，只印著：
+【BLACKOUT TESTER／7F-01】
+
+7F-01。
+門禁系統叫你的那個代號。
+這張卡在這裡等的人……就是你。`,'<span class="getitem">💳 無名的測試卡</span>');
+ }},
+ {id:'stall',x:280,y:100,w:60,h:70,label:'隔間門後的逃生圖',fn(){showModal('隔間門後的逃生圖',`一張消防逃生圖，三條路線被螢光筆描過：
+正門、頂樓消防梯、後勤側門。
+
+角落的塗鴉：「窗戶不是路線 D。」
+有人連塗鴉都要當糾察隊。`);}},
+],
+roof:[
+ {id:'breaker',x:60,y:110,w:34,h:52,label:'頂樓電箱',fn(){
+   if(S.power){showModal('頂樓電箱','總開關維持在 ON，接線乖乖各就各位。\n樓下的世界恢復了一點秩序。');return;}
+   if(!S.inv.selfie){showModal('頂樓電箱',`總開關陷在深槽裡，斷掉的把手還躺在箱底。
+手伸不進去——硬伸的話，大概會上社會新聞。
+
+槽口貼著維修單：「暫時可用長柄物操作。」`);return;}
+   showModal('頂樓電箱',`你用燈桿撥開深槽的護蓋——裡面不只是開關。
+檢修中的接線被拆開了：三條線垂在半空，紅、藍、黃。
+接線座上只有兩個端子，標著【市電】與【備援】。
+
+接對了，總開關才推得動。接錯了……應該會很精彩。`,
+   '<div class="optlist">'
+   +'<button class="opt" onclick="wireTry(1)">紅→市電，藍→備援，黃線不接</button>'
+   +'<button class="opt" onclick="wireTry(2)">紅→備援，藍→市電，黃線不接</button>'
+   +'<button class="opt" onclick="wireTry(3)">三條全接上去，能通就好</button>'
+   +'<button class="opt danger" onclick="wireTry(4)">只接黃線。直覺告訴我就是它</button>'
+   +'</div>');
+ }},
+ {id:'firedoor',x:270,y:88,w:66,h:70,label:'消防梯門（B 路線）',fn(){
+   if(!S.inv.tempcard||!S.flags.chipGot){
+     const miss=[];if(!S.inv.tempcard)miss.push('一張能證明你是「測試者」的卡');
+     if(!S.flags.chipGot)miss.push(S.inv.charm?'有效的維修標籤——背包裡那個搖起來有聲音的東西，還沒打開':'一枚維修用的標籤');
+     showModal('消防梯門',`門邊裝著一台備援讀卡器，螢幕淡淡地亮著：
+【雙重驗證：卡片 ＋ 標籤】
+
+你身上還缺：
+`+miss.join('\n'));return;
+   }
+   showModal('消防梯門',`「嗶。」「嗶。」兩聲。
+
+【TESTER 7F-01 驗證通過】
+【MAINT. 標籤有效】
+
+門鎖「喀」一聲彈開，
+樓梯間的緊急照明一路亮到一樓。`,'<div class="optlist"><button class="opt" onclick="closeModal();endGame(\'firestairs\')">🚪 走消防梯離開七樓</button><button class="opt" onclick="closeModal()">暫時不走</button></div>');
+ }},
+ {id:'pipe',x:352,y:90,w:22,h:86,label:'排水管（樓邊）',fn(){showModal('排水管',`大樓外牆的排水管，在雨後的夜裡泛著濕漉漉的光。
+它一路通往地面——也一路通往社會新聞。`,'<div class="optlist"><button class="opt danger" onclick="closeModal();endGame(\'pipe\')">🧗 爬下去。我核心很有力。</button><button class="opt" onclick="closeModal()">不自行新增出口</button></div>');}},
+ {id:'chairs',x:180,y:146,w:64,h:22,label:'兩張塑膠椅',fn(){showModal('兩張塑膠椅',`兩張塑膠椅面向夜景，椅背分別寫著：
+「高塔不是高樓」「Roadmap 不要掉下去」
+
+你坐了三分鐘。夜風很涼，城市很亮。
+好。繼續逃。`);}},
+ {id:'sky',x:120,y:40,w:120,h:40,label:'夜空',fn(){showModal('夜空',`雨停了，雲縫裡漏出幾顆星。
+
+被反鎖的第 N 分鐘，你在頂樓看夜景。
+拍了一張。沒發。
+現在發文，讚數會輸給明天的故事。`);}},
+],
+lobby:[
+ {id:'door',x:150,y:70,w:100,h:104,label:'公司正門（A 路線）',fn(){doorAction();}},
+ {id:'guard',x:40,y:130,w:56,h:26,label:'警衛桌',fn(){S.flags.sawWireMemo=1;showModal('警衛桌',`警衛伯伯的桌墊下壓著：孫子的畫、班表（週日：休），
+一張「夜間演練聯絡表」——三條路線的「負責人」欄位全部空白，
+還有一張《頂樓電箱檢線備忘》：
+
+「紅＝市電。藍＝備援。
+黃線是誰牽的？查不到。總之，不要動它。」
+
+對講機沒電。
+深夜的一樓，安靜得聽得到自己的心跳。`);}},
+ {id:'ginaaward',x:292,y:34,w:72,h:42,label:'牆上的得獎合照',fn(){S.flags.sawGinaAward=1;showModal('牆上的得獎合照',`新裱框的合照：Gina 高舉獎座，笑容燦爛。
+獎座底座刻著：【十二月・年度業務獎】
+
+照片旁邊還留了一個空框，貼著便條：
+「Ruru 的。遲早。」`);}},
+ {id:'sidedoor',x:300,y:82,w:64,h:90,label:'後勤側門（C 路線）',fn(){
+   if(!S.inv.release_handle){showModal('後勤側門',`門板上有一個方形凹槽，把手不見了。
+凹槽旁貼著半張被撕掉的維修貼紙：
+「把手保養中，暫存於——」
+後半張不見了。撕痕很新。`);return;}
+   showModal('後勤側門',`你把金屬把手插進方形凹槽。
+「喀。」咬合的手感——沉、穩、可靠。`,'<div class="optlist"><button class="opt" onclick="closeModal();endGame(\'side\')">🛠 轉動把手，從側門離開</button><button class="opt" onclick="closeModal()">暫時不走</button></div>');
+ }},
+],
+};
+
+/* ---- final door ---- */
+function doorAction(){
+  if(!S.power){
+    showModal('公司大門','厚重的玻璃門，磁扣鎖得死死的。\n旁邊的密碼面板一片漆黑——沒有電。\n\n面板下貼著 Kat 的貼紙：「停電時請洽頂樓電箱。」\nKat 難得有用的一次。');
+    return;
+  }
+  openLock({title:'大門密碼面板',desc:'面板亮著幽幽的綠光：「請輸入六位數管理密碼」。\n下方一行小字：「識別碼＋覆核碼」。',
+    len:6,code:'404725',wrong:'「密碼錯誤。剩餘嘗試次數：很多次。慢慢來。」',
+    onOK(){
+      if(S.frags.frag1&&S.frags.frag2&&S.frags.frag3)endGame('true');
+      else endGame('normal');
+    }});
+  if(S.inv.firekit){
+    setTimeout(()=>{
+      const ex=document.getElementById('mextra');
+      ex.innerHTML+='<div class="optlist"><button class="opt danger" onclick="closeModal();endGame(\'fire\')">🔥 不輸了。用火種燒門。（極度不建議）</button></div>';
+    },60);
+  }
+}
+</script>
+<script>
+/* ================= PIXEL RENDER ================= */
+const cv=document.getElementById('cv'), g=cv.getContext('2d');
+let hoverSpot=null;
+const TOUCH_MODE=window.matchMedia('(hover:none), (pointer:coarse)').matches;
+function R(c,col,x,y,w,h){c.fillStyle=col;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));}
+function isLit(){return S.power||S.inv.flashlight_on;}
+function darkZone(){return ZONES[S.zone].dark&&!S.inv.flashlight_on&&!S.power;}
+
+function roomBase(wall,floorY,floorCol){
+  R(g,'#08081a',0,0,400,10);
+  R(g,wall,0,10,400,floorY-10);
+  g.fillStyle='rgba(255,255,255,0.025)';
+  for(let y=18;y<floorY-10;y+=14)for(let x=8;x<400;x+=16)g.fillRect(x+((y/14|0)%2?8:0),y,2,2);
+  R(g,'#20204a',0,floorY-6,400,6);
+  R(g,floorCol||'#16162e',0,floorY,400,225-floorY);
+  g.fillStyle='rgba(0,0,0,0.25)';
+  for(let x=0;x<400;x+=40)g.fillRect(x,floorY,1,225-floorY);
+  /* emergency light */
+  if(!S.power){R(g,'#3a0f0f',192,12,16,6);R(g,'#ff5a5a',198,14,4,3);
+    g.fillStyle='rgba(255,90,90,0.05)';g.fillRect(170,18,60,40);}
+  else{R(g,'#3a3a20',150,12,100,5);R(g,'#fff2c0',154,14,92,2);
+    g.fillStyle='rgba(255,242,192,0.06)';g.fillRect(120,17,160,60);}
+}
+function nightWin(x,y,w,h){
+  R(g,'#2a2a55',x-3,y-3,w+6,h+6);
+  R(g,'#060612',x,y,w,h);
+  g.fillStyle='#cfe6ff';
+  for(let i=0;i<9;i++)g.fillRect(x+(i*41)%(w-2)+1,y+(i*17)%(h-24)+2,1,1);
+  g.fillStyle='#101c30';
+  for(let i=0;i<w-8;i+=11){const bh=8+((i*7)%16);g.fillRect(x+i+1,y+h-bh,9,bh);}
+  g.fillStyle='#ffd98a';
+  for(let i=5;i<w-6;i+=14)g.fillRect(x+i,y+h-6-((i*5)%10),1,1);
+  g.fillStyle='rgba(140,180,255,0.25)';
+  for(let i=3;i<w-3;i+=17)g.fillRect(x+i,y+2+((i*3)%9),1,6);
+  R(g,'#dfe8ff',x+w-16,y+6,7,7);R(g,'#060612',x+w-18,y+5,4,5);
+  R(g,'#2a2a55',x+(w/2|0)-1,y,2,h);R(g,'#2a2a55',x,y+(h/2|0)-1,w,2);
+}
+function deskP(x,y,w,mon,monCol){
+  R(g,'#2e2e52',x,y,w,6);R(g,'#1c1c38',x,y+6,w,2);
+  R(g,'#1c1c38',x+3,y+8,4,24);R(g,'#1c1c38',x+w-7,y+8,4,24);
+  if(mon){const mx=x+(w/2|0)-10;
+    R(g,'#0c0c1c',mx,y-16,20,14);
+    R(g,monCol||'#0a0a16',mx+2,y-14,16,10);
+    if(monCol){g.fillStyle='rgba(110,231,255,0.6)';for(let i=0;i<3;i++)g.fillRect(mx+4,y-12+i*3,10-i*3,1);}
+    R(g,'#0c0c1c',mx+8,y-3,4,3);}
+}
+function chairP(x,y){R(g,'#202044',x,y-12,4,12);R(g,'#202044',x,y,14,4);R(g,'#121228',x+1,y+4,2,8);R(g,'#121228',x+11,y+4,2,8);}
+function plantP(x,y){R(g,'#5a3a26',x,y-8,10,8);R(g,'#2f6a44',x+1,y-16,3,8);R(g,'#3d8354',x+4,y-20,3,12);R(g,'#2f6a44',x+7,y-14,3,6);}
+function drawHotspots(){
+  if(darkZone())return;
+  const spots=SPOTS[S.zone]||[];
+  g.save();g.setLineDash([3,3]);g.lineWidth=1;
+  spots.forEach(sp=>{
+    const hot=hoverSpot===sp;
+    g.strokeStyle=hot?'rgba(179,49,44,.98)':(TOUCH_MODE?'rgba(210,178,111,.62)':'rgba(210,178,111,.34)');
+    g.fillStyle=hot?'rgba(179,49,44,.12)':(TOUCH_MODE?'rgba(210,178,111,.055)':'rgba(210,178,111,.026)');
+    g.fillRect(sp.x-2,sp.y-2,sp.w+4,sp.h+4);g.strokeRect(sp.x-.5,sp.y-.5,sp.w+1,sp.h+1);
+    if(hot){
+      g.setLineDash([]);g.font='10px "Microsoft JhengHei",sans-serif';
+      const tw=Math.min(150,g.measureText(sp.label).width+10),tx=Math.max(2,Math.min(398-tw,sp.x)),ty=Math.max(12,sp.y-7);
+      g.fillStyle='rgba(47,37,24,.94)';g.fillRect(tx,ty-12,tw,14);g.strokeStyle='rgba(205,177,117,.9)';g.strokeRect(tx+.5,ty-11.5,tw-1,13);g.fillStyle='#efe2c4';g.fillText(sp.label,tx+5,ty-2);g.setLineDash([3,3]);
+    }
+  });g.restore();
+}
+
+
+/* Optional scene images: put a path in any value below. Recommended ratio: 400×225. */
+const SCENE_IMAGES={
+  office2:'', window_:'', sales:'', meet_s:'', meet_b:'', director:'', toilet:'', roof:'', lobby:''
+};
+const SCENE_ASSETS={};
+Object.entries(SCENE_IMAGES).forEach(([id,src])=>{
+  if(!src)return;const img=new Image();SCENE_ASSETS[id]={img,ready:false};
+  img.onload=()=>{SCENE_ASSETS[id].ready=true;if(S.zone===id)draw();};
+  img.onerror=()=>{SCENE_ASSETS[id].ready=false;console.warn('Scene image failed:',id,src);};img.src=src;
+});
+
+const PAINT={
+office2(){
+  roomBase('#12122c',180,'#15152c');
+  nightWin(22,26,116,50);
+  deskP(36,140,46,1);chairP(46,158);
+  R(g,'#7ac9d8',86,128,10,10);R(g,'#e8b0c8',87,118,8,10);R(g,'#bfeef0',88,108,6,10);
+  R(g,'#ff6ea9',89,104,2,6);R(g,'#fff3c4',102,126,18,12);R(g,'#c04040',105,129,12,2);
+  deskP(150,140,42,1);chairP(160,158);
+  R(g,'#c04040',154,130,12,8);R(g,'#fff',156,132,8,4);
+  R(g,'#2a2a55',150,152,40,14);R(g,'#ffc46a',168,157,5,4);
+  deskP(214,140,46,1);chairP(224,158);
+  R(g,'#ffb8d8',218,126,4,14);R(g,'#e0e8ff',217,122,6,5);
+  R(g,'#8fd0ff',248,130,3,12);
+  plantP(266,170);
+  R(g,'#1e1e40',282,150,114,8);R(g,'#16162e',282,158,114,22);
+  R(g,'#c8ced8',312,100,34,70);R(g,'#9aa2b2',312,100,34,4);R(g,'#3a4252',314,132,30,2);
+  R(g,'#556077',340,112,3,8);
+  R(g,'#3a4252',288,120,22,14);R(g,'#0e1420',290,122,12,10);
+  R(g,'#7dffa8',292,124,8,2);
+},
+window_(){
+  roomBase('#12122c',180,'#15152c');
+  nightWin(16,24,110,54);nightWin(140,24,110,54);nightWin(264,24,116,54);
+  deskP(40,140,48,1);chairP(52,158);
+  R(g,'#4a3a70',44,132,18,8);R(g,'#b39ddb',46,134,4,4);
+  R(g,'#efe6d0',60,96,26,34);g.fillStyle='#8b7a5a';for(let i=0;i<6;i++)g.fillRect(63,100+i*5,20,1);
+  R(g,'#5a3a80',92,136,20,10);R(g,'#ffc46a',100,139,4,4);
+  R(g,'#d8dde8',150,120,36,50);R(g,'#9aa2b2',150,120,36,5);R(g,'#0e1420',156,130,24,4);
+  R(g,'#ff5a5a',180,127,3,2);
+  deskP(212,142,42,1,'#10305a');chairP(222,160);
+  R(g,'#fff9d0',236,122,10,8);
+  R(g,'#20204a',286,108,66,10);
+  R(g,'#7a8296',360,112,30,58);R(g,'#5a6278',362,114,26,26);R(g,'#5a6278',362,142,26,26);R(g,'#ffc46a',384,126,3,5);
+  R(g,'#6a6a78',316,98,10,8);R(g,'#8a8a98',318,96,8,6);R(g,'#ffb060',319,104,2,2);
+},
+sales(){
+  roomBase('#132038',180,'#15152c');
+  R(g,'#e8ecf2',26,56,80,50);R(g,'#9aa2b2',24,54,84,3);R(g,'#9aa2b2',24,106,84,3);
+  g.fillStyle='#c04040';g.fillRect(32,64,48,3);g.fillStyle='#3a5a8a';g.fillRect(32,74,58,2);g.fillRect(32,82,50,2);g.fillRect(32,92,42,2);
+  nightWin(126,30,120,48);nightWin(262,30,118,48);
+  deskP(116,140,54,1);R(g,'#a03030',116,156,56,12);R(g,'#e8c060',164,158,8,8);
+  deskP(184,140,54,1,'#10305a');chairP(196,158);R(g,'#8b5a36',204,128,12,8);R(g,'#ffc46a',207,130,6,4);
+  deskP(250,140,54,1,'#10305a');chairP(262,158);R(g,'#efe6d0',274,126,20,10);R(g,'#7dffa8',278,129,12,2);
+  R(g,'#34345e',320,134,52,36);R(g,'#252548',322,136,48,15);R(g,'#252548',322,153,48,15);R(g,'#ffc46a',362,142,4,5);R(g,'#ffc46a',362,158,4,5);
+  g.fillStyle='#dcdcf0';g.font='8px monospace';g.fillText('GINA',191,119);g.fillText('RURU',257,119);
+},
+meet_s(){
+  roomBase('#101024',180,'#15152c');
+  R(g,'#c8ced8',110,22,70,12);R(g,'#8a92a2',112,32,66,3);
+  R(g,'#2a2a55',128,38,26,10);R(g,'#7dffa8',132,40,10,4);
+  R(g,'#efeff5',296,48,78,60);
+  g.fillStyle='#0e2438';g.fillRect(300,52,70,52);
+  g.fillStyle='#6ee7ff';g.fillRect(306,88,8,12);g.fillRect(318,78,8,22);g.fillRect(330,66,8,34);g.fillRect(342,58,8,42);
+  g.fillStyle='#ffc46a';g.fillRect(306,58,30,3);
+  g.fillStyle='rgba(110,231,255,0.08)';g.beginPath();g.moveTo(260,20);g.lineTo(300,104);g.lineTo(374,104);g.lineTo(300,20);g.fill();
+  R(g,'#20204a',255,16,12,8);
+  R(g,'#3a3a66',118,118,170,34);R(g,'#2a2a52',118,152,170,4);
+  R(g,'#efe6d0',180,124,40,8);R(g,'#c8b890',224,126,30,6);
+  chairP(130,162);chairP(180,162);chairP(230,162);chairP(280,162);
+},
+meet_b(){
+  roomBase('#101024',180,'#15152c');
+  R(g,'#e8ecf2',30,52,96,56);R(g,'#9aa2b2',28,50,100,3);R(g,'#9aa2b2',28,108,100,3);
+  g.fillStyle='#3a5a8a';for(let i=0;i<4;i++)g.fillRect(38,62+i*11,70-i*10,2);
+  R(g,'#6a5a48',140,52,68,54);R(g,'#1a2030',144,56,60,46);R(g,'#d7d0c4',170,62,8,30);R(g,'#ffc46a',160,72,28,3);
+  R(g,'#3a3a46',220,52,64,54);R(g,'#08080d',224,56,56,46);R(g,'#3d3d48',238,68,12,18);R(g,'#555562',260,72,10,14);
+  R(g,'#3a3a66',140,120,150,34);R(g,'#2a2a52',140,154,150,4);
+  chairP(150,164);chairP(200,164);chairP(250,164);
+  R(g,'#2f4a3a',40,140,34,32);R(g,'#1e3226',42,142,30,28);
+  R(g,'#9aa2b2',52,152,10,10);R(g,'#556077',55,155,4,4);
+  R(g,'#4a3a2a',322,60,52,112);R(g,'#33291d',326,64,44,50);R(g,'#33291d',326,118,44,50);
+  R(g,'#ffc46a',364,88,3,6);R(g,'#ffc46a',364,140,3,6);
+  if(!S.flags.charmGot){R(g,'#f5f2e8',336,54,8,6);R(g,'#20202a',337,55,2,2);R(g,'#20202a',341,55,2,2);}
+},
+director(){
+  roomBase('#11172b',180,'#15152c');
+  nightWin(26,28,104,50);nightWin(270,28,104,50);
+  R(g,'#304a7a',48,82,82,42);R(g,'#14254a',52,86,74,34);
+  for(let i=0;i<8;i++)R(g,'#6ee7ff',58+(i%4)*14,92+Math.floor(i/4)*12,9,7);R(g,'#ffc46a',108,112,14,3);
+  deskP(116,150,180,1,'#10305a');chairP(196,168);
+  R(g,'#2f6a44',132,132,18,12);R(g,'#ff6ea9',154,132,18,12);R(g,'#6ee7ff',176,132,18,12);R(g,'#2a2a55',116,158,180,12);R(g,'#ffc46a',202,161,8,5);
+  g.fillStyle='#fff';g.font='8px monospace';g.fillText('7',138,141);g.fillText('4',160,141);g.fillText('9',182,141);
+  R(g,'#fff9d0',206,130,46,14);R(g,'#8b7a5a',210,134,36,2);R(g,'#8b7a5a',210,139,28,2);
+  R(g,'#252548',266,134,30,20);R(g,'#6a7284',270,128,22,8);R(g,'#7dffa8',276,139,10,3);
+  R(g,'#3a3a66',318,98,52,72);R(g,'#28284d',322,102,44,30);R(g,'#28284d',322,136,44,30);
+  R(g,'#ffc46a',358,114,4,5);R(g,'#ffc46a',358,148,4,5);
+},
+toilet(){
+  if(darkZone()){
+    R(g,'#020208',0,0,400,225);
+    g.fillStyle='rgba(120,140,180,0.08)';g.fillRect(150,70,40,30);
+    g.fillStyle='rgba(120,140,180,0.05)';g.fillRect(60,120,90,10);
+    g.fillStyle='#8b8bb2';g.font='12px monospace';
+    g.fillText('一 片 漆 黑 ⋯⋯',150,190);
+    return;
+  }
+  roomBase('#1a2438',180,'#1c2436');
+  g.fillStyle='rgba(255,255,255,0.05)';
+  for(let y=20;y<170;y+=12)for(let x=6;x<394;x+=12)g.fillRect(x,y,10,10);
+  R(g,'#bcd4e8',150,66,44,34);R(g,'#8a9ab0',148,64,48,3);R(g,'#8a9ab0',148,100,48,3);
+  R(g,'#fff9d0',158,72,6,6);
+  R(g,'#dfe8f0',56,120,92,10);R(g,'#b8c4d4',66,130,18,8);R(g,'#b8c4d4',110,130,18,8);
+  R(g,'#6a7488',60,138,4,30);R(g,'#6a7488',140,138,4,30);
+  R(g,'#9aa8bc',276,84,68,90);R(g,'#7a8698',280,90,26,80);R(g,'#7a8698',312,90,26,80);
+  R(g,'#3a4252',302,124,4,10);
+},
+roof(){
+  R(g,'#060614',0,0,400,225);
+  g.fillStyle='#e8ecff';
+  for(let i=0;i<26;i++)g.fillRect((i*61)%396+2,(i*37)%120+4,1,1);
+  R(g,'#f4f0dc',318,26,18,18);R(g,'#060614',312,22,14,14);
+  g.fillStyle='#0e1428';
+  for(let i=0;i<400;i+=27){const bh=26+((i*13)%40);g.fillRect(i,150-bh,24,bh);}
+  g.fillStyle='#ffd98a';
+  for(let i=4;i<396;i+=15)g.fillRect(i,132-((i*7)%36),1,1);
+  R(g,'#1a1a32',0,150,400,75);
+  g.fillStyle='rgba(255,255,255,0.04)';for(let x=0;x<400;x+=30)g.fillRect(x,150,1,75);
+  R(g,'#2a2a4a',120,88,54,62);R(g,'#20203c',124,92,46,54);
+  R(g,'#3a3a5e',132,70,4,20);R(g,'#3a3a5e',158,70,4,20);R(g,'#30305a',126,64,42,10);
+  R(g,'#5a6278',60,110,34,52);R(g,'#454e60',64,114,26,44);
+  R(g,S.power?'#7dffa8':'#3a4252',72,130,10,12);
+  R(g,'#39445a',270,88,66,70);R(g,'#222b3c',275,94,56,58);R(g,'#7dffa8',322,118,5,8);R(g,'#6a7488',352,88,8,88);R(g,'#7a8498',352,120,8,4);R(g,'#7a8498',352,150,8,4);
+  R(g,'#c8552a',182,150,18,16);R(g,'#2a6ac8',210,150,18,16);
+},
+lobby(){
+  roomBase('#12122c',180,'#141428');
+  R(g,'#c04040',176,16,48,12);g.fillStyle='#fff';g.font='9px monospace';g.fillText('EXIT',188,25);
+  g.fillStyle='rgba(255,90,90,0.12)';g.fillRect(170,28,60,20);
+  R(g,'#3a3a6e',146,66,108,110);
+  R(g,'#0a0a18',152,72,44,102);R(g,'#0a0a18',204,72,44,102);
+  g.fillStyle='rgba(140,180,255,0.2)';
+  for(let i=0;i<8;i++){g.fillRect(158+(i*11)%40,76+(i*13)%80,1,8);g.fillRect(210+(i*13)%38,80+(i*11)%76,1,8);}
+  g.fillStyle='#ffd98a';g.fillRect(168,150,2,2);g.fillRect(224,142,2,2);
+  R(g,'#3a3a6e',198,72,4,102);
+  R(g,S.power?'#10301a':'#0c0c18',258,104,18,26);
+  if(S.power){R(g,'#7dffa8',262,108,10,4);for(let i=0;i<3;i++)for(let j=0;j<3;j++)R(g,'#2a5a3a',262+j*4,116+i*4,2,2);}
+  R(g,'#2e2e52',34,132,64,10);R(g,'#22223e',38,142,56,26);
+  R(g,'#8a92a2',44,120,14,12);
+  R(g,'#7a6040',292,34,72,42);R(g,'#1a2030',297,39,62,30);R(g,'#ffc46a',318,43,20,14);g.fillStyle='#dcdcf0';g.font='8px monospace';g.fillText('12',324,65);
+  R(g,'#3d465c',300,82,64,90);R(g,'#242c3d',305,88,54,78);R(g,'#ffc46a',352,124,4,8);R(g,'#555f76',296,120,8,14);
+},
+};
+
+/* ================= UI WIRING ================= */
+function renderNav(){
+  const nav=document.getElementById('navbar');nav.innerHTML='';
+  ZONE_ORDER.forEach(z=>{
+    const b=document.createElement('button');
+    const locked=ZONES[z].needKey&&!S.flags['unlock_'+z];
+    b.className='navbtn'+(S.zone===z?' active':'')+(locked?' locked':'');
+    b.textContent=(locked?'🔒':'')+ZONES[z].label;
+    b.onclick=()=>{AudioEngine.sfx('tap');enterZone(z);};
+    nav.appendChild(b);
+  });
+}
+function enterZone(z){
+  const Z=ZONES[z];
+  if(Z.needKey&&!S.flags['unlock_'+z]){
+    if(S.inv[Z.needKey]){S.flags['unlock_'+z]=1;toast('🗝 用 '+ITEMS[Z.needKey].n+' 開了鎖');AudioEngine.sfx('unlock');}
+    else{showModal('🔒 '+Z.label,Z.lockText);return;}
+  }
+  S.zone=z;hoverSpot=null;renderNav();renderChips();draw();
+  document.getElementById('scenename').textContent='▸ '+Z.label;
+  if(z==='toilet'&&darkZone())toast('🌑 裡面一片漆黑……需要光源');
+}
+function renderChips(){document.getElementById('actions').innerHTML='';}
+function paintScene(){
+  const asset=SCENE_ASSETS[S.zone];
+  if(!darkZone()&&asset&&asset.ready){g.clearRect(0,0,400,225);g.drawImage(asset.img,0,0,400,225);}
+  else PAINT[S.zone]();
+}
+function draw(){g.imageSmoothingEnabled=false;paintScene();drawHotspots();}
+function canvasPoint(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*400/r.width,y:(e.clientY-r.top)*225/r.height};}
+function spotAt(x,y){return (SPOTS[S.zone]||[]).find(sp=>x>=sp.x-3&&x<=sp.x+sp.w+3&&y>=sp.y-3&&y<=sp.y+sp.h+3)||null;}
+cv.addEventListener('mousemove',e=>{
+  if(TOUCH_MODE||darkZone()){cv.style.cursor='default';return;}
+  const p=canvasPoint(e),next=spotAt(p.x,p.y);if(next!==hoverSpot){hoverSpot=next;cv.style.cursor=next?'pointer':'default';draw();}
+});
+cv.addEventListener('mouseleave',()=>{if(!TOUCH_MODE){hoverSpot=null;cv.style.cursor='default';draw();}});
+cv.addEventListener('click',e=>{
+  if(darkZone()){AudioEngine.sfx('wrong');showModal('一片漆黑','什麼都看不見。需要光源。');return;}
+  const p=canvasPoint(e),sp=spotAt(p.x,p.y);
+  if(!sp){if(TOUCH_MODE&&hoverSpot){hoverSpot=null;draw();}return;}
+  if(TOUCH_MODE&&hoverSpot!==sp){hoverSpot=sp;AudioEngine.sfx('tap');toast('🔍 '+sp.label+'｜再點一次調查');draw();return;}
+  AudioEngine.sfx('inspect');sp.fn();draw();
+});
+document.getElementById('btnRules').onclick=function(){
+  AudioEngine.sfx('messageOpen');
+  var sg=document.querySelector('#intro .papersign .abtn');
+  if(S.started&&sg)sg.textContent='✕ 收回檔案';
+  document.getElementById('intro').style.display='block';
+};
+document.getElementById('btnPhone').onclick=openPhone;
+document.getElementById('btnClues').onclick=showClueBoard;
+document.getElementById('btnAudio').onclick=AudioEngine.toggle;
+document.getElementById('btnHint').onclick=()=>{
+  AudioEngine.sfx('inspect');showModal('🔮 劉世華・遠端占卜',getHint()+'\n\n（占卜費：回公司請她喝一杯青山水梨春青。記帳中：第 '+(++S.flags.hintCount||(S.flags.hintCount=1))+' 杯）');
+};
+document.getElementById('modalbg').addEventListener('click',e=>{if(e.target.id==='modalbg')closeModal();});
+document.getElementById('phonebg').addEventListener('click',e=>{if(e.target.id==='phonebg')closePhone();});
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('modalbg').style.display==='flex'&&LOCK){
+    if(e.key>='0'&&e.key<='9'&&LOCK.type!=='txt')padKey(e.key);
+    else if(e.key==='Backspace'&&LOCK.type!=='txt')padKey('D');
+    else if(e.key==='Enter')padKey('E');
+    else if(e.key==='Escape')closeModal();
+  }else if(e.key==='Escape'){closeModal();closePhone();}
+});
+
+function startGame(){
+  if(S.started){document.getElementById('intro').style.display='none';return;}
+  AudioEngine.start(); // 直接在使用者點擊「開始」時啟動，符合瀏覽器自動播放規則
+  document.getElementById('intro').style.display='none';S.started=true;
+  if(!S.msgs.length){MSG0.forEach(m=>S.msgs.push({...m,unread:true}));S.unread=MSG0.length;}
+  renderBadge();renderPhone();AudioEngine.sfx('message');toast('🔊 BGM 已開始｜📱 '+MSG0.length+' 個聊天室有新訊息'+(TOUCH_MODE?'｜點兩下物件進行調查':''));draw();
+}
+renderNav();renderInv();renderClock();renderChips();renderPhone();AudioEngine.updateButton();draw();
+document.getElementById('scenename').textContent='▸ '+ZONES[S.zone].label;
+document.getElementById('intro').style.display='block';
+</script>
+</body>
+</html>
