@@ -208,7 +208,7 @@
     font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
   }
   body::before{content:none;}
-  #wrap{max-width:960px;padding:26px 16px 56px;}
+  #wrap{max-width:1000px;padding:20px 14px 48px;}
 
   h1.title{
     position:relative;
@@ -243,8 +243,9 @@
   }
 
   #topbar{
-    margin:14px 0 10px;
+    margin:12px 0 8px;
     padding:11px 14px;
+    display:grid;gap:9px;justify-items:center;
     background:var(--shell-card);
     border:1px solid var(--shell-line);
     border-radius:var(--radius);
@@ -254,7 +255,7 @@
   #topbar::after{content:none;}
   #clock{color:#e3c88d;font-size:14px;font-weight:600;letter-spacing:2px;}
   #clock .batt{color:var(--shell-dim);font-weight:400;}
-  .btnrow{gap:8px;}
+  .btnrow{gap:8px;justify-content:center;flex-wrap:wrap;}
   .abtn{
     background:rgba(255,244,214,.07);
     border:1px solid rgba(214,195,154,.35);
@@ -275,7 +276,7 @@
 
   #navbar{
     gap:6px;justify-content:center;align-items:center;
-    margin:2px 0 10px;padding:0;position:relative;z-index:2;
+    margin:2px 0 8px;padding:0;position:relative;z-index:2;
   }
   .navbtn{
     background:rgba(255,244,214,.05);
@@ -296,7 +297,7 @@
   #stage{
     width:100%;
     margin:0 auto;
-    padding:14px;
+    padding:24px 10px 12px;
     background:linear-gradient(165deg,#ece2c8,#d6c7a2);
     border:1px solid var(--pline);
     border-radius:var(--radius);
@@ -304,13 +305,13 @@
   }
   #stage::before{
     content:"現場影像紀錄";
-    position:absolute;left:20px;top:3px;z-index:4;
+    position:absolute;left:14px;top:7px;z-index:4;
     padding:0;background:none;color:#8a774f;
     font-size:9px;letter-spacing:3px;pointer-events:none;
   }
   #stage::after{
     content:"CONFIDENTIAL";
-    position:absolute;right:20px;top:3px;bottom:auto;z-index:4;
+    position:absolute;right:14px;top:7px;bottom:auto;z-index:4;
     color:#9c302b;border:none;padding:0;
     font-size:9px;letter-spacing:3px;transform:none;opacity:.55;pointer-events:none;
   }
@@ -320,16 +321,16 @@
     filter:sepia(.34) saturate(.8) brightness(1.05) contrast(1.02);
   }
   #scenename{
-    top:22px;left:22px;background:rgba(238,228,203,.94);
-    border:1px solid #8a7752;border-radius:4px;color:#6f2924;
-    font-size:12px;padding:4px 10px;letter-spacing:2px;
+    top:30px;left:14px;background:rgba(238,228,203,.94);
+    border:1px solid #8a7752;border-radius:0;color:#6f2924;
+    font-size:10px;padding:2px 7px;letter-spacing:1px;
     box-shadow:0 3px 10px rgba(0,0,0,.3);
     font-family:"Noto Sans TC","PingFang TC",sans-serif;
   }
   #touchhint{color:#877a5f;margin-top:10px;}
 
   #invbar{
-    min-height:52px;margin:12px 0 10px;padding:11px 14px;
+    min-height:48px;margin:10px 0 8px;padding:10px 13px;
     background:var(--shell-card);
     border:1px solid var(--shell-line);
     border-radius:var(--radius);
@@ -541,15 +542,15 @@
     h1.title{padding:15px 14px 12px;font-size:17px;letter-spacing:4px;}
     h1.title::before{letter-spacing:2px;}
     #topbar{padding:10px;display:grid;gap:8px;}
-    #clock{text-align:center;}
+    #clock{text-align:center;font-size:13px;}
     .btnrow{width:100%;gap:6px;}
-    .btnrow .abtn{flex:1 1 30%;padding:9px 4px;font-size:13px;letter-spacing:0;}
+    .btnrow .abtn{flex:1 1 auto;padding:7px 6px;font-size:11.5px;letter-spacing:0;}
     #navbar{gap:4px;}
     .navbtn{padding:8px 10px;font-size:12.5px;}
-    #stage{padding:8px;}
-    #stage::before{left:12px;top:2px;}
-    #stage::after{right:12px;top:2px;}
-    #scenename{left:14px;top:16px;font-size:11px;}
+    #stage{padding:18px 5px 7px;}
+    #stage::before{left:9px;top:4px;}
+    #stage::after{right:9px;top:4px;}
+    #scenename{left:8px;top:22px;font-size:9px;letter-spacing:1px;padding:2px 6px;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     #invbar{padding:10px;margin:10px 0 8px;}
     .invitem{font-size:12.5px;padding:8px 10px;}
     #modal.panel{padding:20px 14px 16px;}
@@ -588,7 +589,7 @@
       <button class="abtn gray" id="btnPhone">📱 手機<span class="badge" id="msgbadge"></span></button>
       <button class="abtn gray" id="btnClues">📋 線索板</button>
       <button class="abtn pink" id="btnHint">🔮 遠端占卜</button>
-      <button class="abtn gray" id="btnAudio">🔊 BGM：開</button>
+      <button class="abtn gray" id="btnAudio">🔊 BGM</button>
     </div>
   </div>
 
@@ -853,7 +854,9 @@ function initialState(){return {zone:'office2',inv:{},frags:{},flags:{},msgs:[],
 let S=initialState();
 
 function tick(){} // 無倒數、無步數扣時
-function renderClock(){document.getElementById('clock').innerHTML='🌙 23:07';}
+function clockStr(){const t=(23*60+S.min)%1440,h=String(Math.floor(t/60)).padStart(2,'0'),m=String(t%60).padStart(2,'0');return h+':'+m;}
+function renderClock(){document.getElementById('clock').innerHTML='🌙 '+clockStr();}
+setInterval(()=>{S.min++;renderClock();},30000);
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';
   clearTimeout(toast._t);toast._t=setTimeout(()=>el.style.display='none',2600);}
 function showReward(name){const card=document.getElementById('rewardCard'),parts=name.trim().split(/\s+/);document.getElementById('rewardIcon').textContent=parts.shift()||'◆';document.getElementById('rewardName').textContent='重要道具取得\n'+parts.join(' ');card.style.display='block';clearTimeout(showReward._t);showReward._t=setTimeout(()=>card.style.display='none',1500);}
@@ -1074,7 +1077,7 @@ const AudioEngine=(()=>{
     if(!ensure())return false;musicEnabled=true;musicGain.gain.setTargetAtTime(.42,ctx.currentTime,.03);startDrone();if(!timer){pulse();timer=setInterval(pulse,260);}updateButton();return true;
   }
   function toggle(){musicEnabled=!musicEnabled;if(musicEnabled)start();else if(musicGain&&ctx)musicGain.gain.setTargetAtTime(.0001,ctx.currentTime,.03);updateButton();}
-  function updateButton(){const b=document.getElementById('btnAudio');if(b)b.textContent=musicEnabled?'🔊 BGM：開（大）':'🔇 BGM：關';}
+  function updateButton(){const b=document.getElementById('btnAudio');if(b)b.textContent=musicEnabled?'🔊 BGM':'🔇 BGM';}
   function sfx(kind){
     if(!ensure())return;
     if(kind==='inspect'){tone(310,.045,'square',.12,0,'sfx');tone(465,.055,'square',.075,.035,'sfx');}
@@ -1094,7 +1097,7 @@ const AudioEngine=(()=>{
 })();
 
 /* ================= ENDINGS ================= */
-function fmtTime(){return '23:07';}
+function fmtTime(){return clockStr();}
 function endGame(type){
   const T=document.getElementById('endtitle'),B=document.getElementById('endbody');
   T.className='';
@@ -1275,7 +1278,7 @@ function wireTry(n){
 }
 const SPOTS={
 office2:[
- {id:'workdesk',x:36,y:130,w:44,h:22,label:'你的座位',fn(){
+ {id:'workdesk',x:36,y:122,w:46,h:30,label:'你的座位',fn(){
    showModal('你的座位',`週一提案網站的測試頁還開著，檔名：
 「最終版_真最終版_這次真的不改_v7」。
 
@@ -1285,7 +1288,7 @@ office2:[
 你沒有簽任何到。
 手機在桌上，好幾個聊天室在下午閃過訊息。`);
  }},
- {id:'tungdesk',x:82,y:104,w:26,h:52,label:'董伊淇的舊座位',fn(){
+ {id:'tungdesk',x:82,y:102,w:38,h:52,label:'董伊淇的舊座位',fn(){
    S.flags.sawMenu=1;
    showModal('董伊淇的舊座位',`她離職前的座位還沒清，七個手搖杯疊成一座塔，沒人敢動。
 
@@ -1300,7 +1303,7 @@ office2:[
 
 ——是董伊淇的字跡。`);
  }},
- {id:'kaodesk',x:150,y:126,w:40,h:20,label:'高于雯的桌面',fn(){
+ {id:'kaodesk',x:150,y:126,w:42,h:22,label:'高于雯的桌面',fn(){
    S.flags.sawConan=1;
    showModal('高于雯的桌面',`桌面收得很整齊，殺氣也收得很整齊。
 
@@ -1325,7 +1328,7 @@ office2:[
 小本本裡夾的那張紙……你自己看吧。我下午收到的時候就覺得不對勁了`),900);
    }});
  }},
- {id:'pengdesk',x:214,y:126,w:44,h:22,label:'彭筠喬的座位',fn(){
+ {id:'pengdesk',x:214,y:120,w:46,h:28,label:'彭筠喬的座位',fn(){
    if(S.inv.selfie){showModal('彭筠喬的座位','子瑜的壓克力立牌守著空無一人的座位，角度 45 度，一絲不苟。');return;}
    addItem('selfie');showModal('彭筠喬的座位',`座位被周子瑜的周邊嚴密防守，應援燈桿立在桌邊。
 貼紙寫著：「誰都不准拿去勾東西！！（除非人命關天）」
@@ -1333,7 +1336,7 @@ office2:[
 現在就是人命關天。
 你恭敬地借走它，並把子瑜立牌的角度扶正了 0.5 度，以示敬意。`,'<span class="getitem">📸 伸縮應援燈桿</span>');
  }},
- {id:'plant',x:266,y:140,w:18,h:30,label:'座位旁盆栽',fn(){
+ {id:'plant',x:264,y:148,w:16,h:24,label:'座位旁盆栽',fn(){
    showModal('盆栽',`葉片間藏著一顆小鏡頭，紅燈微微閃爍。
 底下貼著標籤：「演練紀錄用」。
 
@@ -1354,7 +1357,7 @@ office2:[
 就跟你說是道具吧！鑰匙拿去用
 貢丸不要偷吃==`),800);
  }},
- {id:'microwave',x:290,y:120,w:20,h:14,label:'微波爐',fn(){
+ {id:'microwave',x:288,y:120,w:22,h:14,label:'微波爐',fn(){
    showModal('微波爐',`時鐘閃著 88:88——從你入職那天起就是 88:88。
 
 門上的公告：「禁止微波：金屬、榴槤、以及來路不明的道具。」
@@ -1362,7 +1365,7 @@ office2:[
  }},
 ],
 window_:[
- {id:'liudesk',x:40,y:126,w:46,h:22,label:'劉世華的桌位',fn(){
+ {id:'liudesk',x:40,y:128,w:48,h:26,label:'劉世華的桌位',fn(){
    showModal('劉世華的桌位',`占卜絨布、水晶陣，和一張字條：
 「牌盒上鎖了。密碼是我最怕的那張牌——編號自己想。」
 
@@ -1370,7 +1373,7 @@ window_:[
 有人把它收走了。
 真是敬業的出題人。`);
  }},
- {id:'tarotbox',x:92,y:132,w:20,h:12,label:'塔羅牌盒（密碼鎖）',fn(){
+ {id:'tarotbox',x:92,y:134,w:20,h:14,label:'塔羅牌盒（密碼鎖）',fn(){
    if(S.flags.tarotOpen){showModal('塔羅牌盒','盒子開著，77 張牌安靜地躺著。\n鑰匙已經被你拿走了。');return;}
    openLock({title:'塔羅牌盒',desc:'木盒掛著一個兩位數的小銅鎖。\n盒蓋內側刻著一行小字：「塔倒之處，即是出口。」',len:2,code:'16',wrong:'銅鎖紋絲不動。\n「那張牌」長什麼樣子——你見過嗎？',onOK(){
      S.flags.tarotOpen=1;addItem('key_roof');showModal('牌盒開了',`盒裡躺著一支鑰匙，纏著紫水晶手鍊，鑰匙牌寫著「頂樓」。
@@ -1379,7 +1382,7 @@ window_:[
 今晚第一個好兆頭。`,'<span class="getitem">🗝 頂樓鑰匙</span>');
    }});
  }},
- {id:'copier',x:150,y:112,w:36,h:58,label:'影印機',fn(){
+ {id:'copier',x:150,y:120,w:36,h:50,label:'影印機',fn(){
    if(S.frags.frag3){showModal('影印機','面板顯示：「卡紙已排除。感謝您。」\n它今晚對你說的話，比某些同事一週說的還多。');return;}
    addFrag('frag3');showModal('影印機',`面板閃著紅字：「E-04 卡紙」。
 你熟練地拉開側蓋（社畜的隱藏被動技），抽出卡住的紙——
@@ -1388,11 +1391,11 @@ window_:[
 讀完最後一行，你把它摺好收進口袋。
 手心，有一點冷。`,'<span class="getfrag">📄 排程同步通知</span>');
  }},
- {id:'pc',x:212,y:118,w:40,h:26,label:'公用電腦',fn(){
+ {id:'pc',x:216,y:120,w:34,h:26,label:'公用電腦',fn(){
    if(S.flags.pcOpen){openMailbox();return;}
    openLock({title:'公用電腦',desc:'登入畫面。密碼提示只有一行：\n「伊淇永遠不會點的那道。——Kat」',len:12,type:'txt',code:'xianggu',wrong:'密碼錯誤。\n提示補充：只要那道菜的「主角」，不用連湯。',onOK(){S.flags.pcOpen=1;openMailbox();}});
  }},
- {id:'locker',x:360,y:112,w:28,h:58,label:'備品置物櫃',fn(){
+ {id:'locker',x:360,y:112,w:30,h:58,label:'備品置物櫃',fn(){
    if(S.flags.lockerOpen){showModal('置物櫃','空了。只剩貢丸乾的包裝袋，見證你的求生意志。');return;}
    if(!S.inv.key_locker){showModal('置物櫃','鐵製置物櫃，上了鎖。門上貼著「7F 備品」。\n鎖孔小小的——配的應該也是一支小小的鑰匙。\n\n這層樓的哪裡，會藏著一支小小的鑰匙？');return;}
    S.flags.lockerOpen=1;delete S.inv.key_locker;addItem('flashlight');renderInv();
@@ -1403,7 +1406,7 @@ window_:[
 
 你吃了貢丸乾。很好吃。士氣回復。`,'<span class="getitem">🔦 緊急手電筒</span>');
  }},
- {id:'windowglass',x:286,y:24,w:94,h:84,label:'七樓窗戶',fn(){
+ {id:'windowglass',x:264,y:24,w:116,h:54,label:'七樓窗戶',fn(){
    showModal('七樓窗戶',`玻璃上映著你自己，和身後一整層的黑。
 
 窗角貼著 Kat 的安全貼紙：
@@ -1420,7 +1423,7 @@ sales:[
 「白板筆沒水請登記領用，不要拿麥克筆假裝。——Kat」
 
 那行公告本身，就是麥克筆寫的。擦不掉了。`);}},
- {id:'mavisbag',x:120,y:154,w:52,h:16,label:'桌底睡袋',fn(){showModal('桌底睡袋',`桌底捲著一條睡袋，枕頭繡著「使命必達」，
+ {id:'mavisbag',x:116,y:154,w:56,h:16,label:'桌底睡袋',fn(){showModal('桌底睡袋',`桌底捲著一條睡袋，枕頭繡著「使命必達」，
 提神飲料空瓶在旁邊排成一直線。
 
 你有點想躺。忍住了。
@@ -1434,7 +1437,7 @@ sales:[
 
 「送簽」那格今天剛打勾，下面補了一行：
 「已送主管辦公區待簽櫃。等等，慶祝呢？」`);}},
- {id:'salesdrawer',x:320,y:134,w:52,h:34,label:'Gina & Ruru 共用抽屜',fn(){
+ {id:'salesdrawer',x:320,y:134,w:52,h:36,label:'Gina & Ruru 共用抽屜',fn(){
    if(S.flags.salesDrawerOpen){showModal('共用抽屜','已打開。鑰匙與手冊都被你拿走了。');return;}
    openLock({title:'Gina & Ruru 共用抽屜',desc:'四位數密碼鎖。抽屜上貼著兩人合寫的紙條：\n「密碼是我們各自的得意之作：Gina 在前，Ruru 在後。」',len:4,code:'1207',wrong:'不對。\n兩個人的「得意之作」……你都親眼看過了嗎？',onOK(){
      S.flags.salesDrawerOpen=1;addItem('key_meet');addFrag('frag2');
@@ -1458,7 +1461,7 @@ meet_s:[
 
 視覺識別組做的東西……通常都掛在牆上。`);
  }},
- {id:'acremote',x:120,y:30,w:50,h:14,label:'冷氣遙控器',fn(){showModal('冷氣遙控器',`16 度、風速最強。
+ {id:'acremote',x:126,y:36,w:30,h:14,label:'冷氣遙控器',fn(){showModal('冷氣遙控器',`16 度、風速最強。
 遙控器下壓著紙條：「測試低溫環境用，請勿調整。」
 
 你把冷氣關了。
@@ -1490,7 +1493,7 @@ meet_b:[
 
 標籤旁邊有一道新的膠帶痕，
 形狀像是……漫畫的一角。`);}},
- {id:'preferencefile',x:154,y:122,w:78,h:28,label:'主管偏好調查文件',fn(){
+ {id:'preferencefile',x:176,y:120,w:82,h:16,label:'主管偏好調查文件',fn(){
    S.flags.sawSunOrder=1;showModal('主管偏好調查文件',`一份「主管辦公用品偏好調查」。
 孫寧的欄位，用紅筆寫著：
 
@@ -1532,7 +1535,7 @@ director:[
 
 桌上的電話直通孫寧本人。
 理論上。`);}},
- {id:'sunlabels',x:132,y:118,w:62,h:20,label:'三個角色立牌',fn(){S.flags.sawSunLabels=1;showModal('飛天小女警立牌',`三個立牌的底座，各貼著一個數字：
+ {id:'sunlabels',x:130,y:128,w:66,h:20,label:'三個角色立牌',fn(){S.flags.sawSunLabels=1;showModal('飛天小女警立牌',`三個立牌的底座，各貼著一個數字：
 
 毛毛【7】　花花【4】　泡泡【9】
 
@@ -1549,13 +1552,13 @@ director:[
 偏偏，就是分開保管了。`,'<span class="getitem">🪪 主管覆核卡</span>');
    }});
  }},
- {id:'blueart',x:60,y:74,w:70,h:42,label:'藍色幾何畫',fn(){S.flags.sawBlueArt=1;showModal('藍色幾何畫',`一幅藍色幾何畫，據說很貴。
+ {id:'blueart',x:48,y:80,w:82,h:44,label:'藍色幾何畫',fn(){S.flags.sawBlueArt=1;showModal('藍色幾何畫',`一幅藍色幾何畫，據說很貴。
 
 作品標籤：【系列編號 86】
 
 標籤下有人用鉛筆補了一行：
 「視覺識別組出品」。`);}},
- {id:'sunphone',x:266,y:126,w:30,h:22,label:'孫寧的桌上電話',fn(){openPhone();callSun();}},
+ {id:'sunphone',x:266,y:126,w:30,h:30,label:'孫寧的桌上電話',fn(){openPhone();callSun();}},
  {id:'suntray',x:318,y:98,w:52,h:72,label:'待簽文件櫃',fn(){S.flags.sawRuruFile=1;showModal('待簽文件櫃',`第二層放著 Ruru 今天剛送來的結案文件：
 「weekly_close_final_v07」
 
@@ -1563,7 +1566,7 @@ director:[
 旁邊畫了一個戴墨鏡的小笑臉🙂`);}},
 ],
 toilet:[
- {id:'mirror',x:150,y:70,w:40,h:30,label:'起霧的鏡子',fn(){showModal('起霧的鏡子',`鏡面蒙著一層薄霧。手電筒斜著一照，
+ {id:'mirror',x:150,y:66,w:44,h:34,label:'起霧的鏡子',fn(){showModal('起霧的鏡子',`鏡面蒙著一層薄霧。手電筒斜著一照，
 浮出兩行事先用手指寫下的字：
 
 【B 路線＝卡 ＋ 標籤】
@@ -1571,7 +1574,7 @@ toilet:[
 
 ……是誰蹲在深夜的女廁寫操作說明？
 大概是佈置到崩潰的 Kat。`);}},
- {id:'sink',x:60,y:130,w:80,h:14,label:'洗手台下方',fn(){
+ {id:'sink',x:56,y:118,w:92,h:22,label:'洗手台下方',fn(){
    if(S.inv.tempcard){showModal('洗手台下方','已經沒有別的東西了。\n水管滴著水。一滴，一滴。你決定快點離開這裡。');return;}
    addItem('tempcard');showModal('洗手台下方',`手電筒往洗手台下一照——縫隙裡塞著一張卡。
 
@@ -1582,7 +1585,7 @@ toilet:[
 門禁系統叫你的那個代號。
 這張卡在這裡等的人……就是你。`,'<span class="getitem">💳 無名的測試卡</span>');
  }},
- {id:'stall',x:280,y:100,w:60,h:70,label:'隔間門後的逃生圖',fn(){showModal('隔間門後的逃生圖',`一張消防逃生圖，三條路線被螢光筆描過：
+ {id:'stall',x:276,y:84,w:68,h:90,label:'隔間門後的逃生圖',fn(){showModal('隔間門後的逃生圖',`一張消防逃生圖，三條路線被螢光筆描過：
 正門、頂樓消防梯、後勤側門。
 
 角落的塗鴉：「窗戶不是路線 D。」
@@ -1625,22 +1628,22 @@ roof:[
 門鎖「喀」一聲彈開，
 樓梯間的緊急照明一路亮到一樓。`,'<div class="optlist"><button class="opt" onclick="closeModal();endGame(\'firestairs\')">🚪 走消防梯離開七樓</button><button class="opt" onclick="closeModal()">暫時不走</button></div>');
  }},
- {id:'pipe',x:352,y:90,w:22,h:86,label:'排水管（樓邊）',fn(){showModal('排水管',`大樓外牆的排水管，在雨後的夜裡泛著濕漉漉的光。
+ {id:'pipe',x:350,y:88,w:12,h:88,label:'排水管（樓邊）',fn(){showModal('排水管',`大樓外牆的排水管，在雨後的夜裡泛著濕漉漉的光。
 它一路通往地面——也一路通往社會新聞。`,'<div class="optlist"><button class="opt danger" onclick="closeModal();endGame(\'pipe\')">🧗 爬下去。我核心很有力。</button><button class="opt" onclick="closeModal()">不自行新增出口</button></div>');}},
- {id:'chairs',x:180,y:146,w:64,h:22,label:'兩張塑膠椅',fn(){showModal('兩張塑膠椅',`兩張塑膠椅面向夜景，椅背分別寫著：
+ {id:'chairs',x:180,y:148,w:50,h:20,label:'兩張塑膠椅',fn(){showModal('兩張塑膠椅',`兩張塑膠椅面向夜景，椅背分別寫著：
 「高塔不是高樓」「Roadmap 不要掉下去」
 
 你坐了三分鐘。夜風很涼，城市很亮。
 好。繼續逃。`);}},
- {id:'sky',x:120,y:40,w:120,h:40,label:'夜空',fn(){showModal('夜空',`雨停了，雲縫裡漏出幾顆星。
+ {id:'sky',x:200,y:20,w:100,h:44,label:'夜空',fn(){showModal('夜空',`雨停了，雲縫裡漏出幾顆星。
 
 被反鎖的第 N 分鐘，你在頂樓看夜景。
 拍了一張。沒發。
 現在發文，讚數會輸給明天的故事。`);}},
 ],
 lobby:[
- {id:'door',x:150,y:70,w:100,h:104,label:'公司正門（A 路線）',fn(){doorAction();}},
- {id:'guard',x:40,y:130,w:56,h:26,label:'警衛桌',fn(){S.flags.sawWireMemo=1;showModal('警衛桌',`警衛伯伯的桌墊下壓著：孫子的畫、班表（週日：休），
+ {id:'door',x:146,y:66,w:108,h:110,label:'公司正門（A 路線）',fn(){doorAction();}},
+ {id:'guard',x:36,y:126,w:62,h:42,label:'警衛桌',fn(){S.flags.sawWireMemo=1;showModal('警衛桌',`警衛伯伯的桌墊下壓著：孫子的畫、班表（週日：休），
 一張「夜間演練聯絡表」——三條路線的「負責人」欄位全部空白，
 還有一張《頂樓電箱檢線備忘》：
 
@@ -1738,11 +1741,12 @@ function drawHotspots(){
   if(darkZone())return;
   const spots=SPOTS[S.zone]||[];
   g.save();g.setLineDash([3,3]);g.lineWidth=1;
+  g.shadowColor='rgba(18,11,4,.9)';g.shadowBlur=0;g.shadowOffsetX=1;g.shadowOffsetY=1;
   spots.forEach(sp=>{
     const hot=hoverSpot===sp;
-    g.strokeStyle=hot?'rgba(179,49,44,.98)':(TOUCH_MODE?'rgba(210,178,111,.62)':'rgba(210,178,111,.34)');
-    g.fillStyle=hot?'rgba(179,49,44,.12)':(TOUCH_MODE?'rgba(210,178,111,.055)':'rgba(210,178,111,.026)');
-    g.fillRect(sp.x-2,sp.y-2,sp.w+4,sp.h+4);g.strokeRect(sp.x-.5,sp.y-.5,sp.w+1,sp.h+1);
+    g.strokeStyle=hot?'rgba(179,49,44,.98)':(TOUCH_MODE?'rgba(210,178,111,.7)':'rgba(210,178,111,.4)');
+    g.fillStyle=hot?'rgba(179,49,44,.12)':(TOUCH_MODE?'rgba(210,178,111,.05)':'rgba(210,178,111,.026)');
+    g.fillRect(sp.x-1,sp.y-1,sp.w+2,sp.h+2);g.strokeRect(sp.x-.5,sp.y-.5,sp.w+1,sp.h+1);
     if(hot){
       g.setLineDash([]);g.font='10px "Microsoft JhengHei",sans-serif';
       const tw=Math.min(150,g.measureText(sp.label).width+10),tx=Math.max(2,Math.min(398-tw,sp.x)),ty=Math.max(12,sp.y-7);
@@ -1807,7 +1811,7 @@ sales(){
   deskP(184,140,54,1,'#10305a');chairP(196,158);R(g,'#8b5a36',204,128,12,8);R(g,'#ffc46a',207,130,6,4);
   deskP(250,140,54,1,'#10305a');chairP(262,158);R(g,'#efe6d0',274,126,20,10);R(g,'#7dffa8',278,129,12,2);
   R(g,'#34345e',320,134,52,36);R(g,'#252548',322,136,48,15);R(g,'#252548',322,153,48,15);R(g,'#ffc46a',362,142,4,5);R(g,'#ffc46a',362,158,4,5);
-  g.fillStyle='#dcdcf0';g.font='8px monospace';g.fillText('GINA',191,119);g.fillText('RURU',257,119);
+  g.fillStyle='#dcdcf0';g.font='8px monospace';g.fillText('GINA',191,114);g.fillText('RURU',257,114);
 },
 meet_s(){
   roomBase('#101024',180,'#15152c');
