@@ -709,7 +709,7 @@
   .intro-printer-screen{position:absolute;right:14px;top:10px;padding:5px 9px;background:#101712;border:1px solid #51604d;color:#8fb083;font:10px monospace;letter-spacing:2px;}
   .intro-printer-slot{position:absolute;left:8%;right:8%;bottom:18px;height:12px;background:#070706;border:2px solid #4b4740;box-shadow:inset 0 4px 5px #000;}
   .intro-printer-tray{position:absolute;left:15%;right:15%;bottom:-18px;height:28px;border:2px solid #4e4a42;border-top:none;background:linear-gradient(#24221e,#11100e);transform:perspective(120px) rotateX(35deg);transform-origin:top;}
-  .intro-paper-sheet{position:relative;z-index:2;animation:introPaperFeed 1.85s cubic-bezier(.2,.72,.2,1) both;transform-origin:top center;}
+  .intro-paper-sheet{position:relative;z-index:2;animation:introPaperFeed 1.85s cubic-bezier(.2,.72,.2,1) backwards;transform-origin:top center;}
   #intro.reopen .intro-paper-sheet{animation:none;}
   @keyframes introPaperFeed{0%{transform:translateY(-360px) scaleY(.18);opacity:.15}22%{opacity:1}68%{transform:translateY(-18px) scaleY(1.01)}82%{transform:translateY(6px) scaleY(.995)}100%{transform:translateY(0) scaleY(1)}}
   @keyframes printerLight{50%{opacity:.35}}
@@ -898,8 +898,12 @@
 
 
   /* prevent accidental double-tap zoom while operating mechanisms */
-  html,body,button,.abtn,.navbtn,.opt,.padbtn,#cv,#stage,.fullov{touch-action:manipulation;}
-  input,textarea,select{font-size:16px;}
+  html,body{touch-action:pan-x pan-y;}
+  button,.abtn,.navbtn,.opt,.padbtn,#cv,#stage{touch-action:manipulation;}
+  .fullov{touch-action:pan-y;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;height:100dvh;max-height:100dvh;}
+  #intro{touch-action:pan-y;}
+  #intro .intro-paper-sheet,#intro .paper{touch-action:pan-y;}
+  input,textarea,select{font-size:16px;touch-action:manipulation;}
 
   /* opening sign-in area */
   .intro-sign-zone{
