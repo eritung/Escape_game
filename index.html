@@ -469,7 +469,7 @@
   .side-lock-unit{--angle:0deg;--pull:0px;position:absolute;left:50%;top:56%;width:138px;height:138px;z-index:7;transform:translate(calc(-50% + var(--pull)),-50%);transition:transform .12s ease;touch-action:none;}
   .side-lock-unit.pullable{cursor:ew-resize;}
   .side-dial{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at center,#2c281f 0 38%,#887858 39% 43%,#2b261e 44% 59%,#95825d 60% 62%,#29251d 63%),repeating-conic-gradient(from -5deg,#b6a17a 0 2deg,transparent 2deg 15deg);border:2px solid #a08c65;box-shadow:0 8px 20px rgba(0,0,0,.45),inset 0 0 0 3px #17140f;}
-  .side-dial::before{content:'';position:absolute;left:50%;top:-13px;width:3px;height:17px;background:#b63a33;transform:translateX(-50%);box-shadow:0 0 7px rgba(182,58,51,.45);}
+  .side-dial::before{content:'';position:absolute;right:-13px;top:50%;width:17px;height:3px;background:#b63a33;transform:translateY(-50%);box-shadow:0 0 7px rgba(182,58,51,.45);}
   .side-dial::after{content:'';position:absolute;left:-5px;top:25px;width:3px;height:15px;background:#cdb980;transform:rotate(-45deg);opacity:.9;}
   .side-handle{position:absolute;left:50%;top:50%;width:56px;height:12px;margin:-6px 0 0 0;transform-origin:0 50%;transform:rotate(var(--angle));cursor:grab;touch-action:none;background:linear-gradient(#b7aa8d,#645a48);border:2px solid #342f26;border-radius:2px 7px 7px 2px;box-shadow:0 4px 7px rgba(0,0,0,.45);}
   .side-handle:active{cursor:grabbing;}
@@ -492,17 +492,28 @@
   /* direct-manipulation puzzle upgrades */
   .side-lock-unit.disabled{pointer-events:none;filter:saturate(.55) brightness(.78);}
   .side-latch.target{outline:3px solid rgba(230,194,112,.82);box-shadow:0 0 0 5px rgba(230,194,112,.15),0 3px 8px rgba(0,0,0,.35),inset 0 0 0 2px #17130f;}
-  .piecechip{touch-action:none;}
-  .piecechip.dragging{opacity:.22;}
-  .piece-ghost{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%) rotate(-2deg);color:#f3ead8;border:1px solid rgba(0,0,0,.35);padding:8px 12px;font-size:12px;letter-spacing:1px;box-shadow:0 10px 24px rgba(0,0,0,.45);border-radius:4px;}
-  .slot.drop-hot{border-style:solid;border-color:#a42f2a;background:#f2dfbd;box-shadow:0 0 0 3px rgba(164,47,42,.12);}
-  .tray.drop-hot{outline:2px dashed #8a7550;outline-offset:5px;border-radius:4px;}
-  .draghelp{margin:8px 0 2px;text-align:center;color:#7b6d50;font-size:11px;letter-spacing:1px;}
+  .piecechip{touch-action:manipulation;}
   .wirebox.dragging{cursor:grabbing;}
   .wirebtn{touch-action:none;cursor:grab;}
   .wirebtn.dragging{filter:brightness(1.3);outline:2px solid #e6c983;}
   .wire-actions{display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
   .wire-actions .side-mini-btn:first-child{border-color:#55724b;color:#405b37;background:#e1e5cf;}
+  .breaker-console{margin:12px auto 6px;max-width:220px;padding:10px 12px 12px;background:#242016;border:1px solid #74613f;border-radius:7px;box-shadow:inset 0 0 0 3px #15120d,0 6px 14px rgba(0,0,0,.24);text-align:center;user-select:none;-webkit-user-select:none;}
+  .breaker-title{color:#d8c69a;font-size:10px;letter-spacing:2px;margin-bottom:7px;}
+  .breaker-shell{position:relative;width:92px;height:132px;margin:0 auto;background:linear-gradient(#3b3529,#201c15);border:2px solid #8a7750;border-radius:7px;box-shadow:inset 0 0 0 4px #17140f,inset 0 10px 18px rgba(0,0,0,.42);}
+  .breaker-label-on,.breaker-label-off{position:absolute;right:8px;color:#b9aa86;font-size:9px;letter-spacing:1px;}
+  .breaker-label-on{top:10px;color:#7fa171}.breaker-label-off{bottom:10px;color:#b45a50}
+  .breaker-track{position:absolute;left:18px;top:14px;width:44px;height:102px;background:#100e0a;border:1px solid #5f5137;border-radius:5px;box-shadow:inset 0 0 12px rgba(0,0,0,.8);}
+  .breaker-track::before{content:'';position:absolute;left:50%;top:13px;bottom:13px;width:4px;transform:translateX(-50%);background:#433a2a;border-radius:3px;}
+  .breaker-handle{position:absolute;left:5px;top:61px;width:34px;height:31px;z-index:2;touch-action:none;cursor:ns-resize;background:linear-gradient(#b7a47b,#5f5138);border:2px solid #241f18;border-radius:4px;box-shadow:0 5px 8px rgba(0,0,0,.55),inset 0 0 0 2px #887653;transition:top .18s ease,filter .16s ease;}
+  .breaker-handle::before{content:'';position:absolute;left:7px;right:7px;top:8px;height:4px;background:#30291e;box-shadow:0 7px 0 #30291e;}
+  .breaker-handle.dragging{transition:none;filter:brightness(1.18);cursor:grabbing;}
+  .breaker-handle.on{top:8px;filter:brightness(1.12);}
+  .breaker-arrow{margin-top:7px;color:#d8c69a;font-size:12px;letter-spacing:1px;animation:breakerArrow 1.1s ease-in-out infinite;}
+  @keyframes breakerArrow{50%{transform:translateY(-3px);opacity:.55}}
+  .breaker-status{margin-top:6px;color:#bbae90;font-size:10.5px;line-height:1.5;min-height:16px;}
+  .breaker-status.good{color:#8cac7d}.breaker-status.bad{color:#d07a70}
+  @media(max-width:520px){.breaker-console{max-width:200px}.breaker-shell{height:124px}.breaker-track{height:94px}.breaker-handle{top:54px}.breaker-handle.on{top:8px}}
   .termbtn.hot{outline:3px solid rgba(230,201,131,.75);background:#f3e8ce;}
   #wirepreview{filter:drop-shadow(0 0 5px rgba(255,225,150,.65));}
   .wheel-lock{margin-top:14px;padding-top:14px;border-top:1px dashed #8a7854;text-align:center;}
@@ -678,6 +689,212 @@
     #toast{font-size:13.5px;max-width:92vw;}
   }
 
+
+  /* unified responsive controls */
+  .abtn,.opt,.padbtn,.invitem,.closex,#phoneBack,.side-mini-btn,.piecechip,.slot{
+    max-width:100%;min-width:0;display:inline-flex;align-items:center;justify-content:center;text-align:center;
+    white-space:normal;overflow-wrap:anywhere;line-height:1.4;
+  }
+  .opt{width:100%;text-align:center;}
+  .phonehead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;}
+  .phonehead .closex{float:none;position:static;}
+  #phone h3{text-align:center;min-width:0;overflow-wrap:anywhere;}
+  .device-notice{margin:0 0 15px;padding:8px 10px;border:1px dashed #8d7a55;background:rgba(78,58,29,.06);color:#69583b;font-size:11px;line-height:1.7;text-align:center;letter-spacing:1px;position:relative;z-index:2;}
+
+  /* printer opening sequence */
+  #intro{padding-top:12px;}
+  .intro-printer{position:relative;z-index:4;width:min(560px,88vw);height:112px;margin:0 auto -58px;background:linear-gradient(#3c3a36,#1d1c1a);border:2px solid #716b60;border-radius:11px 11px 5px 5px;box-shadow:0 18px 34px rgba(0,0,0,.58),inset 0 0 0 4px #131210;}
+  .intro-printer-top{position:absolute;left:18px;right:18px;top:13px;height:46px;background:#292824;border:1px solid #615d53;border-radius:7px;}
+  .intro-printer-light{position:absolute;left:14px;top:15px;width:10px;height:10px;border-radius:50%;background:#77a06a;box-shadow:0 0 10px rgba(119,160,106,.8);animation:printerLight 1s steps(2) infinite;}
+  .intro-printer-screen{position:absolute;right:14px;top:10px;padding:5px 9px;background:#101712;border:1px solid #51604d;color:#8fb083;font:10px monospace;letter-spacing:2px;}
+  .intro-printer-slot{position:absolute;left:8%;right:8%;bottom:18px;height:12px;background:#070706;border:2px solid #4b4740;box-shadow:inset 0 4px 5px #000;}
+  .intro-printer-tray{position:absolute;left:15%;right:15%;bottom:-18px;height:28px;border:2px solid #4e4a42;border-top:none;background:linear-gradient(#24221e,#11100e);transform:perspective(120px) rotateX(35deg);transform-origin:top;}
+  .intro-paper-sheet{position:relative;z-index:2;animation:introPaperFeed 1.85s cubic-bezier(.2,.72,.2,1) both;transform-origin:top center;}
+  #intro.reopen .intro-paper-sheet{animation:none;}
+  @keyframes introPaperFeed{0%{transform:translateY(-360px) scaleY(.18);opacity:.15}22%{opacity:1}68%{transform:translateY(-18px) scaleY(1.01)}82%{transform:translateY(6px) scaleY(.995)}100%{transform:translateY(0) scaleY(1)}}
+  @keyframes printerLight{50%{opacity:.35}}
+
+  /* richer reward receipt */
+  #rewardCard{width:min(460px,90vw);min-width:0;max-height:72vh;overflow:auto;padding:16px 18px 18px;pointer-events:none;}
+  #rewardCard::before{content:none;}
+  #rewardTitle{color:#702923;border-bottom:1px solid #75613c;padding-bottom:8px;margin-bottom:8px;font-size:11px;letter-spacing:3px;font-weight:700;}
+  #rewardList{display:grid;gap:8px;text-align:left;}
+  .reward-entry{display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;align-items:start;padding:9px;background:rgba(255,247,224,.34);border:1px solid #9a865e;border-radius:7px;}
+  .reward-entry-icon{font-size:30px;line-height:1;text-align:center;filter:drop-shadow(0 3px 5px rgba(70,49,24,.25));}
+  .reward-entry-text{min-width:0;}
+  .reward-entry-text b{display:block;color:#6e421c;font-size:13px;line-height:1.45;margin-bottom:3px;overflow-wrap:anywhere;}
+  .reward-entry-text span{display:block;color:#594a33;font-size:11px;line-height:1.65;white-space:pre-line;}
+  #rewardCard.reward-show{animation:rewardPop .28s steps(4);}
+
+  /* building-wide power restoration */
+  body.powered{background:linear-gradient(170deg,#211b10 0%,#17130c 58%,#21190e 100%);}
+  body.powered #stage{box-shadow:0 18px 44px rgba(0,0,0,.42);}
+  #powerSequence{display:none;position:fixed;inset:0;z-index:92;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,rgba(86,69,40,.18),transparent 35%),rgba(7,6,4,.97);padding:20px;}
+  .power-sequence-inner{text-align:center;}
+  .power-building{width:min(350px,76vw);padding:14px 18px 18px;background:#1c1a17;border:3px solid #5e584c;box-shadow:0 24px 60px rgba(0,0,0,.7),inset 0 0 0 5px #0d0c0a;}
+  .power-roof{margin:-42px auto 12px;width:70%;padding:7px 10px;background:#25231f;border:2px solid #5e584c;color:#a69b82;font-size:11px;letter-spacing:4px;}
+  .power-floor{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:8px 0;}
+  .power-floor span{aspect-ratio:1.25;background:#111318;border:1px solid #383a3d;box-shadow:inset 0 0 8px #000;}
+  .power-entry{width:28%;height:28px;margin:10px auto 0;background:#101217;border:1px solid #3b3d42;}
+  #powerSequence.run .power-floor:nth-child(8) span{animation:windowOn .28s .18s forwards;}
+  #powerSequence.run .power-floor:nth-child(7) span{animation:windowOn .28s .42s forwards;}
+  #powerSequence.run .power-floor:nth-child(6) span{animation:windowOn .28s .66s forwards;}
+  #powerSequence.run .power-floor:nth-child(5) span{animation:windowOn .28s .90s forwards;}
+  #powerSequence.run .power-floor:nth-child(4) span{animation:windowOn .28s 1.14s forwards;}
+  #powerSequence.run .power-floor:nth-child(3) span{animation:windowOn .28s 1.38s forwards;}
+  #powerSequence.run .power-floor:nth-child(2) span{animation:windowOn .28s 1.62s forwards;}
+  #powerSequence.run .power-entry{animation:windowOn .3s 1.84s forwards;}
+  .power-caption{margin-top:20px;color:#d8c89f;font-size:13px;letter-spacing:3px;opacity:0;}
+  #powerSequence.run .power-caption{animation:powerCaption .4s 1.92s forwards;}
+  @keyframes windowOn{to{background:#ffe49b;border-color:#e8c979;box-shadow:0 0 16px rgba(255,226,143,.82),inset 0 0 7px rgba(255,255,255,.65)}}
+  @keyframes powerCaption{to{opacity:1}}
+
+  /* fire-stair verification mechanism */
+  .fire-mech-wrap{text-align:center;margin-top:10px;}
+  .fire-mech-status{min-height:38px;padding:8px 10px;margin-bottom:9px;background:#2c271e;border:1px solid #756541;color:#d8c69c;font-size:11px;line-height:1.55;border-radius:5px;}
+  .fire-mech-status.ok{color:#b9d2aa;border-color:#607c54}.fire-mech-status.bad{color:#e1a09a;border-color:#9b4a42}
+  .fire-visual{position:relative;width:min(100%,430px);height:310px;margin:0 auto;overflow:hidden;touch-action:none;background:linear-gradient(90deg,#262219,#40382b 10%,#29251d 11% 89%,#40382b 90%,#262219);border:2px solid #6f6044;border-radius:8px;box-shadow:inset 0 0 0 4px #17140f,inset 0 0 42px rgba(0,0,0,.55);}
+  .fire-door-leaf{position:absolute;right:18px;top:16px;width:45%;height:278px;background:linear-gradient(160deg,#51483a,#2d2921);border:2px solid #827253;transform-origin:right center;transition:transform .7s ease,filter .7s ease;box-shadow:inset 0 0 0 4px #211c15;}
+  .fire-door-leaf span{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) rotate(90deg);color:#b63b34;border:2px solid #9a342e;padding:7px 15px;font-size:11px;letter-spacing:3px;white-space:nowrap;opacity:.75;}
+  .fire-door-leaf.open{transform:perspective(600px) rotateY(70deg);filter:brightness(.7);}
+  .fire-reader{position:absolute;left:22px;top:28px;width:112px;height:100px;background:#26231c;border:2px solid #817052;border-radius:7px;box-shadow:inset 0 0 0 3px #15120e;}
+  .fire-reader-screen{position:absolute;left:14px;right:14px;top:14px;height:28px;display:grid;place-items:center;background:#0b140e;border:1px solid #4e654c;color:#82a77b;font:11px monospace;letter-spacing:2px;}
+  .fire-reader-slot{position:absolute;left:16px;right:16px;bottom:18px;height:9px;background:#070706;border:1px solid #574c38;}
+  .fire-reader-led{position:absolute;right:8px;top:8px;width:8px;height:8px;border-radius:50%;background:#8f332e;box-shadow:0 0 7px rgba(143,51,46,.7);}.fire-reader-led.on{background:#5d8a51;box-shadow:0 0 10px rgba(93,138,81,.8)}
+  .fire-card{position:absolute;left:31px;top:214px;width:94px;height:58px;z-index:5;touch-action:none;cursor:ns-resize;background:linear-gradient(145deg,#e8ddbd,#b9aa84);border:2px solid #6c5a37;border-radius:5px;box-shadow:0 6px 10px rgba(0,0,0,.42);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#4d3822;transition:top .18s ease;}.fire-card.dragging{transition:none}.fire-card b{font-size:15px;letter-spacing:2px}.fire-card small{font-size:8px;letter-spacing:1px;margin-top:4px}
+  .fire-chip-base{position:absolute;left:33px;top:147px;width:90px;height:90px;border-radius:50%;background:#1d1a15;border:2px solid #766543;box-shadow:inset 0 0 0 5px #100e0b;}
+  .fire-chip-marker{position:absolute;left:50%;top:5px;width:3px;height:16px;background:#e4d0a0;transform:translateX(-50%);}
+  .fire-chip{position:absolute;inset:15px;border-radius:50%;touch-action:none;cursor:grab;background:radial-gradient(circle,#7a6c50 0 40%,#2f2a21 42% 58%,#a3926a 60%);border:2px solid #a8956b;box-shadow:0 5px 9px rgba(0,0,0,.42);transform-origin:center;}.fire-chip span{position:absolute;left:50%;top:5px;transform:translateX(-50%);color:#e7d8b2;font-size:8px;letter-spacing:1px;}
+  .fire-latch-track{position:absolute;right:36px;bottom:32px;width:116px;height:116px;background:#211e18;border:2px solid #6f6044;border-radius:6px;box-shadow:inset 0 0 0 4px #12100d;}
+  .fire-latch{position:absolute;left:14px;right:14px;top:10px;height:34px;display:grid;place-items:center;touch-action:none;cursor:ns-resize;background:linear-gradient(#a99a78,#574c37);border:2px solid #29241c;border-radius:4px;color:#2b2318;font-size:10px;letter-spacing:1px;box-shadow:0 5px 8px rgba(0,0,0,.45);}
+  .fire-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;}.fire-step{padding:7px 4px;border:1px dashed #927e57;background:rgba(239,227,198,.42);color:#806f4f;font-size:10px;line-height:1.4;border-radius:5px}.fire-step.active{border-style:solid;color:#70491f;background:#efe0be}.fire-step.done{border-style:solid;border-color:#607853;color:#45603b;background:#dfe4c9}.fire-reset{margin-top:8px;}
+
+  @media(max-width:640px){
+    .btnrow .abtn{flex:1 1 calc(50% - 6px);min-height:44px;padding:8px 6px;font-size:11.5px;}
+    .papersign{flex-direction:column;align-items:stretch;}
+    .papersign .abtn{width:100%;}
+    .phonehead{gap:5px;}.phonehead .closex,#phoneBack{padding:7px 8px;font-size:11px;}
+    #phone h3{font-size:14px;letter-spacing:1px;}
+    #modal{max-height:88vh;}
+    .opt,.padbtn,.side-mini-btn{min-height:44px;}
+    .slotrow{width:100%;gap:5px;}.slot{flex:1 1 0;min-width:0;}
+    .intro-printer{width:92vw;height:96px;margin-bottom:-49px;}.intro-printer-top{height:40px}.intro-printer-slot{bottom:15px}
+    .intro-paper-sheet{width:100%;}
+    #rewardCard{width:92vw;max-height:76vh;padding:14px;}.reward-entry{grid-template-columns:38px minmax(0,1fr);padding:8px}.reward-entry-icon{font-size:26px}
+    .fire-visual{height:290px}.fire-door-leaf{height:258px}.fire-reader{transform:scale(.92);transform-origin:left top}.fire-card{left:28px}.fire-chip-base{left:28px;top:139px}.fire-latch-track{right:24px;bottom:26px}.fire-step{font-size:9px;padding:6px 2px}
+  }
+  @media(max-width:380px){
+    .btnrow .abtn{font-size:10.5px;}
+    .navbtn{font-size:12px;padding:8px 10px;}
+    .phonehead .closex,#phoneBack{font-size:10px;padding:7px 6px;}
+    #phone h3{font-size:13px;}
+    .fire-latch-track{right:15px;transform:scale(.9);transform-origin:right bottom;}
+  }
+
+
+  #intro .intro-paper-sheet .paper{padding-top:84px;}
+  @media(max-width:640px){
+    #navbar{display:flex;flex-wrap:nowrap;gap:5px;overflow-x:auto;justify-content:flex-start;padding:0 2px 5px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+    #navbar::-webkit-scrollbar{display:none;}
+    .navbtn{flex:0 0 auto;width:auto;min-width:max-content;white-space:nowrap;line-height:1.35;text-align:center;display:flex;align-items:center;justify-content:center;}
+    #intro .intro-paper-sheet .paper{padding-top:76px;}
+  }
+
+
+
+  /* collapsible utility menu */
+  #topbar{display:block;padding:8px 10px;}
+  .toolmenu-toggle{display:flex;align-items:center;justify-content:center;gap:8px;min-width:150px;margin:0 auto;position:relative;}
+  .toolmenu-panel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:8px;width:100%;}
+  .toolmenu-panel[hidden]{display:none!important;}
+  .toolmenu-panel .abtn{width:100%;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.35;white-space:normal;}
+
+  /* player name entry */
+  .name-entry{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;margin:14px 0 4px;padding:11px 12px;border:1px dashed #8a7550;background:rgba(255,248,228,.42);position:relative;z-index:2;}
+  .name-entry span{font-size:13px;font-weight:700;letter-spacing:2px;color:#5b4528;}
+  .name-entry input{width:100%;min-width:0;border:1px solid #8a7550;background:#f8edd6;color:#2f2518;padding:9px 10px;font:14px inherit;border-radius:4px;outline:none;}
+  .name-entry input:focus{border-color:#8d2e29;box-shadow:0 0 0 2px rgba(141,46,41,.12);}
+  .name-entry-error{min-height:20px;color:#a4312c;font-size:11px;line-height:1.6;text-align:center;position:relative;z-index:2;}
+
+  /* powered scene treatment: the canvas palette itself changes after power restoration */
+  body.powered #cv{filter:none;}
+  body.powered #stage{background:linear-gradient(165deg,#f4ead1,#dfcfaa);}
+  body.powered #scenename{background:rgba(249,239,212,.96);box-shadow:none;}
+
+  /* pictogram login */
+  .food-puzzle{margin-top:12px;text-align:center;}
+  .food-screen{padding:10px 12px;margin-bottom:10px;background:#252019;border:1px solid #75613e;border-radius:6px;color:#d9c9a2;font:12px monospace;letter-spacing:1px;line-height:1.7;}
+  .food-sequence{display:flex;justify-content:center;gap:8px;min-height:52px;margin:10px 0;}
+  .food-slot{width:92px;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:rgba(239,226,194,.45);border:2px dashed #9a865e;border-radius:7px;color:#8b7c60;font-size:20px;}
+  .food-slot.filled{border-style:solid;border-color:#6b5b3b;background:#efe2c4;color:#3a2b19;}.food-slot small{display:block;font-size:9px;line-height:1.25;color:#6f6046;}
+  .food-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+  .food-tile{min-height:78px;padding:8px 5px;border:1px solid #8f7b55;background:#e8dab9;color:#312719;border-radius:7px;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;touch-action:manipulation;}
+  .food-tile:hover,.food-tile:focus{border-color:#8f302b;background:#f1e5ca;}
+  .food-tile.used{opacity:.35;pointer-events:none;}
+  .food-icons{font-size:23px;line-height:1.2;}
+  .food-label{font-size:10px;line-height:1.35;color:#6f6046;}
+  .food-actions{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+
+  /* main entrance visual mechanism */
+  .main-door-wrap{text-align:center;margin-top:10px;}
+  .main-door-status{min-height:40px;padding:8px 10px;margin-bottom:9px;background:#29251d;border:1px solid #75613e;color:#d8c69c;border-radius:5px;font-size:11px;line-height:1.55;}
+  .main-door-status.ok{color:#bcd4ae;border-color:#607a54;}.main-door-status.bad{color:#e1a09a;border-color:#9b4a42;}
+  .main-door-visual{position:relative;width:min(100%,440px);height:340px;margin:0 auto;overflow:hidden;touch-action:none;background:linear-gradient(90deg,#282219,#4a4030 9%,#29251e 10% 90%,#4a4030 91%,#282219);border:2px solid #725f42;border-radius:8px;box-shadow:inset 0 0 0 4px #15120e,inset 0 0 45px rgba(0,0,0,.6);}
+  .main-door-leaf{position:absolute;top:16px;width:38%;height:305px;background:linear-gradient(155deg,rgba(35,52,62,.92),rgba(10,16,22,.96));border:2px solid #59656b;box-shadow:inset 0 0 0 4px #11171b;transition:transform .8s ease,filter .8s ease;}
+  .main-door-leaf.left{left:16px;transform-origin:left center;}.main-door-leaf.right{right:16px;transform-origin:right center;}
+  .main-door-leaf::after{content:'';position:absolute;inset:8px;background:linear-gradient(120deg,transparent 0 35%,rgba(170,207,220,.12) 36% 38%,transparent 39% 100%);}
+  .main-door-visual.open .main-door-leaf.left{transform:perspective(700px) rotateY(-72deg);filter:brightness(.65);}
+  .main-door-visual.open .main-door-leaf.right{transform:perspective(700px) rotateY(72deg);filter:brightness(.65);}
+  .main-panel{position:absolute;left:50%;top:28px;transform:translateX(-50%);width:174px;padding:12px 12px 14px;background:#242019;border:2px solid #776543;border-radius:8px;box-shadow:0 8px 16px rgba(0,0,0,.5),inset 0 0 0 3px #15120e;z-index:5;}
+  .main-display{height:34px;display:grid;grid-template-columns:repeat(6,1fr);gap:4px;align-items:center;padding:5px;background:#09110c;border:1px solid #52644f;color:#8fb084;font:18px monospace;letter-spacing:0;}
+  .main-display span{display:grid;place-items:center;min-width:0;}
+  .main-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;}
+  .main-key{min-height:36px;border:1px solid #75613f;background:#d9cba9;color:#332719;border-radius:4px;font:15px inherit;cursor:pointer;box-shadow:0 3px 0 #6a5b40;}
+  .main-key:active{transform:translateY(2px);box-shadow:0 1px 0 #6a5b40;}
+  .main-key.clear{color:#91332d;}.main-key.enter{color:#45603b;}
+  .main-lock-led{position:absolute;right:9px;top:9px;width:9px;height:9px;border-radius:50%;background:#8c332d;box-shadow:0 0 8px rgba(140,51,45,.75);}
+  .main-lock-led.on{background:#5f8f53;box-shadow:0 0 12px rgba(95,143,83,.9);}
+  .main-release-track{position:absolute;right:24px;bottom:28px;width:76px;height:142px;padding:8px;background:#211e18;border:2px solid #6f6044;border-radius:7px;box-shadow:inset 0 0 0 4px #12100d;z-index:7;opacity:.35;transition:opacity .2s ease;}
+  .main-release-track.active{opacity:1;}
+  .main-release-label{font-size:9px;color:#c8b890;letter-spacing:1px;margin-bottom:7px;}
+  .main-release-lever{position:absolute;left:10px;right:10px;top:30px;height:38px;display:grid;place-items:center;touch-action:none;cursor:ns-resize;background:linear-gradient(#b4a17b,#5f523b);border:2px solid #29241c;border-radius:4px;color:#2b2318;font-size:10px;box-shadow:0 5px 8px rgba(0,0,0,.45);}
+  .main-door-alt{margin-top:9px;}
+
+  /* completion certificate */
+  .certificate-wrap{max-width:620px;margin:18px auto 0;padding:12px;background:rgba(255,244,214,.05);border:1px solid rgba(205,189,153,.28);border-radius:8px;text-align:center;}
+  .certificate-wrap[hidden]{display:none!important;}
+  #certificateImg{display:block;width:100%;height:auto;border:1px solid #8d7a55;box-shadow:0 14px 34px rgba(0,0,0,.45);-webkit-touch-callout:default;user-select:auto;}
+  .certificate-hint{margin:10px 0 8px;color:#b9aa8b;font-size:11px;line-height:1.7;letter-spacing:1px;}
+  .certificate-download{display:inline-flex;text-decoration:none;align-items:center;justify-content:center;}
+
+  .fire-chip-line{position:absolute;left:3px;top:50%;width:18px;height:3px;background:#f1dfb7;transform:translateY(-50%);box-shadow:0 0 5px rgba(241,223,183,.65);}
+
+  @media(max-width:640px){
+    .toolmenu-panel{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .name-entry{grid-template-columns:1fr;gap:6px;text-align:center;}
+    .food-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+    .food-slot{width:84px;min-height:58px;}
+    .main-door-visual{height:330px;}
+    .main-panel{left:43%;width:164px;}
+    .main-release-track{right:10px;width:68px;}
+  }
+
+
+  /* persistent play record and escape stamp book */
+  .profile-summary{margin:5px 0 10px;text-align:center;color:#756648;font-size:11px;line-height:1.7;letter-spacing:1px;position:relative;z-index:2;}
+  .stampbook-summary{padding:10px 12px;margin-bottom:10px;background:rgba(240,230,204,.55);border:1px solid #98865f;border-radius:7px;color:#4f402b;text-align:center;font-size:12px;line-height:1.8;}
+  .escape-stamp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px;}
+  .escape-stamp-card{min-width:0;padding:12px 7px;background:#e7d9b8;border:1px dashed #9c8962;border-radius:8px;text-align:center;color:#84765a;}
+  .escape-stamp-card.unlocked{background:#efe2c4;border-style:solid;border-color:#8e5c34;color:#4d3822;}
+  .escape-stamp-seal{width:78px;height:78px;margin:0 auto 8px;border:3px dashed #9b8c70;border-radius:50%;display:grid;place-items:center;transform:rotate(-7deg);font-size:12px;line-height:1.35;letter-spacing:1px;color:#9b8c70;}
+  .escape-stamp-card.unlocked .escape-stamp-seal{border:4px double #a43a32;color:#a43a32;background:rgba(164,58,50,.05);font-weight:700;}
+  .escape-stamp-name{font-size:12px;font-weight:700;line-height:1.45;}
+  .escape-stamp-meta{margin-top:5px;font-size:10px;line-height:1.55;color:#817358;}
+  .certificate-stamp-book{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0 0 10px;}
+  .certificate-stamp-chip{padding:7px 4px;border:1px dashed rgba(205,189,153,.32);border-radius:6px;color:#8f8267;font-size:10px;line-height:1.4;}
+  .certificate-stamp-chip.unlocked{border-style:solid;border-color:#a44a42;color:#d9a49f;background:rgba(164,58,50,.08);}
+  @media(max-width:520px){.escape-stamp-grid{gap:6px}.escape-stamp-card{padding:9px 3px}.escape-stamp-seal{width:64px;height:64px;font-size:10px}.escape-stamp-name{font-size:10.5px}.escape-stamp-meta{font-size:9px}}
+
 </style>
 </head>
 <body>
@@ -685,12 +902,14 @@
   <h1 class="title">◆ 《協和大樓逃脫計劃》 ◆</h1>
 
   <div id="topbar">
-    <div class="btnrow">
+    <button class="abtn gray toolmenu-toggle" id="btnTools" aria-expanded="false">☰ 功能選單<span class="badge" id="menubadge"></span></button>
+    <div class="btnrow toolmenu-panel" id="toolmenu" hidden>
       <button class="abtn gray" id="btnRules">📜 守則</button>
       <button class="abtn gray" id="btnPhone">📱 手機<span class="badge" id="msgbadge"></span></button>
       <button class="abtn gray" id="btnClues">📋 線索板</button>
       <button class="abtn pink" id="btnHint">🔮 遠端占卜</button>
       <button class="abtn gray" id="btnAudio">🔊 BGM</button>
+      <button class="abtn gray" id="btnRecords">🛂 逃生戳章</button>
     </div>
   </div>
 
@@ -738,11 +957,17 @@
   </div>
 
   <div class="fullov" id="intro">
-    <div class="fullin">
+    <div class="intro-printer" aria-hidden="true">
+      <div class="intro-printer-top"><span class="intro-printer-light"></span><span class="intro-printer-screen">PRINTING</span></div>
+      <div class="intro-printer-slot"></div>
+      <div class="intro-printer-tray"></div>
+    </div>
+    <div class="fullin intro-paper-sheet">
       <div class="paper">
         <div class="papermeta"><span>七管字第 0407 號</span><span>發文日期：（字跡暈開，無法辨識）</span></div>
         <div class="paperhead">七 樓 夜 間 守 則</div>
         <div class="paperorg">Ad2 大樓管理委員會（七樓）｜本守則於 23:00 後自動生效</div>
+        <div class="device-notice">裝置提示｜本演練包含拖曳、旋轉與滑動機關，建議使用電腦遊玩；手機亦可操作。</div>
         <div class="story">週日深夜加班，23:00 整——
 燈滅，大門上鎖。
 沒接電源線的印表機，吐出了這張紙：
@@ -755,8 +980,11 @@
 天亮之前，守則只保護遵守守則的人。
 祝週一愉快。」</div>
         <div class="clause dead" style="margin-top:12px"><b>附註</b>【已刪除】<span class="redactbar"></span></div>
+        <label class="name-entry" for="playerNameInput"><span>簽收人姓名</span><input id="playerNameInput" maxlength="20" autocomplete="name" placeholder="請輸入姓名或暱稱"></label>
+        <div class="name-entry-error" id="nameEntryError"></div>
+        <div class="profile-summary" id="profileSummary"></div>
         <div class="papersign">
-          <span>簽收人：<u>　測試者 7F-01　</u></span>
+          <span>測試者編號：<u>　7F-01　</u></span>
           <button class="abtn" style="font-size:15px;padding:9px 22px" onclick="startGame()">✍ 按此視同簽收</button>
         </div>
         <span class="stamp round">七樓管委會<br>之印</span>
@@ -770,8 +998,14 @@
         <div class="papermeta"><span>Ad2 大樓管理委員會（七樓）｜事件報告書</span><span>案號 BP-2486</span></div>
         <h2 id="endtitle"></h2>
         <div class="story" id="endbody" style="margin-top:12px"></div>
-        <div class="papersign"><span>報告人：<u>　測試者 7F-01　</u></span><span style="color:#6a5c40;font-size:11px">歸檔：週一 00:00</span></div>
+        <div class="papersign"><span>報告人：<u id="endReporter">　測試者 7F-01　</u></span><span style="color:#6a5c40;font-size:11px" id="endArchive">歸檔：週一 00:00</span></div>
         <span class="stamp" id="endstamp">結案</span>
+      </div>
+      <div id="certificateWrap" class="certificate-wrap" hidden>
+        <div id="certificateStampBook" class="certificate-stamp-book"></div>
+        <img id="certificateImg" alt="七樓夜間離場證書，可在手機上長按儲存">
+        <div class="certificate-hint">手機可長按證書圖片儲存，再分享給朋友。</div>
+        <a class="abtn certificate-download" id="certificateDownload" download="七樓夜間離場證書.png">下載證書圖片</a>
       </div>
       <div class="center">
         <button class="abtn" id="endingBtn" onclick="endingAction()">↻ 再玩一次</button>
@@ -779,7 +1013,23 @@
     </div>
   </div>
 
-  <div id="rewardCard"><div id="rewardIcon"></div><div id="rewardName"></div></div>
+  <div id="rewardCard" role="status" aria-live="polite"><div id="rewardTitle"></div><div id="rewardList"></div></div>
+  <div id="powerSequence" aria-hidden="true">
+    <div class="power-sequence-inner">
+      <div class="power-building">
+        <div class="power-roof">協和大樓</div>
+        <div class="power-floor"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="power-floor"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="power-floor"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="power-floor"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="power-floor"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="power-floor"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="power-floor"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="power-entry"></div>
+      </div>
+      <div class="power-caption">主電源恢復｜照明迴路逐層啟動</div>
+    </div>
+  </div>
   <div id="pigeon"></div>
   <div id="toast"></div>
 </div>
@@ -829,8 +1079,8 @@ Rickey 到底把什麼藏在裡面？`},
 7F-01——門禁系統叫你的那個代號。
 這張卡在那裡等的人，就是你。`},
  release_handle:{n:'🛠 方形金屬把手',d:`沉甸甸的金屬把手，標籤寫著「後勤側門・停電用」。
-它能轉動鎖芯，但門上的上方安全扣必須同時固定。
-Kat 把「不插電」做成了需要三隻手的工程。`},
+它能轉動鎖芯，但門框上方的安全扣必須同時固定。
+保養說明建議使用長柄工具完成單人操作。`},
  sun_override:{n:'🪪 主管覆核卡',d:`孫寧抽屜裡的覆核卡，躺得端端正正。
 卡背印著【725】，和一行小字：「勿與識別碼分開保管。」
 ——偏偏，就是分開保管了。`},
@@ -888,18 +1138,16 @@ const MSG0=[
  {thread:'董伊淇',who:'董伊淇',tm:'17:19',tx:`照著做，不要自作聰明。
 尤其是「出口」那段。
 看起來像出口的，不一定是。`},
- {thread:'董伊淇',who:'董伊淇',tm:'17:21',tx:`補充：公用電腦密碼是 Kat 用外送菜單設的，
-還故意挑一個「我永遠忘不了」的==
-菜單還壓在我舊座位的杯塔下。`},
  {thread:'陳資涵',who:'陳資涵',tm:'17:32',tx:`下午桌上多了張紙條，叫我把一支鑰匙
 封進貢丸袋、夾子反向、收進冷凍庫？？
 字跡超像我自己的==但我沒寫過`},
  {thread:'陳資涵',who:'陳資涵',tm:'17:33',tx:`我照做了。紙條最後一行寫：
 「不照做的話，貢丸會知道。」
 貢丸會知道什麼？？`},
- {thread:'陳資涵',who:'陳資涵',tm:'17:35',tx:`對了，我媽這次塞了新口味「香菇貢丸」，
-我跟伊淇一提，她直接已讀我。
-她這輩子最恨的就是香菇==`},
+ {thread:'陳資涵',who:'陳資涵',tm:'17:35',tx:`伊淇的點餐備註又更新了：
+不吃菇類、香菜、豆製品、苦瓜、鹹蛋、仙草、蚵仔、
+沒切片的大型牡蠣、假葷食、芋頭、人工火鍋料、
+蒟蒻、木耳、四神湯。餐廳看到都先深呼吸。`},
  {thread:'高于雯',who:'高于雯',tm:'18:05',tx:`我也收到紙條==
 叫我把抽屜密碼撕成三片、藏在三個地方，
 還要在鎖上貼一首詩。詩是它寫好的。`},
@@ -942,8 +1190,8 @@ function getHint(){
  if(!f('salesDrawerOpen'))return `「錢幣三：兩個人的得意之作。」
 「一件掛在一樓的牆上，一件躺在主管的待簽櫃裡。」`;
  if(!has('key_meet'))return `「小會議室的備用鑰匙，在兩位業務的共用抽屜裡沉睡。」`;
- if(!f('pcOpen'))return `「寶劍侍從，逆位：密碼是一道她死都不點的菜。」
-「菜單壓在舊座位的杯塔下。至於是哪一道——聊天室裡，有人抱怨過。」`;
+ if(!f('pcOpen'))return `「寶劍侍從，正位：登入頁要你做的是排除。」
+「先把聊天室裡那份避雷清單看完，再從圖卡裡留下沒有踩雷的三組。」`;
  if(S.inv.charm&&!S.flags.chipGot)return `「吊飾守著它的祕密。想打開它，先去讀信。」
 「Rickey 轉發過一封關於『測試件』的通知——就在公用電腦的信箱。」`;
  if(!f('sunDrawerOpen'))return `「女祭司的抽屜要三個數字。」
@@ -963,7 +1211,37 @@ function getHint(){
 </script>
 <script>
 /* ================= STATE & CORE ================= */
-function initialState(){return {zone:'office2',inv:{},frags:{},flags:{},msgs:[],unread:0,power:false,min:7,phoneThread:null,started:false,katCalls:0,sunCalls:0};}
+const PROFILE_KEY='kyowa_escape_profile_v1';
+const ESCAPE_STAMPS={
+  main:{name:'A｜正門',short:'正門',seal:'門禁解除'},
+  firestairs:{name:'B｜消防梯',short:'消防梯',seal:'雙重驗證'},
+  side:{name:'C｜後勤側門',short:'側門',seal:'手動釋放'}
+};
+function emptyProfile(){return {version:1,plays:0,lastName:'',unlocked:{main:false,firestairs:false,side:false},routeCounts:{main:0,firestairs:0,side:0},bestMs:{main:null,firestairs:null,side:null}};}
+function loadProfile(){try{const raw=localStorage.getItem(PROFILE_KEY);if(!raw)return emptyProfile();const got=JSON.parse(raw),base=emptyProfile();return {...base,...got,unlocked:{...base.unlocked,...(got.unlocked||{})},routeCounts:{...base.routeCounts,...(got.routeCounts||{})},bestMs:{...base.bestMs,...(got.bestMs||{})}};}catch(e){return emptyProfile();}}
+let PROFILE=loadProfile();
+function saveProfile(){try{localStorage.setItem(PROFILE_KEY,JSON.stringify(PROFILE));}catch(e){}}
+function routeStampKey(type){return (type==='normal'||type==='true')?'main':type;}
+function unlockedRouteCount(){return Object.values(PROFILE.unlocked).filter(Boolean).length;}
+function recordPlay(name){PROFILE.plays=(PROFILE.plays||0)+1;PROFILE.lastName=name||PROFILE.lastName||'';saveProfile();renderProfileSummary();return PROFILE.plays;}
+function recordCompletion(type){
+  if(S.successRecorded)return {key:routeStampKey(type),isNew:false};
+  S.successRecorded=true;
+  const key=routeStampKey(type),isNew=!PROFILE.unlocked[key];
+  PROFILE.unlocked[key]=true;PROFILE.routeCounts[key]=(PROFILE.routeCounts[key]||0)+1;
+  const old=PROFILE.bestMs[key];if(!old||S.elapsedMs<old)PROFILE.bestMs[key]=S.elapsedMs;
+  saveProfile();renderProfileSummary();renderCertificateStampBook();
+  if(isNew){const info=ESCAPE_STAMPS[key];queueReward({icon:'🛂',name:'新逃生戳章｜'+info.short,desc:'已收入此瀏覽器的逃生紀錄冊，目前解鎖 '+unlockedRouteCount()+'／3 種離場方式。',kind:'新戳章取得'});}
+  return {key,isNew};
+}
+function renderProfileSummary(){const el=document.getElementById('profileSummary');if(el)el.textContent=`本瀏覽器紀錄｜已遊玩 ${PROFILE.plays||0} 次・逃生戳章 ${unlockedRouteCount()}／3`;}
+function stampBookHTML(){
+  const cards=Object.entries(ESCAPE_STAMPS).map(([key,info])=>{const on=!!PROFILE.unlocked[key],count=PROFILE.routeCounts[key]||0,best=PROFILE.bestMs[key];return `<div class="escape-stamp-card${on?' unlocked':''}"><div class="escape-stamp-seal">${on?info.seal:'尚未<br>解鎖'}</div><div class="escape-stamp-name">${info.name}</div><div class="escape-stamp-meta">${on?`完成 ${count} 次${best?'<br>最佳 '+formatElapsed(best):''}`:'仍待發現'}</div></div>`;}).join('');
+  return `<div class="stampbook-summary">本瀏覽器已遊玩 <b>${PROFILE.plays||0}</b> 次<br>目前收集 <b>${unlockedRouteCount()}／3</b> 枚逃生戳章</div><div class="escape-stamp-grid">${cards}</div>`;
+}
+function showStampBook(){AudioEngine.sfx('messageOpen');showModal('🛂 七樓逃生戳章冊','每種正常離場方式都會留下獨立戳章；紀錄只保存在目前瀏覽器。',stampBookHTML());}
+function renderCertificateStampBook(){const box=document.getElementById('certificateStampBook');if(!box)return;box.innerHTML=Object.entries(ESCAPE_STAMPS).map(([key,info])=>`<div class="certificate-stamp-chip${PROFILE.unlocked[key]?' unlocked':''}">${PROFILE.unlocked[key]?'✓ '+info.short:'□ 未解鎖'}</div>`).join('');}
+function initialState(){return {zone:'office2',inv:{},frags:{},flags:{},msgs:[],unread:0,power:false,min:7,phoneThread:null,started:false,katCalls:0,sunCalls:0,playerName:'',startAt:0,elapsedMs:0,route:'',oddAttempts:[],playNumber:0,successRecorded:false};}
 let S=initialState();
 
 function tick(){} // 無倒數、無步數扣時
@@ -990,30 +1268,74 @@ function pigeonSVG(){
   return '<svg viewBox="0 0 11 12" width="99" height="108" style="shape-rendering:crispEdges">'+r+'</svg>';
 }
 const CRACK_SVG='<svg class="crack" viewBox="0 0 100 100" width="170" height="170"><g stroke="rgba(240,244,255,.55)" stroke-width="1.6" fill="none"><path d="M50 50 L18 28"/><path d="M50 50 L84 24"/><path d="M50 50 L12 60"/><path d="M50 50 L80 76"/><path d="M50 50 L46 10"/><path d="M50 50 L58 90"/><path d="M33 38 L44 46"/><path d="M68 36 L58 44"/><path d="M30 56 L42 54"/></g></svg>';
-function pigeonHit(){
-  if(!S.started)return;
-  AudioEngine.sfx('pigeon');
+let PIGEON_TIMER=null,PIGEON_ACTIVE=false;
+function scheduleNextPigeon(){
+  clearTimeout(PIGEON_TIMER);
+  const delay=70000+Math.floor(Math.random()*60001);
+  PIGEON_TIMER=setTimeout(()=>{
+    if(S.started&&document.visibilityState==='visible')pigeonHit('random');
+    scheduleNextPigeon();
+  },delay);
+}
+function pigeonHit(reason='random'){
+  if(!S.started||PIGEON_ACTIVE)return;
+  PIGEON_ACTIVE=true;AudioEngine.sfx('pigeon');
   document.body.classList.add('shake');setTimeout(()=>document.body.classList.remove('shake'),580);
   const el=document.getElementById('pigeon');
-  const caps=['一隻鴿子用臉，確認了七樓玻璃的存在。','牠看起來很趕時間。現在不趕了。','玻璃：1，鴿子：0。','牠瞪了你兩秒，彷彿這一切是你的錯。'];
+  const randomCaps=['一隻鴿子用臉，確認了七樓玻璃的存在。','牠看起來很趕時間。現在不趕了。','玻璃：1，鴿子：0。','牠瞪了你兩秒，彷彿這一切是你的錯。'];
+  const errorCaps=['密碼錯得太有節奏，連窗外的鴿子都來確認。','第三次錯誤響起時，鴿子替系統按下了實體警報。','讀卡機沒有回應。玻璃外倒是有人回應了。'];
+  const caps=reason==='password'?errorCaps:randomCaps;
   el.innerHTML=CRACK_SVG+'<span class="bird">'+pigeonSVG()+'</span><div class="bang">碰——！</div><div class="pigeoncap">'+caps[Math.floor(Math.random()*caps.length)]+'</div>';
   el.style.display='block';
-  setTimeout(()=>{el.style.display='none';toast('……是鴿子撞上玻璃。牠抖了抖，飛走了。');},2600);
+  setTimeout(()=>{el.style.display='none';PIGEON_ACTIVE=false;toast(reason==='password'?'……密碼面板安靜了，鴿子也飛走了。':'……是鴿子撞上玻璃。牠抖了抖，飛走了。');},2600);
 }
-setInterval(pigeonHit,180000);
+function registerPasswordError(){
+  if(!S.started)return;
+  S.flags.passwordErrors=(S.flags.passwordErrors||0)+1;
+  if(S.flags.passwordErrors>=3){S.flags.passwordErrors=0;scheduleNextPigeon();setTimeout(()=>pigeonHit('password'),180);}
+}
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';
   clearTimeout(toast._t);toast._t=setTimeout(()=>el.style.display='none',2600);}
-function showReward(name){const card=document.getElementById('rewardCard'),parts=name.trim().split(/\s+/);document.getElementById('rewardIcon').textContent=parts.shift()||'◆';document.getElementById('rewardName').textContent='重要道具取得\n'+parts.join(' ');card.style.display='block';clearTimeout(showReward._t);showReward._t=setTimeout(()=>card.style.display='none',1500);}
+let REWARD_PENDING=[],REWARD_FLUSH_TIMER=null;
+function rewardParts(label){
+  const parts=String(label||'').trim().split(/\s+/),icon=/^[^A-Za-z0-9\u3400-\u9FFF]+$/.test(parts[0]||'')?parts.shift():'◆';
+  return{icon,name:parts.join(' ')||String(label||'')};
+}
+function queueReward(entry){
+  if(!entry||!entry.name)return;
+  const key=(entry.kind||'')+'|'+entry.name;
+  if(REWARD_PENDING.some(x=>x.key===key))return;
+  REWARD_PENDING.push({...entry,key});clearTimeout(REWARD_FLUSH_TIMER);
+  REWARD_FLUSH_TIMER=setTimeout(flushRewards,110);
+}
+function flushRewards(){
+  const entries=REWARD_PENDING.splice(0);if(!entries.length)return;
+  const card=document.getElementById('rewardCard'),list=document.getElementById('rewardList'),title=document.getElementById('rewardTitle');
+  const kinds=[...new Set(entries.map(x=>x.kind||'重要紀錄'))];
+  title.textContent=entries.length>1?'取得多項紀錄':kinds[0];
+  list.innerHTML='';
+  entries.forEach(entry=>{
+    const row=document.createElement('div');row.className='reward-entry';
+    const icon=document.createElement('div');icon.className='reward-entry-icon';icon.textContent=entry.icon||'◆';
+    const text=document.createElement('div');text.className='reward-entry-text';
+    const name=document.createElement('b');name.textContent=entry.name;
+    const desc=document.createElement('span');desc.textContent=entry.desc||'';
+    text.append(name,desc);row.append(icon,text);list.appendChild(row);
+  });
+  card.style.display='block';card.classList.remove('reward-show');void card.offsetWidth;card.classList.add('reward-show');
+  clearTimeout(flushRewards.hideTimer);flushRewards.hideTimer=setTimeout(()=>{card.style.display='none';card.classList.remove('reward-show');},Math.min(5200,2400+entries.length*650));
+}
+function showReward(name,desc='',kind='重要物件'){const p=rewardParts(name);queueReward({icon:p.icon,name:p.name,desc,kind});}
 function addItem(id){
   if(S.inv[id])return;
-  S.inv[id]=1;renderInv();toast('取得：'+ITEMS[id].n);showReward(ITEMS[id].n);AudioEngine.sfx('item');
+  S.inv[id]=1;renderInv();toast('取得：'+ITEMS[id].n);showReward(ITEMS[id].n,ITEMS[id].d,'重要物件');AudioEngine.sfx('item');
   const hint=ITEM_UNLOCK_HINTS[id];if(hint)setTimeout(()=>toast('🧭 '+hint),850);
   if(S.inv.flashlight&&S.inv.battery){delete S.inv.flashlight;delete S.inv.battery;S.inv.flashlight_on=1;
-    renderInv();setTimeout(()=>{showReward(ITEMS.flashlight_on.n);toast('🔦 手電筒已點亮｜現在可以探索女廁');AudioEngine.sfx('unlock');draw();},900);}
+    renderInv();setTimeout(()=>{showReward(ITEMS.flashlight_on.n,ITEMS.flashlight_on.d,'道具組合完成');toast('🔦 手電筒已點亮｜現在可以探索女廁');AudioEngine.sfx('unlock');draw();},900);}
 }
 function addFrag(id){
   if(S.frags[id])return;
-  S.frags[id]=1;renderInv();toast('重要文件：'+FRAGS[id].n);showReward(FRAGS[id].n);AudioEngine.sfx('item');
+  S.frags[id]=1;renderInv();toast('重要文件：'+FRAGS[id].n);showReward(FRAGS[id].n,FRAGS[id].d,'重要文件取得');AudioEngine.sfx('item');
 }
 function renderInv(){
   const box=document.getElementById('invlist');box.innerHTML='';
@@ -1028,7 +1350,7 @@ function pushMsg(who,tm,tx,me,thread){
   if(!me){S.unread++;renderBadge();toast('📱 '+who+' 傳了訊息');AudioEngine.sfx('message');}
   renderPhone();
 }
-function renderBadge(){const b=document.getElementById('msgbadge');b.style.display=S.unread>0?'block':'none';b.textContent=S.unread;}
+function renderBadge(){['msgbadge','menubadge'].forEach(id=>{const b=document.getElementById(id);if(!b)return;b.style.display=S.unread>0?'block':'none';b.textContent=S.unread;});}
 function threadTitle(key){return key==='group'?'今天也要笑著上班（12）':key;}
 function threadIcon(key){if(key==='group')return '💬';const icons={'董伊淇':'🧋','高于雯':'🐈','劉世華':'🔮','陳資涵':'🍢','彭筠喬':'⭐','孫寧':'📋','Gina':'☕','Ruru':'📎'};return icons[key]||'👤';}
 function renderChatList(){
@@ -1058,7 +1380,7 @@ function showPhoneHome(){
   document.getElementById('phoneHome').style.display='block';document.getElementById('threadView').style.display='none';document.getElementById('callPanel').style.display='none';renderChatList();
 }
 function openThread(key){
-  AudioEngine.sfx('messageOpen');S.phoneThread=key;if(key==='陳資涵')S.flags.sawChanFood=1;S.msgs.forEach(m=>{if(m.thread===key&&m.unread){m.unread=false;S.unread=Math.max(0,S.unread-1);}});renderBadge();
+  AudioEngine.sfx('messageOpen');S.phoneThread=key;if(key==='陳資涵'&&!S.flags.sawChanFood){S.flags.sawChanFood=1;queueReward({icon:'🚫',name:'伊淇的飲食避雷清單',desc:'聊天室列出了大量避雷食材，可用來排除圖像登入中的干擾項。',kind:'重要線索取得'});}S.msgs.forEach(m=>{if(m.thread===key&&m.unread){m.unread=false;S.unread=Math.max(0,S.unread-1);}});renderBadge();
   document.getElementById('phoneTitle').textContent=threadTitle(key);document.getElementById('phoneBack').style.display='inline-block';
   document.getElementById('phoneHome').style.display='none';document.getElementById('threadView').style.display='block';document.getElementById('callPanel').style.display='none';renderThread(key);
 }
@@ -1086,8 +1408,8 @@ function callKat(){
 
 「您好，目前非上班時間。若為門禁或系統權限問題，請先自行排除，謝謝。」
 
-本次為第 ${S.katCalls} 通。距離系統耐心上限似乎還有 ${10-S.katCalls} 通。`;
-  if(tenth){S.flags.code404=1;S.flags.code725=1;setTimeout(()=>{toast('🔢 Kat 被打到投降：404725');AudioEngine.sfx('unlock');},1750);}
+本次為第 ${S.katCalls} 通。距離系統自動公開緊急資訊的門檻還有 ${10-S.katCalls} 通。`;
+  if(tenth){S.flags.code404=1;S.flags.code725=1;setTimeout(()=>{queueReward({icon:'🔢',name:'管理密碼【404725】',desc:'非上班時間的緊急資訊已由系統自動公開。',kind:'重要線索'});toast('🔢 系統公開管理密碼：404725');AudioEngine.sfx('unlock');},1750);}
   startCall({name:'Kat',avatar:'K',message:msg});
 }
 function callSun(){
@@ -1122,11 +1444,11 @@ function gainChip(){
   ITEMS.charm.d=`Rickey 哭著找了一個月的那隻。眼神無辜。
 背蓋已經撬開，裡面嵌著一枚小小的晶片，刻著「MAINT.」。
 它不只是可愛。`;
-  toast('🐶 你撬開帕恰狗的背蓋——裡面是一枚刻著「MAINT.」的維修晶片');AudioEngine.sfx('unlock');
+  toast('🐶 你撬開帕恰狗的背蓋——裡面是一枚刻著「MAINT.」的維修晶片');queueReward({icon:'🔧',name:'維修晶片【MAINT.】',desc:'消防梯備援讀卡器所需的第二項驗證。',kind:'重要線索取得'});AudioEngine.sfx('unlock');
 }
 function readMail(id){
   const m=MAILS[id];if(!m)return;S.flags['mail_'+id]=1;
-  if(id==='system'){S.flags.code404=1;toast('🔢 正門系統識別碼：404');AudioEngine.sfx('unlock');}
+  if(id==='system'&&!S.flags.code404){S.flags.code404=1;toast('🔢 正門系統識別碼：404');queueReward({icon:'🔢',name:'系統識別碼【404】',desc:'正門六位數管理密碼的前半段。',kind:'重要線索取得'});AudioEngine.sfx('unlock');}
   if(id==='rickey'){S.flags.pochaccoKnown=1;gainChip();}
   showModal('✉ '+m.subject,'寄件者：'+m.from+'\n\n'+m.body,'<button class="opt" onclick="openMailbox()">← 回信箱</button>');
 }
@@ -1138,12 +1460,12 @@ function showClueBoard(){
   h+='<div class="cluegroup"><b>高于雯的抽屜｜碎片×3</b>'+clueText(f('catDeskPiece'),'桌下紙片：【48】')+clueText(f('cupPiece'),'未使用的馬克杯杯底：【6】')+clueText(f('copierPiece'),'影印機卡紙：【9】')+'</div>';
   h+='<div class="cluegroup"><b>塔羅牌盒｜兩位數</b>'+clueText(true,'劉世華：「密碼是我最怕的那張牌」')+clueText(f('sawTowerArt'),'古塔畫銘牌：【XVI／THE TOWER】')+'</div>';
   h+='<div class="cluegroup"><b>Gina & Ruru 共用抽屜｜四位數</b>'+clueText(f('sawGinaAward'),'獎座刻字：【十二月・年度業務獎】')+clueText(f('sawRuruFile'),'結案文件：【final_v07】（Gina 前、Ruru 後）')+'</div>';
-  h+='<div class="cluegroup"><b>公用電腦｜英文</b>'+clueText(f('sawMenu'),'菜單：LUROUFAN／ZHUXUEGAO／GONGWAN／XIANGGU（紅圈：貢丸湯＝伊淇最愛）')+clueText(f('sawChanFood'),'陳資涵：「伊淇這輩子最恨的就是香菇」')+'</div>';
+  h+='<div class="cluegroup"><b>公用電腦｜圖像驗證</b>'+clueText(f('sawChanFood'),'聊天室中的點餐備註列出了避雷食材；登入頁需選出三組未含避雷食材的餐點')+'</div>';
   h+='<div class="cluegroup"><b>Kat 的保險箱｜巡檢標記×3</b>'+clueText(f('projectorTag'),'投影機維修貼紙：【BP-2】')+clueText(f('doorLog'),'正門讀卡機異常紀錄：【48】')+clueText(f('sideTag'),'後勤側門保養標籤：【6】')+'</div>';
   h+='<div class="cluegroup"><b>孫寧的抽屜｜三位數</b>'+clueText(f('sawSunLabels'),'立牌數字：毛毛【7】花花【4】泡泡【9】')+clueText(f('sawSunOrder'),'紅筆排序：毛毛 ＞ 泡泡 ＞ 花花')+'</div>';
   h+='<div class="cluegroup"><b>A 路線：正門</b>'+clueText(f('code404'),'系統信：識別碼【404】＋覆核碼')+clueText(has('sun_override')||f('code725'),'覆核卡背面：【725】')+clueText(f('sawWireMemo'),'檢線備忘：白＝市電、紅＝接地、綠＝備援；藍黃不要接')+clueText(S.power,'正門面板已恢復供電')+'</div>';
   h+='<div class="cluegroup"><b>B 路線：頂樓消防梯</b>'+clueText(has('tempcard'),'無名測試卡（7F-01）')+clueText(f('chipGot'),'帕恰狗吊飾裡的維修晶片（背蓋已撬開）')+'</div>';
-  h+='<div class="cluegroup"><b>C 路線：一樓後勤側門</b>'+clueText(has('release_handle'),'方形金屬把手（後勤側門・停電用）')+clueText(has('selfie'),'可固定上方安全扣的伸縮燈桿')+clueText(f('sideTag'),'手動釋放：固定上扣 → 左轉到底 → 回右至刻線 → 外拉')+'</div>';
+  h+='<div class="cluegroup"><b>C 路線：一樓後勤側門</b>'+clueText(has('release_handle'),'方形金屬把手（後勤側門・停電用）')+clueText(has('selfie'),'可固定上方安全扣的伸縮燈桿')+clueText(f('sideTag'),'手動釋放：固定上扣 → 左轉到底 → 回右側紅線 → 向右拉出鎖芯')+'</div>';
   h+='</div>';
   showModal('📋 線索板','這裡只記下你「親眼看過的原文」。怎麼拼、拼成什麼——是你的事。',h);
 }
@@ -1156,6 +1478,59 @@ function showModal(t,b,extra){
 }
 function closeModal(){document.getElementById('modalbg').style.display='none';}
 
+
+/* ---- pictogram login puzzle ---- */
+let FOOD_PUZZLE=null;
+const FOOD_CARDS=[
+  {id:'pearTea',icons:'🍐＋🍵',label:'水梨春青',safe:true},
+  {id:'mushroom',icons:'🍄＋🐔',label:'香菇雞湯'},
+  {id:'basilClam',icons:'🌱＋🐚',label:'九層塔炒蛤蠣',safe:true},
+  {id:'coriander',icons:'🌿＋🥚',label:'香菜皮蛋'},
+  {id:'tofu',icons:'⬜＋🌶️',label:'麻婆豆腐'},
+  {id:'mackerel',icons:'🐟＋🍚',label:'鹽烤鯖魚＋白飯',safe:true},
+  {id:'bitter',icons:'🥒＋🧂🥚',label:'苦瓜鹹蛋'},
+  {id:'grassJelly',icons:'⬛＋🥛',label:'仙草鮮奶'},
+  {id:'oyster',icons:'🦪＋🔥',label:'蚵仔酥'},
+  {id:'largeOyster',icons:'🦪＋🧀',label:'原顆焗烤牡蠣'},
+  {id:'mockMeat',icons:'🌱＋🍗',label:'素雞炒飯'},
+  {id:'taro',icons:'🍠＋🥛',label:'芋頭西米露'},
+  {id:'hotpot',icons:'🍥＋🍢',label:'魚板關東煮'},
+  {id:'konjac',icons:'💧＋🥗',label:'蒟蒻沙拉'},
+  {id:'woodEar',icons:'🟤＋🥗',label:'涼拌木耳'},
+  {id:'herbalSoup',icons:'🌿＋🥣',label:'四神湯'}
+];
+const FOOD_ANSWER=new Set(FOOD_CARDS.filter(x=>x.safe).map(x=>x.id));
+function shuffledFoodCards(){const a=[...FOOD_CARDS];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function openFoodPuzzle(){
+  if(S.flags.pcOpen){openMailbox();return;}
+  FOOD_PUZZLE={selected:[],cards:shuffledFoodCards(),locked:false};
+  renderFoodPuzzle();
+}
+function renderFoodPuzzle(message='選出 3 組未含避雷食材的餐點。',bad=false){
+  if(!FOOD_PUZZLE)return;
+  const slots=[0,1,2].map(i=>{const id=FOOD_PUZZLE.selected[i],card=FOOD_CARDS.find(x=>x.id===id);return '<div class="food-slot'+(card?' filled':'')+'">'+(card?'<span>'+card.icons+'</span><small>'+card.label+'</small>':(i+1))+'</div>';}).join('');
+  const cards=FOOD_PUZZLE.cards.map(card=>'<button class="food-tile'+(FOOD_PUZZLE.selected.includes(card.id)?' used':'')+'" aria-label="'+card.label+'" onclick="foodPick(\''+card.id+'\')"><span class="food-icons">'+card.icons+'</span><span class="food-label">'+card.label+'</span></button>').join('');
+  const html='<div class="food-puzzle"><div class="food-screen" id="foodScreen"'+(bad?' style="color:#e1a09a;border-color:#9b4a42"':'')+'>'+message+'</div><div class="food-sequence">'+slots+'</div><div class="food-grid">'+cards+'</div><div class="food-actions"><button class="side-mini-btn" onclick="foodUndo()">← 退回一格</button><button class="side-mini-btn" onclick="foodReset()">↺ 清除</button></div></div>';
+  showModal('公用電腦／圖像登入',`登入頁沒有提供答案，只要求從餐點圖卡中選出三組未含避雷食材的組合。`,html);
+}
+function foodPick(id){
+  if(!FOOD_PUZZLE||FOOD_PUZZLE.locked||FOOD_PUZZLE.selected.includes(id)||FOOD_PUZZLE.selected.length>=3)return;
+  FOOD_PUZZLE.selected.push(id);AudioEngine.sfx('tap');
+  if(FOOD_PUZZLE.selected.length<3){renderFoodPuzzle();return;}
+  FOOD_PUZZLE.locked=true;
+  const ok=FOOD_PUZZLE.selected.length===FOOD_ANSWER.size&&FOOD_PUZZLE.selected.every(id=>FOOD_ANSWER.has(id));
+  if(ok){
+    renderFoodPuzzle('三組餐點皆未含避雷食材。正在開啟共用信箱……');AudioEngine.sfx('unlock');
+    S.flags.pcOpen=1;queueReward({icon:'💻',name:'公用電腦已登入',desc:'圖像驗證已通過，共用信箱權限開啟。',kind:'系統權限取得'});
+    setTimeout(()=>{FOOD_PUZZLE=null;openMailbox();},760);
+  }else{
+    renderFoodPuzzle('其中至少一組含有避雷食材。登入頁已清除選取。',true);AudioEngine.sfx('wrong');registerPasswordError('圖像登入');
+    setTimeout(()=>{if(!FOOD_PUZZLE)return;FOOD_PUZZLE.selected=[];FOOD_PUZZLE.locked=false;renderFoodPuzzle();},720);
+  }
+}
+function foodUndo(){if(!FOOD_PUZZLE||FOOD_PUZZLE.locked)return;FOOD_PUZZLE.selected.pop();AudioEngine.sfx('tap');renderFoodPuzzle();}
+function foodReset(){if(!FOOD_PUZZLE||FOOD_PUZZLE.locked)return;FOOD_PUZZLE.selected=[];AudioEngine.sfx('tap');renderFoodPuzzle();}
+
 /* ---- generic lock ---- */
 let LOCK=null;
 let LOCK_WHEEL=null;
@@ -1165,7 +1540,7 @@ function openLock(cfg){
   let html='';
   if(isWheel){
     LOCK_WHEEL={digits:Array(cfg.len).fill(0),drag:null};
-    html='<div class="wheel-lock"><div class="wheel-hint">上下拖動每個數字輪，對準中央刻線。</div><div class="wheel-row">';
+    html='<div class="wheel-lock"><div class="wheel-hint">轉輪刻度可循環；滑動距離對應轉動格數。</div><div class="wheel-row">';
     for(let i=0;i<cfg.len;i++)html+='<div class="num-wheel" data-wheel="'+i+'"><span class="wheel-digit prev"></span><span class="wheel-digit current"></span><span class="wheel-digit next"></span></div>';
     html+='</div><button class="padbtn ok" style="width:130px" onclick="wheelTry()">扳下鎖扣</button><div id="lockmsg"></div></div>';
   }else{
@@ -1193,7 +1568,7 @@ function lockSolved(){
   setTimeout(()=>{closeModal();LOCK.onOK();},550);
 }
 function lockFailed(target){
-  AudioEngine.sfx('wrong');
+  AudioEngine.sfx('wrong');registerPasswordError();
   const msg=document.getElementById('lockmsg');if(msg)msg.innerHTML='<span style="color:var(--red)">✕ 錯誤。'+(LOCK.wrong||'')+'</span>';
   if(target){target.classList.add('shake');setTimeout(()=>target.classList.remove('shake'),400);}
 }
@@ -1227,32 +1602,38 @@ function renderWheelDigits(index=null,shift=0){
 function wheelDown(e){
   if(!LOCK_WHEEL)return;e.preventDefault();e.stopPropagation();
   const el=e.currentTarget,i=Number(el.dataset.wheel);
-  LOCK_WHEEL.drag={i,startY:e.clientY,lastY:e.clientY,startDigit:LOCK_WHEEL.digits[i],moved:false};
-  el.classList.add('wheel-dragging');LOCK_WHEEL.drag.el=el;
+  LOCK_WHEEL.drag={i,startY:e.clientY,lastY:e.clientY,startDigit:LOCK_WHEEL.digits[i],steps:0,moved:false,el,stepPx:24};
+  el.classList.add('wheel-dragging');
+  try{el.setPointerCapture?.(e.pointerId);}catch(_e){}
   document.addEventListener('pointermove',wheelMove,{passive:false});document.addEventListener('pointerup',wheelUp,{once:true});document.addEventListener('pointercancel',wheelUp,{once:true});
 }
 function wheelMove(e){
   const d=LOCK_WHEEL?.drag;if(!d)return;if(e.cancelable)e.preventDefault();
   d.lastY=e.clientY;const delta=e.clientY-d.startY;if(Math.abs(delta)>3)d.moved=true;
-  renderWheelDigits(d.i,Math.max(-25,Math.min(25,delta)));
+  const raw=-delta/d.stepPx;
+  const steps=raw>=0?Math.floor(raw):Math.ceil(raw);
+  const remainder=delta+steps*d.stepPx;
+  if(steps!==d.steps){d.steps=steps;LOCK_WHEEL.digits[d.i]=wheelNum(d.startDigit+steps);AudioEngine.sfx('tap');}
+  renderWheelDigits(d.i,Math.max(-23,Math.min(23,remainder)));
 }
 function wheelUp(e){
   const d=LOCK_WHEEL?.drag,el=d?.el;
   document.removeEventListener('pointermove',wheelMove);document.removeEventListener('pointerup',wheelUp);document.removeEventListener('pointercancel',wheelUp);
   el?.classList.remove('wheel-dragging');
   if(!d)return;
-  const dy=d.startY-d.lastY;let steps=Math.round(dy/26);
-  if(!steps&&Math.abs(dy)>9)steps=dy>0?1:-1;
-  LOCK_WHEEL.digits[d.i]=wheelNum(d.startDigit+steps);LOCK_WHEEL.drag=null;AudioEngine.sfx('tap');renderWheelDigits();
+  const delta=d.lastY-d.startY;
+  if(d.steps===0&&Math.abs(delta)>8){d.steps=delta<0?1:-1;LOCK_WHEEL.digits[d.i]=wheelNum(d.startDigit+d.steps);AudioEngine.sfx('tap');}
+  LOCK_WHEEL.drag=null;renderWheelDigits();
 }
 function wheelScroll(e){
   if(!LOCK_WHEEL)return;e.preventDefault();const i=Number(e.currentTarget.dataset.wheel);
-  LOCK_WHEEL.digits[i]=wheelNum(LOCK_WHEEL.digits[i]+(e.deltaY>0?1:-1));AudioEngine.sfx('tap');renderWheelDigits();
+  const amount=Math.max(1,Math.min(4,Math.round(Math.abs(e.deltaY)/70)||1));
+  LOCK_WHEEL.digits[i]=wheelNum(LOCK_WHEEL.digits[i]+(e.deltaY>0?amount:-amount));AudioEngine.sfx('tap');renderWheelDigits();
 }
 function wheelTry(){
   if(!LOCK_WHEEL)return;const v=LOCK_WHEEL.digits.join('');
   if(v===String(LOCK.code))lockSolved();
-  else{lockFailed(document.querySelector('.wheel-row'));document.querySelectorAll('.num-wheel').forEach((el,i)=>setTimeout(()=>{LOCK_WHEEL.digits[i]=0;renderWheelDigits();},180));}
+  else lockFailed(document.querySelector('.wheel-row'));
 }
 let PL=null;
 function shuffledPieceOrder(pieces){
@@ -1268,96 +1649,50 @@ function shuffledPieceOrder(pieces){
   return order;
 }
 function openPieceLock(cfg){
-  PL={cfg:cfg,placed:cfg.pieces.map(()=>null),order:shuffledPieceOrder(cfg.pieces),drag:null,suppressClick:false};
+  PL={cfg:cfg,placed:cfg.pieces.map(()=>null),order:shuffledPieceOrder(cfg.pieces)};
   renderPieceLock();
 }
 function renderPieceLock(){
   const cfg=PL.cfg;
-  let html=(cfg.poem?'<div class="poembox">'+cfg.poem.replace(/\n/g,'<br>')+'</div>':'')+'<div class="draghelp">拖曳碎片到格子中，也可以點一下快速放入。</div><div class="slotrow">';
+  let html=(cfg.poem?'<div class="poembox">'+cfg.poem.replace(/\n/g,'<br>')+'</div>':'')+'<div class="slotrow">';
   cfg.pieces.forEach((_,i)=>{
     const pi=PL.placed[i];
-    html+='<button class="slot'+(pi!==null?' filled':'')+'" data-slot="'+i+'" onclick="slotTap('+i+')">'
-      +(pi!==null?'<span class="piecechip" data-piece="'+pi+'" data-from-slot="'+i+'" style="background:'+cfg.pieces[pi].color+'" onclick="pieceChipClick(event,'+pi+','+i+')">'+cfg.pieces[pi].short+'</span>':'<span class="slotq">＋</span>')
+    html+='<button class="slot'+(pi!==null?' filled':'')+'" onclick="slotTap('+i+')">'
+      +(pi!==null?'<span class="piecechip" style="background:'+cfg.pieces[pi].color+'">'+cfg.pieces[pi].short+'</span>':'<span class="slotq">＋</span>')
       +'</button>';
   });
-  html+='</div><div class="tray" id="pieceTray">';
+  html+='</div><div class="tray">';
   let missing=0;
   PL.order.forEach(i=>{
     const p=cfg.pieces[i],got=!!S.flags[p.flag],placed=PL.placed.includes(i);
     if(!got)missing++;
-    else if(!placed)html+='<button class="piecechip intray" data-piece="'+i+'" data-from-slot="-1" style="background:'+p.color+'" onclick="pieceChipClick(event,'+i+',-1)">'+p.n+'</button>';
+    else if(!placed)html+='<button class="piecechip intray" style="background:'+p.color+'" onclick="pieceTap('+i+')">'+p.n+'</button>';
   });
   if(missing)html+='<div class="pieceline">❔ 尚有 '+missing+' 個碎片未取得</div>';
   html+='</div>';
   const full=PL.placed.every(v=>v!==null);
   html+='<div class="optlist"><button class="opt"'+(full?' onclick="pieceTry()"':' disabled style="opacity:.45;cursor:not-allowed"')
-    +'>🔓 '+(full?'就這樣拼，試著解鎖':(missing?'還缺 '+missing+' 個碎片':'把碎片拖進上面的格子'))+'</button></div>';
-  showModal(cfg.title,cfg.desc,html);setTimeout(bindPieceDrag,0);
-}
-function pieceChipClick(e,i,from){
-  e.stopPropagation();if(PL?.suppressClick)return;
-  if(from>=0){PL.placed[from]=null;AudioEngine.sfx('tap');renderPieceLock();return;}
-  pieceTap(i);
+    +'>🔓 '+(full?'就這樣拼，試著解鎖':(missing?'還缺 '+missing+' 個碎片':'把碎片放進上面的格子'))+'</button></div>';
+  showModal(cfg.title,cfg.desc,html);
 }
 function pieceTap(i){
-  const idx=PL.placed.indexOf(null);if(idx<0)return;
+  const idx=PL.placed.indexOf(null);
+  if(idx<0)return;
   PL.placed[idx]=i;AudioEngine.sfx('tap');renderPieceLock();
 }
 function slotTap(i){
-  if(PL?.suppressClick)return;
   if(PL.placed[i]!==null){PL.placed[i]=null;AudioEngine.sfx('tap');renderPieceLock();}
-}
-function bindPieceDrag(){
-  document.querySelectorAll('.piecechip').forEach(el=>el.addEventListener('pointerdown',pieceDragDown));
-}
-function pieceDragDown(e){
-  if(!PL)return;e.preventDefault();e.stopPropagation();
-  const el=e.currentTarget,piece=Number(el.dataset.piece),from=Number(el.dataset.fromSlot);
-  PL.drag={el,piece,from,startX:e.clientX,startY:e.clientY,x:e.clientX,y:e.clientY,moved:false,ghost:null};
-  document.addEventListener('pointermove',pieceDragMove,{passive:false});document.addEventListener('pointerup',pieceDragUp,{once:true});document.addEventListener('pointercancel',pieceDragUp,{once:true});
-}
-function pieceDragMove(e){
-  const d=PL?.drag;if(!d)return;if(e.cancelable)e.preventDefault();d.x=e.clientX;d.y=e.clientY;
-  if(!d.moved&&Math.hypot(d.x-d.startX,d.y-d.startY)>5){
-    d.moved=true;d.el.classList.add('dragging');
-    const p=PL.cfg.pieces[d.piece],g=document.createElement('div');g.className='piece-ghost';g.style.background=p.color;g.textContent=p.n;document.body.appendChild(g);d.ghost=g;
-  }
-  if(!d.moved)return;
-  d.ghost.style.left=d.x+'px';d.ghost.style.top=d.y+'px';pieceDragHighlight(d.x,d.y);
-}
-function pieceDragHighlight(x,y){
-  document.querySelectorAll('.slot').forEach(el=>el.classList.remove('drop-hot'));document.getElementById('pieceTray')?.classList.remove('drop-hot');
-  const hit=document.elementsFromPoint(x,y).map(el=>el.closest?.('.slot')).find(Boolean);
-  if(hit)hit.classList.add('drop-hot');else document.getElementById('pieceTray')?.classList.add('drop-hot');
-}
-function pieceDragUp(e){
-  const d=PL?.drag;if(!d)return;
-  document.removeEventListener('pointermove',pieceDragMove);document.removeEventListener('pointerup',pieceDragUp);document.removeEventListener('pointercancel',pieceDragUp);
-  document.querySelectorAll('.slot').forEach(el=>el.classList.remove('drop-hot'));document.getElementById('pieceTray')?.classList.remove('drop-hot');
-  d.el.classList.remove('dragging');d.ghost?.remove();
-  if(!d.moved){PL.drag=null;return;}
-  PL.suppressClick=true;setTimeout(()=>{if(PL)PL.suppressClick=false;},80);
-  const hit=document.elementsFromPoint(e.clientX,e.clientY).map(el=>el.closest?.('.slot')).find(Boolean);
-  const target=hit?Number(hit.dataset.slot):null;
-  if(target!==null){
-    if(target!==d.from){
-      const displaced=PL.placed[target];
-      if(d.from>=0)PL.placed[d.from]=displaced;
-      PL.placed[target]=d.piece;
-      AudioEngine.sfx('tap');
-    }
-  }else if(d.from>=0){PL.placed[d.from]=null;AudioEngine.sfx('tap');}
-  PL.drag=null;renderPieceLock();
 }
 function pieceTry(){
   const ok=PL.placed.every((pi,slot)=>pi!==null&&PL.cfg.pieces[pi].slot===slot);
   if(ok){AudioEngine.sfx('unlock');const f=PL.cfg.onOK;closeModal();f();return;}
-  AudioEngine.sfx('wrong');PL.placed=PL.cfg.pieces.map(()=>null);
+  AudioEngine.sfx('wrong');
+  PL.placed=PL.cfg.pieces.map(()=>null);
   document.getElementById('modal').classList.add('shake');
   setTimeout(()=>{document.getElementById('modal').classList.remove('shake');renderPieceLock();toast('❌ 拼起來對不上……順序好像不對');},380);
 }
-function gainPiece(flag,label){
-  if(!S.flags[flag]){S.flags[flag]=1;setTimeout(()=>{toast('🧩 密碼碎片：'+label);AudioEngine.sfx('item');},350);}
+function gainPiece(flag,label,desc='已記錄於線索板。'){
+  if(!S.flags[flag]){S.flags[flag]=1;setTimeout(()=>{toast('🧩 密碼碎片：'+label);queueReward({icon:'🧩',name:label,desc,kind:'重要線索取得'});AudioEngine.sfx('item');},220);}
 }
 
 
@@ -1412,10 +1747,45 @@ const AudioEngine=(()=>{
   return{start,toggle,sfx,updateButton};
 })();
 
+
+
+function recordOddAttempt(id){if(!S.oddAttempts.includes(id))S.oddAttempts.push(id);}
+function formatElapsed(ms){const total=Math.max(0,Math.round(ms/1000)),m=Math.floor(total/60),sec=total%60;return m?`${m} 分 ${String(sec).padStart(2,'0')} 秒`:`${sec} 秒`;}
+function routeName(type){return {normal:'正門・一般離場',true:'正門・完整調查',firestairs:'頂樓消防梯',side:'後勤側門手動釋放'}[type]||type;}
+function oddActionList(){const a=[];if(S.oddAttempts.includes('pipe'))a.push('曾嘗試沿排水管下降');if(S.oddAttempts.includes('fire'))a.push('曾嘗試以火種處理正門');if(S.katCalls>=10)a.push('連續撥打 Kat 十次');if(S.sunCalls>=5)a.push('連續撥打孫寧五次');return a.length?a:['無異常離場嘗試'];}
+function canvasWrappedText(ctx,text,x,y,maxWidth,lineHeight){const chars=[...text];let line='',lines=[];for(const ch of chars){const test=line+ch;if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=ch;}else line=test;}if(line)lines.push(line);for(const ln of lines){ctx.fillText(ln,x,y);y+=lineHeight;}return y;}
+function generateCertificate(type){
+  const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=1740;const c=canvas.getContext('2d');
+  const grad=c.createLinearGradient(0,0,1200,1740);grad.addColorStop(0,'#f4ead0');grad.addColorStop(1,'#d9c79f');c.fillStyle=grad;c.fillRect(0,0,1200,1740);
+  c.strokeStyle='#6e5b37';c.lineWidth=8;c.strokeRect(52,52,1096,1636);c.lineWidth=2;c.strokeRect(72,72,1056,1596);
+  c.fillStyle='rgba(95,73,36,.06)';for(let y=90;y<1740;y+=18)c.fillRect(80,y,1040,2);
+  c.textAlign='center';c.fillStyle='#3b2d1b';c.font='700 42px "Noto Serif TC","Microsoft JhengHei",serif';c.fillText('協 和 大 樓',600,155);
+  c.font='700 72px "Noto Serif TC","Microsoft JhengHei",serif';c.fillText('七樓夜間離場證書',600,250);
+  c.strokeStyle='#6e5b37';c.lineWidth=3;c.beginPath();c.moveTo(210,300);c.lineTo(990,300);c.stroke();
+  c.font='32px "Microsoft JhengHei",sans-serif';c.fillStyle='#665538';c.fillText('BLACKOUT PROTOCOL · TESTER 7F-01',600,360);
+  c.font='700 58px "Noto Serif TC","Microsoft JhengHei",serif';c.fillStyle='#742c27';c.fillText(S.playerName||'測試者',600,470);
+  c.font='30px "Microsoft JhengHei",sans-serif';c.fillStyle='#3b2d1b';c.fillText('已完成七樓夜間離場驗證',600,530);
+  const rows=[['離場方式',routeName(type)],['本次時間',formatElapsed(S.elapsedMs)],['本瀏覽器遊玩',`第 ${S.playNumber||PROFILE.plays||1} 次`],['逃生方式解鎖',`${unlockedRouteCount()}／3`],['取得文件',`${Object.keys(S.frags).length}／3`]];
+  c.textAlign='left';let y=625;for(const [k,v] of rows){c.fillStyle='#6d5c3e';c.font='700 27px "Microsoft JhengHei",sans-serif';c.fillText(k,220,y);c.fillStyle='#2f2518';c.font='31px "Microsoft JhengHei",sans-serif';c.fillText(v,475,y);c.strokeStyle='rgba(109,92,62,.35)';c.beginPath();c.moveTo(215,y+22);c.lineTo(985,y+22);c.stroke();y+=82;}
+  c.fillStyle='#6d5c3e';c.font='700 27px "Microsoft JhengHei",sans-serif';c.fillText('特殊紀錄',220,y);c.fillStyle='#2f2518';c.font='26px "Microsoft JhengHei",sans-serif';let yy=y;for(const item of oddActionList()){yy=canvasWrappedText(c,'・'+item,475,yy,505,40);}y=Math.max(y+70,yy+24);
+  c.textAlign='center';c.fillStyle='#6d5c3e';c.font='700 28px "Microsoft JhengHei",sans-serif';c.fillText('逃 生 戳 章 冊',600,1225);
+  const xs=[330,600,870],stampY=1345;
+  Object.entries(ESCAPE_STAMPS).forEach(([key,info],i)=>{const on=!!PROFILE.unlocked[key];c.save();c.translate(xs[i],stampY);c.rotate((i-1)*.07);c.lineWidth=on?7:4;c.strokeStyle=on?'#a33a32':'#9b8d72';c.fillStyle=on?'rgba(163,58,50,.06)':'rgba(120,110,90,.03)';if(!on)c.setLineDash([14,10]);c.beginPath();c.arc(0,0,82,0,Math.PI*2);c.fill();c.stroke();c.setLineDash([]);c.fillStyle=on?'#a33a32':'#9b8d72';c.font='700 24px "Microsoft JhengHei",sans-serif';c.fillText(on?info.seal:'未解鎖',0,-3);c.font='21px "Microsoft JhengHei",sans-serif';c.fillText(info.short,0,35);c.restore();});
+  c.fillStyle='#6d5c3e';c.font='23px "Microsoft JhengHei",sans-serif';c.textAlign='center';c.fillText(`已收集 ${unlockedRouteCount()}／3 枚｜資料保存於目前瀏覽器`,600,1510);
+  c.fillText(new Intl.DateTimeFormat('zh-TW',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date()),600,1570);
+  c.font='20px "Microsoft JhengHei",sans-serif';c.fillStyle='#756648';c.fillText('本證書由七樓門禁系統自動產生',600,1630);
+  const url=canvas.toDataURL('image/png');const img=document.getElementById('certificateImg'),link=document.getElementById('certificateDownload'),wrap=document.getElementById('certificateWrap');if(img)img.src=url;if(link){link.href=url;link.download=`${S.playerName||'測試者'}_七樓夜間離場證書.png`;}renderCertificateStampBook();if(wrap)wrap.hidden=false;
+}
+
 /* ================= ENDINGS ================= */
 function fmtTime(){return clockStr();}
 function endGame(type){
   const T=document.getElementById('endtitle'),B=document.getElementById('endbody');
+  const success=!['fire','pipe'].includes(type);
+  if(success){clearTimeout(PIGEON_TIMER);PIGEON_TIMER=null;}
+  if(type==='fire')recordOddAttempt('fire');
+  if(type==='pipe')recordOddAttempt('pipe');
+  if(success){S.elapsedMs=S.startAt?Date.now()-S.startAt:0;S.route=type;recordCompletion(type);}
   T.className='';
   if(type==='fire'){
     AudioEngine.sfx('endingBad');T.classList.add('bad');T.textContent='✖ 壞結局：消防演練超前部署';
@@ -1465,19 +1835,19 @@ function endGame(type){
   }else if(type==='side'){
     AudioEngine.sfx('endingGood');T.textContent='◆ 機械結局：不插電的團體作業';
     B.textContent=`你把伸縮燈桿頂住門框上方的安全扣，
-另一手握住金屬把手——左轉到底、回右至刻線，最後向外一拉。
+另一手握住金屬把手——左轉到底、順時針回到右側紅線，最後向右拉出鎖芯。
 
 「鏗。」
 
 彈簧扣縮回，厚重的側門終於鬆開。
 沒有密碼。沒有讀卡器。沒有「系統忙碌中，請稍候」。
-只有一套明明寫著「單人操作」，卻像需要三隻手的機械程序。
+保養程序要求先固定安全扣，再依序轉動並拉出鎖芯。
 
 在全公司最先進的封鎖系統面前，
 最後獲勝的是一支鐵把手、一根應援燈桿，
 以及你被迫練成的多工能力。
 
-Kat，功過相抵。
+維修備忘留下的程序，確實完成了最後一步。
 
 只是你隱約覺得——如果帶齊那三份「不該存在的文件」，
 再打開正門，今晚也許會有完整的解釋。`;
@@ -1521,7 +1891,7 @@ Kat，功過相抵。
 
 至於系統為什麼半夜啟動、
 誰把你編成 7F-01、
-Kat 為什麼永遠只剩語音信箱——
+為什麼聯絡始終轉進語音信箱——
 
 明天再說。今晚你只想睡覺。
 
@@ -1533,10 +1903,13 @@ Kat 為什麼永遠只剩語音信箱——
 這層樓還藏著幾份「不該存在的文件」——
 下次，把它們帶齊，再開這扇門。`;
   }
-  const btn=document.getElementById('endingBtn');
-  if(type==='fire'||type==='pipe'){btn.textContent='↩ 回到選擇前';btn.dataset.mode='resume';}
+  const btn=document.getElementById('endingBtn'),reporter=document.getElementById('endReporter'),archive=document.getElementById('endArchive'),cert=document.getElementById('certificateWrap');
+  if(reporter)reporter.textContent='　'+(S.playerName||'測試者 7F-01')+'　';
+  if(archive)archive.textContent='歸檔：'+new Intl.DateTimeFormat('zh-TW',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date());
+  if(type==='fire'||type==='pipe'){btn.textContent='↩ 回到選擇前';btn.dataset.mode='resume';if(cert)cert.hidden=true;}
   else{btn.textContent='↻ 從頭再玩';btn.dataset.mode='restart';}
   document.getElementById('ending').style.display='block';
+  if(success)setTimeout(()=>generateCertificate(type),60);
 }
 
 
@@ -1550,10 +1923,11 @@ function endingAction(){
   restartGame();
 }
 function restartGame(){
-  S=initialState();LOCK=null;SIDE_MECH=null;hoverSpot=null;
-  document.getElementById('ending').style.display='none';document.getElementById('intro').style.display='block';
+  clearTimeout(PIGEON_TIMER);PIGEON_TIMER=null;PIGEON_ACTIVE=false;
+  S=initialState();LOCK=null;SIDE_MECH=null;FIRE_MECH=null;MAIN_DOOR=null;FOOD_PUZZLE=null;hoverSpot=null;document.body.classList.remove('powered');document.getElementById('intro')?.classList.remove('reopen');
+  document.getElementById('ending').style.display='none';document.getElementById('certificateWrap').hidden=true;document.getElementById('intro').style.display='block';document.getElementById('playerNameInput').value=PROFILE.lastName||'';document.getElementById('nameEntryError').textContent='';renderProfileSummary();
   var sg=document.querySelector('#intro .papersign .abtn');if(sg)sg.textContent='✍ 按此視同簽收';
-  closeModal();closePhone();renderNav();renderInv();renderClock();renderPhone();draw();
+  closeModal();closePhone();closeToolMenu();document.getElementById('certificateImg').removeAttribute('src');renderNav();renderInv();renderClock();renderPhone();draw();
   document.getElementById('scenename').textContent='▸ '+ZONES[S.zone].label;
 }
 
@@ -1583,12 +1957,12 @@ function renderWirePanel(){
   });
   html+='</div></div>';
   html+='<div class="draghelp">抓住左側線材拖到右側端子；拖到空白處可拔除。</div>';
-  html+='<div class="wire-actions"><button class="side-mini-btn" onclick="wireCommit()">⚡ 推上總開關</button>'
-      +'<button class="side-mini-btn" onclick="wireReset()">↺ 全部拆除</button></div>';
+  html+='<div class="breaker-console" id="breakerConsole"><div class="breaker-title">MAIN BREAKER／總開關</div><div class="breaker-shell"><span class="breaker-label-on">ON</span><span class="breaker-label-off">OFF</span><div class="breaker-track"><div class="breaker-handle" id="mainBreaker" aria-label="可向上推動的總開關"></div></div></div><div class="breaker-arrow">↑ 抓住開關往上推</div><div class="breaker-status" id="breakerStatus">接線完成後，將開關推至 ON。</div></div>';
+  html+='<div class="wire-actions"><button class="side-mini-btn" onclick="wireReset()">↺ 全部拆除</button></div>';
   showModal('頂樓電箱',`護蓋下垂著五條線，接線座上有三個端子。
 不是每條線都該接——哪幾條該、接哪裡，
 備忘的正本，聽說由「主管」保管。`,html);
-  setTimeout(()=>{bindWireDrag();drawWireLines();},0);
+  setTimeout(()=>{bindWireDrag();bindBreakerSwitch();drawWireLines();},0);
 }
 function wireClick(e,w){
   if(WIRES?.suppressClick){e?.preventDefault();return;}
@@ -1602,7 +1976,7 @@ function termTap(t){
   else if(existing){W.conn[existing]=null;AudioEngine.sfx('tap');}
   renderWirePanel();
 }
-function wireReset(){WIRES.sel=null;WIRES.drag=null;WIRES.conn={red:null,blue:null,green:null,white:null,yellow:null};AudioEngine.sfx('tap');renderWirePanel();}
+function wireReset(){WIRES.sel=null;WIRES.drag=null;WIRES.breakerDrag=null;WIRES.conn={red:null,blue:null,green:null,white:null,yellow:null};AudioEngine.sfx('tap');renderWirePanel();}
 function bindWireDrag(){document.querySelectorAll('.wirebtn').forEach(el=>el.addEventListener('pointerdown',wireDragDown));}
 function wireDragDown(e){
   if(!WIRES)return;e.preventDefault();e.stopPropagation();
@@ -1631,6 +2005,34 @@ function wireDragUp(e){
   }
   WIRES.drag=null;renderWirePanel();
 }
+function bindBreakerSwitch(){
+  const h=document.getElementById('mainBreaker');if(!h||!WIRES)return;
+  h.addEventListener('pointerdown',breakerDown);
+}
+function breakerDown(e){
+  if(!WIRES)return;e.preventDefault();e.stopPropagation();
+  const h=e.currentTarget;WIRES.breakerDrag={startY:e.clientY,startTop:h.offsetTop,lastY:e.clientY};h.classList.add('dragging');
+  try{h.setPointerCapture?.(e.pointerId);}catch(_e){}
+  document.addEventListener('pointermove',breakerMove,{passive:false});document.addEventListener('pointerup',breakerUp,{once:true});document.addEventListener('pointercancel',breakerUp,{once:true});
+}
+function breakerMove(e){
+  const d=WIRES?.breakerDrag,h=document.getElementById('mainBreaker');if(!d||!h)return;if(e.cancelable)e.preventDefault();d.lastY=e.clientY;
+  const mobile=window.innerWidth<=520,topOn=8,topOff=mobile?54:61;
+  h.style.top=Math.max(topOn,Math.min(topOff,d.startTop+e.clientY-d.startY))+'px';
+}
+function breakerUp(e){
+  const d=WIRES?.breakerDrag,h=document.getElementById('mainBreaker');document.removeEventListener('pointermove',breakerMove);document.removeEventListener('pointerup',breakerUp);document.removeEventListener('pointercancel',breakerUp);
+  if(!d||!h)return;h.classList.remove('dragging');WIRES.breakerDrag=null;
+  const mobile=window.innerWidth<=520,topOff=mobile?54:61;
+  if(h.offsetTop<34){h.style.top='8px';h.classList.add('on');AudioEngine.sfx('tap');setTimeout(wireCommit,220);}
+  else{h.style.top=topOff+'px';h.classList.remove('on');AudioEngine.sfx('tap');}
+}
+function breakerSnapOff(){
+  const h=document.getElementById('mainBreaker');if(!h)return;const topOff=window.innerWidth<=520?54:61;h.classList.remove('on','dragging');h.style.top=topOff+'px';
+}
+function setBreakerStatus(text,type=''){
+  const el=document.getElementById('breakerStatus');if(!el)return;el.textContent=text;el.className='breaker-status'+(type?' '+type:'');
+}
 function drawWireLines(){
   const box=document.getElementById('wirebox'),svg=document.getElementById('wiresvg');if(!box||!svg||!WIRES)return;
   const br=box.getBoundingClientRect();let s='';
@@ -1642,36 +2044,82 @@ function drawWireLines(){
   svg.setAttribute('viewBox','0 0 '+br.width+' '+br.height);svg.style.width=br.width+'px';svg.style.height=br.height+'px';svg.innerHTML=s;
 }
 function wireCommit(){
-  const c=WIRES.conn;
-  if(c.white==='mains'&&c.red==='ground'&&c.green==='backup'&&!c.blue&&!c.yellow){closeModal();wireSuccess();return;}
-  AudioEngine.sfx('wrong');
-  let t;
-  if(c.blue||c.yellow)t=`接上那條線的瞬間，整個電箱「滋」了一聲，
-所有的燈都暗了一下。
-
-備忘上好像寫過——有幾條線，碰都不要碰。`;
-  else if(!c.white||!c.red||!c.green)t=`總開關推到一半就彈回來了。
-該接的線還垂在半空——接好再來。`;
-  else t=`火花「啪」地炸開，汗毛集體立正。
-迴路發出一聲很不健康的嗡嗡聲，然後跳閘。
-
-顏色和端子的對應……你確定沒有想當然？`;
-  showModal('接線失敗',t,'<button class="opt" onclick="retryWire()">重新接線</button>');
+  const c=WIRES?.conn;if(!c)return;
+  if(c.white==='mains'&&c.red==='ground'&&c.green==='backup'&&!c.blue&&!c.yellow){
+    setBreakerStatus('迴路穩定。總開關已咬住 ON。','good');AudioEngine.sfx('unlock');
+    setTimeout(()=>{closeModal();wireSuccess();},360);return;
+  }
+  AudioEngine.sfx('wrong');breakerSnapOff();sideJolt('breakerConsole');
+  if(c.blue||c.yellow)setBreakerStatus('啪！不該接的線造成跳閘，開關自動彈回 OFF。','bad');
+  else if(!c.white||!c.red||!c.green)setBreakerStatus('迴路尚未完整，開關推不上去。','bad');
+  else setBreakerStatus('端子對應錯誤，保護機構將開關彈回 OFF。','bad');
+}
+function powerUpSequence(done){
+  const el=document.getElementById('powerSequence');if(!el){done?.();return;}
+  el.classList.remove('run');el.style.display='flex';void el.offsetWidth;el.classList.add('run');
+  setTimeout(()=>{el.classList.remove('run');el.style.display='none';done?.();},2850);
 }
 function wireSuccess(){
-  S.power=true;draw();AudioEngine.sfx('unlock');
-  showModal('電力恢復',`白線咬住【市電】，紅線落進【接地】，綠線扣上【備援】。
-藍線與黃線，安分地垂在原處。
-你用燈桿頂住總開關，用力一撥——
+  S.power=true;document.body.classList.add('powered');draw();AudioEngine.sfx('unlock');
+  powerUpSequence(()=>{
+    queueReward({icon:'⚡',name:'主電源恢復',desc:'整棟建築物的照明迴路已重新啟動，正門密碼面板恢復供電。',kind:'系統狀態更新'});
+    showModal('電力恢復',`白線接上【市電】，紅線接上【接地】，綠線接上【備援】。
+藍線與黃線維持未連接。
+你用燈桿抵住總開關，向上一推——
 
 「碰。」
 
-腳下的大樓一層、一層亮了起來，
-最後是一樓玄關的一小點綠光。
+大樓照明由低樓層向上逐層亮起，
+最後，七樓與一樓玄關同時恢復供電。
 
-正門的密碼面板，活了。`,'<span class="getitem">⚡ 正門面板已恢復供電</span>');
+正門密碼面板已啟動。`,'<span class="getitem">⚡ 正門面板已恢復供電</span>');
+  });
 }
 function retryWire(){closeModal();openWirePanel();}
+
+/* ---- fire-stair dual verification ---- */
+let FIRE_MECH=null;
+function openFireDoorMechanism(){
+  FIRE_MECH={stage:'card',cardTop:214,chipAngle:0,latchY:0,drag:null};
+  renderFireDoorMechanism();
+}
+function renderFireDoorMechanism(){
+  const html=`<div class="fire-mech-wrap">
+    <div class="fire-mech-status" id="fireMechStatus">將測試卡由下往上穩定刷過讀卡槽。</div>
+    <div class="fire-visual" id="fireVisual">
+      <div class="fire-door-leaf" id="fireDoorLeaf"><span>FIRE EXIT</span></div>
+      <div class="fire-reader" id="fireReader"><div class="fire-reader-screen" id="fireReaderScreen">WAIT</div><div class="fire-reader-slot"></div><span class="fire-reader-led" id="fireReaderLed"></span></div>
+      <div class="fire-card" id="fireCard"><b>7F-01</b><small>BLACKOUT TESTER</small></div>
+      <div class="fire-chip-base"><div class="fire-chip-marker"></div><div class="fire-chip" id="fireChip"><i class="fire-chip-line"></i><span>MAINT.</span></div></div>
+      <div class="fire-latch-track"><div class="fire-latch" id="fireLatch">緊急門栓</div></div>
+    </div>
+    <div class="fire-steps"><div class="fire-step active" id="fireStepCard">1｜穩定刷卡</div><div class="fire-step" id="fireStepChip">2｜旋轉晶片校準</div><div class="fire-step" id="fireStepLatch">3｜下拉門栓</div></div>
+    <button class="side-mini-btn fire-reset" onclick="resetFireDoorMechanism()">↺ 重置讀卡器</button>
+  </div>`;
+  showModal('消防梯門／備援驗證',`依序完成三項操作：
+① 將測試卡由下往上，完整刷過讀卡槽。
+② 晶片白線起始在左側；順時針旋轉，直到白線對準上方刻線。
+③ 綠燈亮起後，將緊急門栓向下拉到底。`,html);
+  setTimeout(bindFireDoorMechanism,0);
+}
+function bindFireDoorMechanism(){
+  document.getElementById('fireCard')?.addEventListener('pointerdown',fireCardDown);
+  document.getElementById('fireChip')?.addEventListener('pointerdown',fireChipDown);
+  document.getElementById('fireLatch')?.addEventListener('pointerdown',fireLatchDown);
+  updateFireDoorUI();
+}
+function fireStatus(text,ok=false,bad=false){const el=document.getElementById('fireMechStatus');if(!el)return;el.textContent=text;el.className='fire-mech-status'+(ok?' ok':'')+(bad?' bad':'');}
+function fireCardDown(e){if(FIRE_MECH?.stage!=='card')return;e.preventDefault();const el=e.currentTarget;FIRE_MECH.drag={type:'card',startY:e.clientY,startTop:FIRE_MECH.cardTop,startTime:performance.now()};document.addEventListener('pointermove',fireCardMove,{passive:false});document.addEventListener('pointerup',fireCardUp,{once:true});document.addEventListener('pointercancel',fireCardUp,{once:true});el.classList.add('dragging');}
+function fireCardMove(e){const d=FIRE_MECH?.drag;if(!d||d.type!=='card')return;if(e.cancelable)e.preventDefault();FIRE_MECH.cardTop=Math.max(52,Math.min(214,d.startTop+e.clientY-d.startY));updateFireDoorUI(false);}
+function fireCardUp(){const d=FIRE_MECH?.drag,el=document.getElementById('fireCard');document.removeEventListener('pointermove',fireCardMove);document.removeEventListener('pointerup',fireCardUp);document.removeEventListener('pointercancel',fireCardUp);el?.classList.remove('dragging');if(!d)return;const elapsed=performance.now()-d.startTime;FIRE_MECH.drag=null;if(FIRE_MECH.cardTop<=88&&elapsed>=220&&elapsed<=1900){FIRE_MECH.cardTop=62;FIRE_MECH.stage='chip';AudioEngine.sfx('unlock');fireStatus('測試卡通過。順時針旋轉 MAINT. 晶片，讓白色刻線對準上方標記。',true);}else{FIRE_MECH.cardTop=214;AudioEngine.sfx('wrong');fireStatus(elapsed<220?'刷卡過快，讀卡器未完成辨識。':'刷卡未完整通過感應槽。',false,true);sideJolt('fireReader');}updateFireDoorUI();}
+function fireChipDown(e){if(FIRE_MECH?.stage!=='chip')return;e.preventDefault();const r=e.currentTarget.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;FIRE_MECH.drag={type:'chip',cx,cy,last:Math.atan2(e.clientY-cy,e.clientX-cx)*180/Math.PI};document.addEventListener('pointermove',fireChipMove,{passive:false});document.addEventListener('pointerup',fireChipUp,{once:true});document.addEventListener('pointercancel',fireChipUp,{once:true});}
+function fireChipMove(e){const d=FIRE_MECH?.drag;if(!d||d.type!=='chip')return;if(e.cancelable)e.preventDefault();const now=Math.atan2(e.clientY-d.cy,e.clientX-d.cx)*180/Math.PI;FIRE_MECH.chipAngle=Math.max(0,Math.min(105,FIRE_MECH.chipAngle+normAngleDelta(now-d.last)));d.last=now;if(FIRE_MECH.chipAngle>=84){FIRE_MECH.chipAngle=90;FIRE_MECH.stage='latch';FIRE_MECH.drag=null;AudioEngine.sfx('unlock');fireStatus('維修晶片校準完成。綠燈已亮，將緊急門栓向下拉到底。',true);document.removeEventListener('pointermove',fireChipMove);document.removeEventListener('pointerup',fireChipUp);document.removeEventListener('pointercancel',fireChipUp);}updateFireDoorUI();}
+function fireChipUp(){document.removeEventListener('pointermove',fireChipMove);document.removeEventListener('pointerup',fireChipUp);document.removeEventListener('pointercancel',fireChipUp);if(FIRE_MECH)FIRE_MECH.drag=null;}
+function fireLatchDown(e){if(FIRE_MECH?.stage!=='latch')return;e.preventDefault();FIRE_MECH.drag={type:'latch',startY:e.clientY,start:FIRE_MECH.latchY};document.addEventListener('pointermove',fireLatchMove,{passive:false});document.addEventListener('pointerup',fireLatchUp,{once:true});document.addEventListener('pointercancel',fireLatchUp,{once:true});e.currentTarget.classList.add('dragging');}
+function fireLatchMove(e){const d=FIRE_MECH?.drag;if(!d||d.type!=='latch')return;if(e.cancelable)e.preventDefault();FIRE_MECH.latchY=Math.max(0,Math.min(74,d.start+e.clientY-d.startY));updateFireDoorUI(false);}
+function fireLatchUp(){const el=document.getElementById('fireLatch');document.removeEventListener('pointermove',fireLatchMove);document.removeEventListener('pointerup',fireLatchUp);document.removeEventListener('pointercancel',fireLatchUp);el?.classList.remove('dragging');if(!FIRE_MECH)return;FIRE_MECH.drag=null;if(FIRE_MECH.latchY>=58){FIRE_MECH.latchY=74;FIRE_MECH.stage='done';AudioEngine.sfx('unlock');fireStatus('雙重驗證完成。消防梯門鎖已釋放。',true);document.getElementById('fireDoorLeaf')?.classList.add('open');updateFireDoorUI();setTimeout(()=>{closeModal();endGame('firestairs');},950);}else{FIRE_MECH.latchY=0;AudioEngine.sfx('wrong');fireStatus('門栓沒有拉到底，鎖舌重新扣回。',false,true);sideJolt('fireLatch');updateFireDoorUI();}}
+function updateFireDoorUI(){if(!FIRE_MECH)return;const card=document.getElementById('fireCard'),chip=document.getElementById('fireChip'),latch=document.getElementById('fireLatch'),led=document.getElementById('fireReaderLed'),screen=document.getElementById('fireReaderScreen');if(card)card.style.top=FIRE_MECH.cardTop+'px';if(chip)chip.style.transform='rotate('+FIRE_MECH.chipAngle+'deg)';if(latch)latch.style.transform='translateY('+FIRE_MECH.latchY+'px)';if(led)led.classList.toggle('on',['latch','done'].includes(FIRE_MECH.stage));if(screen)screen.textContent=FIRE_MECH.stage==='card'?'WAIT':FIRE_MECH.stage==='chip'?'CARD OK':FIRE_MECH.stage==='latch'?'READY':'OPEN';const a=document.getElementById('fireStepCard'),b=document.getElementById('fireStepChip'),c=document.getElementById('fireStepLatch');if(a)a.className='fire-step '+(FIRE_MECH.stage==='card'?'active':'done');if(b)b.className='fire-step '+(FIRE_MECH.stage==='chip'?'active':(['latch','done'].includes(FIRE_MECH.stage)?'done':''));if(c)c.className='fire-step '+(FIRE_MECH.stage==='latch'?'active':(FIRE_MECH.stage==='done'?'done':''));}
+function resetFireDoorMechanism(){FIRE_MECH={stage:'card',cardTop:214,chipAngle:0,latchY:0,drag:null};renderFireDoorMechanism();AudioEngine.sfx('tap');}
 
 /* ---- side-door visual manual release ---- */
 let SIDE_MECH=null;
@@ -1679,7 +2127,7 @@ function openSideMechanism(){
   if(!S.inv.release_handle)return;
   if(!S.inv.selfie){
     showModal('後勤側門／手動釋放',`把手能裝進鎖芯，但門框上方還有一道彈簧安全扣。
-兩者距離遠得很有職場協作精神——一個人很難同時操作。
+兩者距離很遠，一個人無法直接同時操作。
 
 保養標籤寫著：
 「單人操作請使用長柄工具固定上扣。」
@@ -1701,11 +2149,11 @@ function renderSideMechanism(){
       <div class="side-lock-unit" id="sideLockUnit"><div class="side-dial"></div><div class="side-handle" id="sideHandle"></div></div>
       <div class="side-pull-arrow" id="sidePullArrow">›››</div>
     </div>
-    <div class="side-steps"><div class="side-step active" id="sideStepBrace">1｜固定安全扣</div><div class="side-step" id="sideStepTurn">2｜左轉，再回刻線</div><div class="side-step" id="sideStepPull">3｜向外拉門</div></div>
+    <div class="side-steps"><div class="side-step active" id="sideStepBrace">1｜固定安全扣</div><div class="side-step" id="sideStepTurn">2｜左轉，再回右側紅線</div><div class="side-step" id="sideStepPull">3｜向右拉出鎖芯</div></div>
     <div class="side-mech-actions"><button class="side-mini-btn" onclick="resetSideMechanism()">↺ 重置機構</button></div>
   </div>`;
   showModal('後勤側門／手動釋放',`保養標籤【6】的背面只印著一句話：
-「固定上扣，左到底，回刻線，往外拉。」`,html);
+「固定上扣，左轉到底，順時針回右側紅線，再向右拉出鎖芯。」`,html);
   setTimeout(bindSideMechanism,0);
 }
 function bindSideMechanism(){
@@ -1792,8 +2240,8 @@ function updateSideMechanismUI(updateText=true){
   if(!updateText)return;
   if(SIDE_MECH.stage==='brace')sideSetStatus('拖動伸縮燈桿靠近紅色安全扣；亮框出現時放開即可。');
   else if(SIDE_MECH.stage==='turnLeft')sideSetStatus('握住把手，逆時針拖動到左側止點。',true);
-  else if(SIDE_MECH.stage==='turnBack')sideSetStatus('已到底。順時針轉回上方紅色刻線。',true);
-  else if(SIDE_MECH.stage==='pull')sideSetStatus('刻線對準了。拖住整組把手往右拉開門。',true);
+  else if(SIDE_MECH.stage==='turnBack')sideSetStatus('已到底。順時針轉回右側紅色刻線。',true);
+  else if(SIDE_MECH.stage==='pull')sideSetStatus('紅線對準了。拖住整組鎖芯往右拉出。',true);
   else if(SIDE_MECH.stage==='done')sideSetStatus('安全扣解除。門鎖已釋放。',true);
 }
 function sideJolt(id){const el=document.getElementById(id);if(!el)return;el.classList.remove('side-jolt');void el.offsetWidth;el.classList.add('side-jolt');setTimeout(()=>el.classList.remove('side-jolt'),320);}
@@ -1812,19 +2260,13 @@ office2:[
 手機在桌上，好幾個聊天室在下午閃過訊息。`);
  }},
  {id:'tungdesk',x:82,y:102,w:38,h:52,label:'董伊淇的舊座位',fn(){
-   S.flags.sawMenu=1;
-   showModal('董伊淇的舊座位',`她離職前的座位還沒清，七個手搖杯疊成一座塔，沒人敢動。
+   showModal('董伊淇的舊座位',`她離職前的座位還沒清，七個手搖杯疊成一座塔。
 
-杯塔下壓著一張油漬斑斑的「嘉常菜」外送菜單：
-・滷肉飯【LUROUFAN】 NT.50
-・豬血糕【ZHUXUEGAO】 NT.40
-・貢丸湯【GONGWAN SOUP】 NT.35
-・香菇雞湯【XIANGGU SOUP】 NT.45
+杯塔旁壓著一張公用電腦的登入通知：
+「圖像驗證已啟用。請依點餐備註，選出三組未含避雷食材的餐點。」
 
-「貢丸湯」那行被紅筆圈了起來，旁邊一行小字：
-「本人最愛☆」
-
-——是董伊淇的字跡。`);
+通知上沒有列出避雷內容。
+那份資料，應該在其他地方。`);
  }},
  {id:'kaodesk',x:150,y:126,w:42,h:22,label:'高于雯的桌面',fn(){
    gainPiece('catDeskPiece','被推下桌的紙片【48】');
@@ -1941,7 +2383,7 @@ window_:[
  }},
  {id:'pc',x:216,y:120,w:34,h:26,label:'公用電腦',fn(){
    if(S.flags.pcOpen){openMailbox();return;}
-   openLock({title:'公用電腦',desc:'登入畫面。密碼提示只有一行：\n「伊淇永遠不會點的那道。——Kat」',len:12,type:'txt',code:'xianggu',wrong:'密碼錯誤。\n提示補充：只要那道菜的「主角」，不用連湯。',onOK(){S.flags.pcOpen=1;openMailbox();}});
+   openFoodPuzzle();
  }},
  {id:'locker',x:360,y:112,w:30,h:58,label:'備品置物櫃',fn(){
    if(S.flags.lockerOpen){showModal('置物櫃','空了。只剩貢丸乾的包裝袋，見證你的求生意志。');return;}
@@ -2007,9 +2449,9 @@ meet_s:[
 【會議設備／BP-2】
 
 貼紙下方另有一行小字：
-「處理完設備，再去看門。」
+「處理完設備，再確認主要門禁。」
 
-非常 Kat。連碎片都像維修單。`);
+巡檢順序與保險箱上的備忘一致。`);
  }},
  {id:'acremote',x:126,y:36,w:30,h:14,label:'冷氣遙控器',fn(){showModal('冷氣遙控器',`16 度、風速最強。
 遙控器下壓著紙條：「測試低溫環境用，請勿調整。」
@@ -2034,7 +2476,7 @@ meet_b:[
 「測試不是正式，正式也不要拿來測試。」
 
 沒有人簽名。大家都很有求生欲。`);}},
- {id:'towerart',x:140,y:52,w:68,h:54,label:'古塔畫作',fn(){S.flags.sawTowerArt=1;showModal('古塔畫作',`一幅古塔的版畫：塔頂劈著閃電，人影往下墜。
+ {id:'towerart',x:140,y:52,w:68,h:54,label:'古塔畫作',fn(){if(!S.flags.sawTowerArt){S.flags.sawTowerArt=1;queueReward({icon:'⚡',name:'古塔畫銘牌【XVI】',desc:'THE TOWER 的羅馬數字編號。',kind:'重要線索取得'});}showModal('古塔畫作',`一幅古塔的版畫：塔頂劈著閃電，人影往下墜。
 看著就不太吉利。
 
 銘牌：【XVI／THE TOWER】
@@ -2048,7 +2490,7 @@ meet_b:[
 你看了一眼金額，又默默把畫掛回去。
 今晚最恐怖的東西，找到了。`);}},
  {id:'preferencefile',x:176,y:120,w:82,h:16,label:'主管偏好調查文件',fn(){
-   S.flags.sawSunOrder=1;showModal('主管偏好調查文件',`一份「主管辦公用品偏好調查」。
+   if(!S.flags.sawSunOrder){S.flags.sawSunOrder=1;queueReward({icon:'📋',name:'角色排序【毛毛＞泡泡＞花花】',desc:'可配合立牌底座數字排列抽屜密碼。',kind:'重要線索取得'});}showModal('主管偏好調查文件',`一份「主管辦公用品偏好調查」。
 孫寧的欄位，用紅筆寫著：
 
 毛毛 ＞ 泡泡 ＞ 花花
@@ -2078,10 +2520,9 @@ meet_b:[
 
 旁邊還有一張便條：
 「把手只負責轉鎖芯。上方安全扣要同時固定。
-單人操作，請自備長柄工具。——Kat」
+單人操作時，請使用長柄工具固定安全扣。——Kat」
 
-不插電很可靠。
-需要三隻手這件事，Kat 沒有放在標題。`,'<span class="getitem">🛠 方形金屬把手</span>');
+說明寫得很清楚：把手與長柄工具缺一不可。`,'<span class="getitem">🛠 方形金屬把手</span>');
    }});
  }},
  {id:'cabinet',x:322,y:60,w:52,h:112,label:'高櫃頂端',fn(){
@@ -2105,7 +2546,7 @@ director:[
 
 桌上的電話直通孫寧本人。
 理論上。`);}},
- {id:'sunlabels',x:130,y:128,w:66,h:20,label:'三個角色立牌',fn(){S.flags.sawSunLabels=1;showModal('飛天小女警立牌',`三個立牌的底座，各貼著一個數字：
+ {id:'sunlabels',x:130,y:128,w:66,h:20,label:'三個角色立牌',fn(){if(!S.flags.sawSunLabels){S.flags.sawSunLabels=1;queueReward({icon:'🔢',name:'立牌數字【7／4／9】',desc:'需依主管偏好調查中的角色順序排列。',kind:'重要線索取得'});}showModal('飛天小女警立牌',`三個立牌的底座，各貼著一個數字：
 
 毛毛【7】　花花【4】　泡泡【9】
 
@@ -2114,7 +2555,7 @@ director:[
  {id:'sundrawer',x:116,y:158,w:180,h:16,label:'孫寧的上鎖抽屜',fn(){
    if(S.flags.sunDrawerOpen){showModal('孫寧的抽屜','已打開。覆核卡被你拿走了。');return;}
    openLock({title:'孫寧的上鎖抽屜',desc:'三位數機械滾輪鎖。鎖旁貼著孫寧的字條：\n「密碼＝我心中的排名。」',len:3,type:'wheel',code:'794',wrong:'錯誤。\n她「心中的排名」……你在哪裡看過？',onOK(){
-     S.flags.sunDrawerOpen=1;S.flags.code725=1;S.flags.sawWireMemo=1;addItem('sun_override');showModal('孫寧的抽屜開了',`抽屜裡放著主管覆核卡——卡背印著【725】，
+     S.flags.sunDrawerOpen=1;S.flags.code725=1;S.flags.sawWireMemo=1;addItem('sun_override');queueReward({icon:'⚡',name:'頂樓電箱檢線備忘',desc:'白＝市電、紅＝接地、綠＝備援；藍線與黃線不接。',kind:'重要線索取得'});showModal('孫寧的抽屜開了',`抽屜裡放著主管覆核卡——卡背印著【725】，
 和一行小字：「勿與識別碼分開保管。」
 
 卡片下面還壓著《頂樓電箱檢線備忘》的正本：
@@ -2133,7 +2574,7 @@ director:[
 視覺識別組出品。
 至少這次沒有把密碼貼在藝術品上。`);}},
  {id:'sunphone',x:266,y:126,w:30,h:30,label:'孫寧的桌上電話',fn(){openPhone();callSun();}},
- {id:'suntray',x:318,y:98,w:52,h:72,label:'待簽文件櫃',fn(){S.flags.sawRuruFile=1;showModal('待簽文件櫃',`第二層放著 Ruru 今天剛送來的結案文件：
+ {id:'suntray',x:318,y:98,w:52,h:72,label:'待簽文件櫃',fn(){if(!S.flags.sawRuruFile){S.flags.sawRuruFile=1;queueReward({icon:'📎',name:'Ruru 結案版本【07】',desc:'共用抽屜密碼的後半段。',kind:'重要線索取得'});}showModal('待簽文件櫃',`第二層放著 Ruru 今天剛送來的結案文件：
 「weekly_close_final_v07」
 
 右上角的【07】被她自己用螢光筆圈起來，
@@ -2146,8 +2587,7 @@ toilet:[
 【B 路線＝卡 ＋ 標籤】
 【缺一不可】
 
-……是誰蹲在深夜的女廁寫操作說明？
-大概是佈置到崩潰的 Kat。`);}},
+鏡面上的字跡像是演練佈置時留下的操作註記。`);}},
  {id:'sink',x:56,y:118,w:92,h:22,label:'洗手台下方',fn(){
    if(S.inv.tempcard){showModal('洗手台下方','已經沒有別的東西了。\n水管滴著水。一滴，一滴。你決定快點離開這裡。');return;}
    addItem('tempcard');showModal('洗手台下方',`手電筒往洗手台下一照——縫隙裡塞著一張卡。
@@ -2184,13 +2624,7 @@ roof:[
 你身上還缺：
 `+miss.join('\n'));return;
    }
-   showModal('消防梯門',`「嗶。」「嗶。」兩聲。
-
-【TESTER 7F-01 驗證通過】
-【MAINT. 標籤有效】
-
-門鎖「喀」一聲彈開，
-樓梯間的緊急照明一路亮到一樓。`,'<div class="optlist"><button class="opt" onclick="closeModal();endGame(\'firestairs\')">🚪 走消防梯離開七樓</button><button class="opt" onclick="closeModal()">暫時不走</button></div>');
+   openFireDoorMechanism();
  }},
  {id:'pipe',x:350,y:88,w:12,h:88,label:'排水管（樓邊）',fn(){showModal('排水管',`大樓外牆的排水管，在雨後的夜裡泛著濕漉漉的光。
 它一路通往地面——也一路通往社會新聞。`,'<div class="optlist"><button class="opt danger" onclick="closeModal();endGame(\'pipe\')">🧗 爬下去。我核心很有力。</button><button class="opt" onclick="closeModal()">不自行新增出口</button></div>');}},
@@ -2214,7 +2648,7 @@ lobby:[
 「……電箱檢線備忘……正本由主管保管……」
 
 對講機沒電。深夜的一樓，安靜得聽得到自己的心跳。`);}},
- {id:'ginaaward',x:292,y:34,w:72,h:42,label:'牆上的得獎合照',fn(){S.flags.sawGinaAward=1;showModal('牆上的得獎合照',`新裱框的合照：Gina 高舉獎座，笑容燦爛。
+ {id:'ginaaward',x:292,y:34,w:72,h:42,label:'牆上的得獎合照',fn(){if(!S.flags.sawGinaAward){S.flags.sawGinaAward=1;queueReward({icon:'🏆',name:'Gina 得獎月份【12】',desc:'共用抽屜密碼的前半段。',kind:'重要線索取得'});}showModal('牆上的得獎合照',`新裱框的合照：Gina 高舉獎座，笑容燦爛。
 獎座底座刻著：【十二月・年度業務獎】
 
 照片旁邊還留了一個空框，貼著便條：
@@ -2227,13 +2661,51 @@ lobby:[
 【緊急出口／6】
 
 標籤背面印著手動釋放程序：
-「先固定上扣；把手左轉到底，再回右至刻線；最後向外拉。」
+「先固定上扣；把手左轉到底，再順時針回右側紅線；最後向右拉出鎖芯。」
 
 把手保養中，暫存位置那一欄被黑筆塗掉了。`);return;}
    openSideMechanism();
  }},
 ],
 };
+
+
+
+/* ---- main entrance access panel ---- */
+let MAIN_DOOR=null;
+function openMainDoorMechanism(){
+  MAIN_DOOR={digits:'',stage:'code',leverY:0,drag:null};
+  renderMainDoorMechanism();
+}
+function renderMainDoorMechanism(message='輸入六位數管理密碼，再操作磁扣釋放桿。',type=''){
+  if(!MAIN_DOOR)return;
+  const display=[0,1,2,3,4,5].map(i=>'<span>'+(MAIN_DOOR.digits[i]||'·')+'</span>').join('');
+  const keys=['1','2','3','4','5','6','7','8','9','C','0','E'].map(k=>'<button class="main-key '+(k==='C'?'clear':k==='E'?'enter':'')+'" onclick="mainDoorKey(\''+k+'\')">'+(k==='C'?'清除':k==='E'?'確認':k)+'</button>').join('');
+  const alt=S.inv.firekit?'<button class="opt danger main-door-alt" onclick="closeModal();endGame(\'fire\')">🔥 使用火種處理門鎖（不建議）</button>':'';
+  const html='<div class="main-door-wrap"><div class="main-door-status '+type+'" id="mainDoorStatus">'+message+'</div><div class="main-door-visual" id="mainDoorVisual"><div class="main-door-leaf left"></div><div class="main-door-leaf right"></div><div class="main-panel"><span class="main-lock-led '+(MAIN_DOOR.stage==='lever'||MAIN_DOOR.stage==='done'?'on':'')+'" id="mainLockLed"></span><div class="main-display">'+display+'</div><div class="main-keypad">'+keys+'</div></div><div class="main-release-track '+(MAIN_DOOR.stage==='lever'||MAIN_DOOR.stage==='done'?'active':'')+'" id="mainReleaseTrack"><div class="main-release-label">磁扣釋放</div><div class="main-release-lever" id="mainReleaseLever">向下拉</div></div></div>'+alt+'</div>';
+  showModal('公司正門／門禁控制',`面板顯示：「識別碼＋覆核碼」。
+密碼驗證通過後，仍需手動拉下磁扣釋放桿。`,html);
+  setTimeout(bindMainDoorLever,0);
+}
+function mainDoorKey(k){
+  if(!MAIN_DOOR||MAIN_DOOR.stage!=='code')return;
+  AudioEngine.sfx('tap');
+  if(k==='C'){MAIN_DOOR.digits='';renderMainDoorMechanism();return;}
+  if(k==='E'){
+    if(MAIN_DOOR.digits==='404725'){
+      MAIN_DOOR.stage='lever';AudioEngine.sfx('unlock');renderMainDoorMechanism('管理密碼正確。將右側磁扣釋放桿向下拉到底。','ok');
+    }else{
+      MAIN_DOOR.digits='';AudioEngine.sfx('wrong');registerPasswordError();renderMainDoorMechanism('管理密碼錯誤。面板已清除輸入。','bad');
+    }
+    return;
+  }
+  if(MAIN_DOOR.digits.length<6){MAIN_DOOR.digits+=k;renderMainDoorMechanism();}
+}
+function bindMainDoorLever(){const el=document.getElementById('mainReleaseLever');if(el&&MAIN_DOOR?.stage==='lever')el.addEventListener('pointerdown',mainDoorLeverDown);updateMainDoorLever();}
+function mainDoorLeverDown(e){if(MAIN_DOOR?.stage!=='lever')return;e.preventDefault();MAIN_DOOR.drag={startY:e.clientY,start:MAIN_DOOR.leverY};document.addEventListener('pointermove',mainDoorLeverMove,{passive:false});document.addEventListener('pointerup',mainDoorLeverUp,{once:true});document.addEventListener('pointercancel',mainDoorLeverUp,{once:true});}
+function mainDoorLeverMove(e){if(!MAIN_DOOR?.drag)return;if(e.cancelable)e.preventDefault();MAIN_DOOR.leverY=Math.max(0,Math.min(78,MAIN_DOOR.drag.start+e.clientY-MAIN_DOOR.drag.startY));updateMainDoorLever();}
+function mainDoorLeverUp(){document.removeEventListener('pointermove',mainDoorLeverMove);document.removeEventListener('pointerup',mainDoorLeverUp);document.removeEventListener('pointercancel',mainDoorLeverUp);if(!MAIN_DOOR)return;MAIN_DOOR.drag=null;if(MAIN_DOOR.leverY>=62){MAIN_DOOR.leverY=78;MAIN_DOOR.stage='done';AudioEngine.sfx('unlock');updateMainDoorLever();const visual=document.getElementById('mainDoorVisual');visual?.classList.add('open');const status=document.getElementById('mainDoorStatus');if(status){status.textContent='磁扣已解除。正門正在開啟。';status.className='main-door-status ok';}setTimeout(()=>{closeModal();endGame(S.frags.frag1&&S.frags.frag2&&S.frags.frag3?'true':'normal');},1000);}else{MAIN_DOOR.leverY=0;AudioEngine.sfx('wrong');updateMainDoorLever();const status=document.getElementById('mainDoorStatus');if(status){status.textContent='釋放桿沒有拉到底，磁扣重新吸合。';status.className='main-door-status bad';}}}
+function updateMainDoorLever(){const el=document.getElementById('mainReleaseLever');if(el)el.style.transform='translateY('+(MAIN_DOOR?.leverY||0)+'px)';}
 
 /* ---- final door ---- */
 function doorAction(){
@@ -2246,22 +2718,12 @@ function doorAction(){
 【主要門禁／異常序號 48】
 
 面板下另貼著：「停電時請洽頂樓電箱。」
-Kat 難得有用的一次。`);
+巡檢紀錄與電箱方向一致。`);
     return;
   }
-  openLock({title:'大門密碼面板',desc:'面板亮著幽幽的綠光：「請輸入六位數管理密碼」。\n下方一行小字：「識別碼＋覆核碼」。',
-    len:6,code:'404725',wrong:'「密碼錯誤。剩餘嘗試次數：很多次。慢慢來。」',
-    onOK(){
-      if(S.frags.frag1&&S.frags.frag2&&S.frags.frag3)endGame('true');
-      else endGame('normal');
-    }});
-  if(S.inv.firekit){
-    setTimeout(()=>{
-      const ex=document.getElementById('mextra');
-      ex.innerHTML+='<div class="optlist"><button class="opt danger" onclick="closeModal();endGame(\'fire\')">🔥 不輸了。用火種燒門。（極度不建議）</button></div>';
-    },60);
-  }
+  openMainDoorMechanism();
 }
+
 </script>
 <script>
 /* ================= PIXEL RENDER ================= */
@@ -2513,7 +2975,23 @@ function paintScene(){
   if(!darkZone()&&asset&&asset.ready){g.clearRect(0,0,400,225);g.drawImage(asset.img,0,0,400,225);}
   else PAINT[S.zone]();
 }
-function draw(){g.imageSmoothingEnabled=false;paintScene();drawHotspots();}
+function applyPoweredPalette(){
+  if(!S.power)return;
+  try{
+    const img=g.getImageData(0,0,400,225),d=img.data;
+    for(let i=0;i<d.length;i+=4){
+      if(!d[i+3])continue;
+      const r=d[i],gg=d[i+1],b=d[i+2],lum=(r+gg+b)/3;
+      let nr=r*1.14+24,ng=gg*1.12+20,nb=b*.86+8;
+      if(lum<45){nr+=12;ng+=10;nb+=5;}
+      d[i]=Math.min(255,Math.round(nr/6)*6);
+      d[i+1]=Math.min(255,Math.round(ng/6)*6);
+      d[i+2]=Math.min(255,Math.round(nb/6)*6);
+    }
+    g.putImageData(img,0,0);
+  }catch(e){/* local scene assets remain usable even if pixel access is unavailable */}
+}
+function draw(){g.imageSmoothingEnabled=false;paintScene();applyPoweredPalette();drawHotspots();}
 function canvasPoint(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*400/r.width,y:(e.clientY-r.top)*225/r.height};}
 function spotAt(x,y){const M=TOUCH_MODE?6:3;return (SPOTS[S.zone]||[]).find(sp=>x>=sp.x-M&&x<=sp.x+sp.w+M&&y>=sp.y-M&&y<=sp.y+sp.h+M)||null;}
 cv.addEventListener('mousemove',e=>{
@@ -2528,17 +3006,21 @@ cv.addEventListener('click',e=>{
   if(TOUCH_MODE&&hoverSpot!==sp){hoverSpot=sp;AudioEngine.sfx('tap');toast('🔍 '+sp.label+'｜再點一次調查');draw();return;}
   AudioEngine.sfx('inspect');sp.fn();draw();
 });
+function toggleToolMenu(){const menu=document.getElementById('toolmenu'),btn=document.getElementById('btnTools');if(!menu||!btn)return;const open=menu.hasAttribute('hidden');if(open)menu.removeAttribute('hidden');else menu.setAttribute('hidden','');btn.setAttribute('aria-expanded',String(open));btn.firstChild.textContent=open?'✕ 關閉選單':'☰ 功能選單';}
+function closeToolMenu(){const menu=document.getElementById('toolmenu'),btn=document.getElementById('btnTools');menu?.setAttribute('hidden','');if(btn){btn.setAttribute('aria-expanded','false');btn.firstChild.textContent='☰ 功能選單';}}
+document.getElementById('btnTools').onclick=toggleToolMenu;
 document.getElementById('btnRules').onclick=function(){
-  AudioEngine.sfx('messageOpen');
+  closeToolMenu();AudioEngine.sfx('messageOpen');
   var sg=document.querySelector('#intro .papersign .abtn');
   if(S.started&&sg)sg.textContent='✕ 收回檔案';
-  document.getElementById('intro').style.display='block';
+  const intro=document.getElementById('intro');if(S.started)intro.classList.add('reopen');intro.style.display='block';
 };
-document.getElementById('btnPhone').onclick=openPhone;
-document.getElementById('btnClues').onclick=showClueBoard;
-document.getElementById('btnAudio').onclick=AudioEngine.toggle;
+document.getElementById('btnPhone').onclick=()=>{closeToolMenu();openPhone();};
+document.getElementById('btnClues').onclick=()=>{closeToolMenu();showClueBoard();};
+document.getElementById('btnAudio').onclick=()=>{closeToolMenu();AudioEngine.toggle();};
+document.getElementById('btnRecords').onclick=()=>{closeToolMenu();showStampBook();};
 document.getElementById('btnHint').onclick=()=>{
-  AudioEngine.sfx('inspect');showModal('🔮 劉世華・遠端占卜',getHint()+'\n\n（占卜費：回公司請她喝一杯青山水梨春青。記帳中：第 '+(++S.flags.hintCount||(S.flags.hintCount=1))+' 杯）');
+  closeToolMenu();AudioEngine.sfx('inspect');showModal('🔮 劉世華・遠端占卜',getHint()+'\n\n（占卜費：回公司請她喝一杯青山水梨春青。記帳中：第 '+(++S.flags.hintCount||(S.flags.hintCount=1))+' 杯）');
 };
 document.getElementById('modalbg').addEventListener('click',e=>{if(e.target.id==='modalbg')closeModal();});
 document.getElementById('phonebg').addEventListener('click',e=>{if(e.target.id==='phonebg')closePhone();});
@@ -2553,12 +3035,18 @@ document.addEventListener('keydown',e=>{
 
 function startGame(){
   if(S.started){document.getElementById('intro').style.display='none';return;}
-  AudioEngine.start(); // 直接在使用者點擊「開始」時啟動，符合瀏覽器自動播放規則
-  document.getElementById('intro').style.display='none';S.started=true;
+  const input=document.getElementById('playerNameInput'),err=document.getElementById('nameEntryError');
+  const name=(input?.value||'').trim();
+  if(!name){if(err)err.textContent='請先輸入姓名或暱稱。';input?.classList.add('shake');setTimeout(()=>input?.classList.remove('shake'),420);input?.focus();return;}
+  if(err)err.textContent='';
+  AudioEngine.start();
+  S.playerName=name;S.playNumber=recordPlay(name);S.startAt=Date.now();S.started=true;scheduleNextPigeon();
+  document.getElementById('intro').style.display='none';
   if(!S.msgs.length){MSG0.forEach(m=>S.msgs.push({...m,unread:true}));S.unread=MSG0.length;}
-  renderBadge();renderPhone();AudioEngine.sfx('message');toast('📱 '+new Set(MSG0.map(m=>m.thread)).size+' 個聊天室有新訊息');draw();
+  renderBadge();renderPhone();AudioEngine.sfx('message');draw();
+  setTimeout(()=>{openPhone();toast('📱 '+new Set(MSG0.map(m=>m.thread)).size+' 個聊天室有新訊息');},180);
 }
-renderNav();renderInv();renderClock();renderChips();renderPhone();AudioEngine.updateButton();draw();
+renderNav();renderInv();renderClock();renderChips();renderPhone();AudioEngine.updateButton();renderProfileSummary();renderCertificateStampBook();document.getElementById('playerNameInput').value=PROFILE.lastName||'';draw();
 document.getElementById('scenename').textContent='▸ '+ZONES[S.zone].label;
 document.getElementById('intro').style.display='block';
 </script>
