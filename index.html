@@ -40,7 +40,7 @@
   #cv{width:100%;display:block;image-rendering:pixelated;image-rendering:crisp-edges;
     border:3px solid var(--line);box-shadow:0 0 0 3px #050510, 0 0 30px rgba(0,0,0,.7);background:#000;cursor:default;touch-action:manipulation;}
   #touchhint{display:none;margin:7px 2px 0;color:var(--dim);font-size:11px;letter-spacing:1px;text-align:center;}
-  @media (hover:none),(pointer:coarse){#touchhint{display:block}.navbtn,.abtn,.invitem{min-height:40px}}
+  @media (hover:none),(pointer:coarse){.navbtn,.abtn,.invitem,.closex{min-height:42px}.opt,.chatrow,.callrow,.mailrow{min-height:46px}}
   #scenename{position:absolute;top:8px;left:8px;background:rgba(5,5,16,.82);border:2px solid var(--line);
     color:var(--neon);font-size:13px;padding:3px 8px;letter-spacing:2px;pointer-events:none;}
   /* inventory */
@@ -245,7 +245,7 @@
   #topbar{
     margin:12px 0 8px;
     padding:11px 14px;
-    display:grid;gap:9px;justify-items:center;
+    display:flex;justify-content:center;
     background:var(--shell-card);
     border:1px solid var(--shell-line);
     border-radius:var(--radius);
@@ -424,6 +424,24 @@
   .opt:hover{border-color:#8d2e29;color:#792923;background:#f2e7cf;}
   .opt.danger{border-color:#9b302b;color:#8b2925;background:#e7d2b4;}
   .opt.danger:hover{background:#ecd9bd;color:#a32622;}
+  .piecebox{margin-top:12px;}
+  .pieceline{border:1px dashed #8a7550;padding:9px 11px;margin:7px 0;font-size:13px;color:#7c6b4a;background:rgba(240,230,204,.35);}
+  .pieceline.got{border-style:solid;border-color:#8b6537;color:#5a3a1a;background:#efe3c6;}
+  .poembox{margin:12px auto 4px;padding:11px 15px;max-width:360px;background:rgba(240,230,204,.5);border:1px dashed #8a7550;color:#5c4a2e;font-size:13.5px;line-height:2.1;text-align:center;letter-spacing:1px;font-family:"Kaiti TC","DFKai-SB","標楷體","BiauKai","Noto Serif TC",serif;}
+  .slotrow{display:flex;gap:6px;align-items:center;justify-content:center;margin:14px 0 2px;flex-wrap:wrap;}
+  .slot{min-width:118px;height:52px;border:2px dashed #8a7550;background:rgba(240,230,204,.35);display:grid;place-items:center;cursor:pointer;font-family:inherit;padding:4px;}
+  .slot.filled{border-style:solid;border-color:#6c5a36;background:#efe3c6;}
+  .slotq{color:#9a8a68;font-size:20px;}
+  .tray{margin:8px 0 2px;text-align:center;}
+  .piecechip{display:inline-block;color:#f3ead8;border:1px solid rgba(0,0,0,.3);padding:7px 11px;font-size:12.5px;letter-spacing:1px;font-family:inherit;box-shadow:0 2px 6px rgba(0,0,0,.3);cursor:pointer;}
+  .piecechip.intray{margin:6px 6px 0 0;}
+  .wirebox{position:relative;display:flex;justify-content:space-between;gap:24px;margin:14px 0 4px;padding:16px 12px;background:#2e271c;border:1px solid #6c5a36;border-radius:6px;}
+  #wiresvg{position:absolute;left:0;top:0;pointer-events:none;}
+  .wirecol{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;}
+  .wirebtn{background:#1f1a12;border:1px solid #4a3f2a;border-left:6px solid var(--wc);color:#e8ddc0;padding:10px 14px;font-family:inherit;cursor:pointer;font-size:13px;letter-spacing:1px;}
+  .wirebtn.sel{outline:2px solid #e8c98d;background:#3a3020;}
+  .termbtn{background:#e7dabc;border:1px solid #74613f;color:#392c1c;padding:10px 14px;font-family:inherit;cursor:pointer;font-size:13px;letter-spacing:1px;}
+  .termbtn.conn{border-color:#45603b;background:#dfe4c8;}
 
   #phone{
     position:relative;
@@ -513,6 +531,15 @@
     font-family:"Noto Sans TC","PingFang TC",sans-serif;
   }
   #toast::before{content:"記錄｜";color:#822e29;font-weight:600;}
+  #pigeon{display:none;position:fixed;left:50%;top:32%;transform:translateX(-50%);z-index:95;text-align:center;pointer-events:none;}
+  #pigeon .bird{display:inline-block;animation:pigeonSlide 2.5s ease-in forwards;filter:drop-shadow(0 5px 12px rgba(0,0,0,.55));}
+  #pigeon .crack{position:absolute;left:50%;top:44px;transform:translate(-50%,-50%);animation:crackFade 2.4s forwards;pointer-events:none;}
+  @keyframes crackFade{0%,60%{opacity:.85}100%{opacity:0}}
+  #pigeon .bang{color:#efe3c7;font-size:14px;letter-spacing:4px;margin-top:2px;text-shadow:0 2px 8px rgba(0,0,0,.9);font-weight:bold;}
+  #pigeon .pigeoncap{margin:10px auto 0;max-width:262px;color:#e6d9b8;font-size:12.5px;letter-spacing:1px;line-height:1.7;background:rgba(22,15,7,.8);border:1px solid rgba(214,195,154,.4);padding:7px 12px;border-radius:4px;}
+  @keyframes pigeonSlide{0%{transform:translateY(0) scale(1.25,.7);opacity:1}14%{transform:translateY(3px) scale(1,1)}70%{transform:translateY(125px)}100%{transform:translateY(205px);opacity:0}}
+  body.shake{animation:bodyShake .55s;}
+  @keyframes bodyShake{0%,100%{transform:translate(0,0)}15%{transform:translate(-7px,4px)}35%{transform:translate(6px,-5px)}55%{transform:translate(-5px,3px)}75%{transform:translate(4px,-2px)}90%{transform:translate(-2px,1px)}}
 
   .fullov{
     background:
@@ -541,12 +568,12 @@
     #wrap{padding:14px 8px 40px;}
     h1.title{padding:15px 14px 12px;font-size:17px;letter-spacing:4px;}
     h1.title::before{letter-spacing:2px;}
-    #topbar{padding:10px;display:grid;gap:8px;}
-    #clock{text-align:center;font-size:13px;}
+    #topbar{padding:8px 6px;}
     .btnrow{width:100%;gap:6px;}
     .btnrow .abtn{flex:1 1 auto;padding:7px 6px;font-size:11.5px;letter-spacing:0;}
-    #navbar{gap:4px;}
-    .navbtn{padding:8px 10px;font-size:12.5px;}
+    #navbar{gap:5px;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:0 2px 4px;scrollbar-width:none;}
+    #navbar::-webkit-scrollbar{display:none;}
+    .navbtn{flex:0 0 auto;white-space:nowrap;padding:9px 13px;font-size:13px;}
     #stage{padding:18px 5px 7px;}
     #stage::before{left:9px;top:4px;}
     #stage::after{right:9px;top:4px;}
@@ -555,6 +582,9 @@
     .invitem{font-size:12.5px;padding:8px 10px;}
     #modal.panel{padding:20px 14px 16px;}
     #modal h3{font-size:16px;}
+    .closex{padding:8px 12px;font-size:12px;}
+    .slot{min-width:86px;height:46px;}
+    .piecechip{font-size:11px;padding:6px 7px;letter-spacing:0;}
     #modal .body{font-size:14.5px;line-height:2;}
     .opt{font-size:14px;padding:12px 11px;}
     .getitem,.getfrag{font-size:12.5px;}
@@ -583,7 +613,6 @@
   <h1 class="title">◆ 《協和大樓逃脫計劃》 ◆</h1>
 
   <div id="topbar">
-    <span id="clock">🌙 23:07</span>
     <div class="btnrow">
       <button class="abtn gray" id="btnRules">📜 守則</button>
       <button class="abtn gray" id="btnPhone">📱 手機<span class="badge" id="msgbadge"></span></button>
@@ -642,17 +671,14 @@
         <div class="papermeta"><span>七管字第 0407 號</span><span>發文日期：（字跡暈開，無法辨識）</span></div>
         <div class="paperhead">七 樓 夜 間 守 則</div>
         <div class="paperorg">Ad2 大樓管理委員會（七樓）｜本守則於 23:00 後自動生效</div>
-        <div class="story">週日 22:47，你為了週一上線的網站留在七樓加班。
-23:00 整——燈滅，大門磁扣「喀」一聲上鎖。
-角落那台「沒有接電源線」的印表機，無聲地吐出這張紙：
+        <div class="story">週日深夜加班，23:00 整——
+燈滅，大門上鎖。
+沒接電源線的印表機，吐出了這張紙：
 
-「23:00 之後，七樓進入夜間狀態，
-你的門禁權限已經失效。
-想離開，需要的是『驗證』。
-
-驗證用的東西，藏在同事們今天下午
-被紙條指使著留下的物件裡。
-打不開的鎖，就想想上鎖的那個人。
+「七樓已進入夜間狀態，你的權限已失效。
+想離開，需要『驗證』。
+同事們留下的東西，就是留給你的。
+打不開的鎖，想想上鎖的那個人。
 
 天亮之前，守則只保護遵守守則的人。
 祝週一愉快。」</div>
@@ -682,6 +708,7 @@
   </div>
 
   <div id="rewardCard"><div id="rewardIcon"></div><div id="rewardName"></div></div>
+  <div id="pigeon"></div>
   <div id="toast"></div>
 </div>
 
@@ -822,8 +849,8 @@ function getHint(){
 「靠窗辦公區的鐵櫃，影印機再過去一點。鑰匙——你其實已經摸到過了。」`;
  if(has('flashlight')&&!has('battery'))return `「力量，逆位：光還缺一口氣。」
 「這層樓最兇的那個人，抽屜裡什麼都有。」`;
- if(!f('kaoOpen'))return `「寶劍七：她的密碼，是一種『藥』。」
-「前半印在漫畫上。後半……牆上最黑的那一幅，你翻到背面看過嗎？」`;
+ if(!f('kaoOpen'))return `「寶劍七：那道鎖，要用三個碎片拼。」
+「三片都在七樓：撕角的漫畫、不存在的電器、最黑的畫。」`;
  if(!f('tarotOpen'))return `「我最怕哪張牌，你應該知道了吧。」
 「編號我從來不背。但大會議室有一幅畫，畫的就是它。」`;
  if(!f('salesDrawerOpen'))return `「錢幣三：兩個人的得意之作。」
@@ -835,11 +862,11 @@ function getHint(){
 「Rickey 轉發過一封關於『測試件』的通知——就在公用電腦的信箱。」`;
  if(!f('sunDrawerOpen'))return `「女祭司的抽屜要三個數字。」
 「數字站在她的桌上；順序，寫在大會議室的某份文件裡。」`;
- if(!f('safeOpen'))return `「保險箱吃的是專案編號。」
-「一半投影在小會議室的牆上；另一半掛在主管辦公區——藍色的那幅。」`;
+ if(!f('safeOpen'))return `「保險箱要三個碎片。」
+「三片都在七樓：重播的簡報、磁鐵下的紙、最貴的那幅畫。」`;
  if(!S.power)return `「太陽，逆位：正門的面板沒有電。」
-「電箱需要一件長的東西，和一份接線的答案——
-長的東西在筠喬座位，答案壓在警衛伯伯的桌墊下。」`;
+「電箱需要一件長的東西，和一份接線備忘——
+長的東西在筠喬座位；備忘的正本，鎖在主管的抽屜裡。」`;
  if(!f('code404')||!has('sun_override'))return `「審判：六位數，兩段。」
 「一段在公用電腦的系統信裡；一段被鎖在孫寧的抽屜。」`;
  if(!(S.frags.frag1&&S.frags.frag2&&S.frags.frag3))return `「月亮：這棟樓今晚說了三次謊。」
@@ -855,8 +882,39 @@ let S=initialState();
 
 function tick(){} // 無倒數、無步數扣時
 function clockStr(){const t=(23*60+S.min)%1440,h=String(Math.floor(t/60)).padStart(2,'0'),m=String(t%60).padStart(2,'0');return h+':'+m;}
-function renderClock(){document.getElementById('clock').innerHTML='🌙 '+clockStr();}
-setInterval(()=>{S.min++;renderClock();},30000);
+function renderClock(){}
+setInterval(()=>{S.min++;},30000);
+function pigeonSVG(){
+  const P={G:'#9aa0ab',W:'#f2f4f6',B:'#1d2026',O:'#df8f3a',L:'#c2c7cf',F:'#b0603f'};
+  const M=[
+   '...GGGGG...',
+   '..GGGGGGG..',
+   '.GGWWGWWGG.',
+   '.GGWBGWBGG.',
+   '.GGGOOGGGG.',
+   'LLGGOOGGGLL',
+   'LLGGGGGGGLL',
+   '.GGGGGGGGG.',
+   '..GGGGGGG..',
+   '...GGGGG...',
+   '...F...F...',
+   '...F...F...'];
+  let r='';
+  M.forEach((row,y)=>{[...row].forEach((c,x)=>{if(P[c])r+='<rect x="'+x+'" y="'+y+'" width="1" height="1" fill="'+P[c]+'"/>';});});
+  return '<svg viewBox="0 0 11 12" width="99" height="108" style="shape-rendering:crispEdges">'+r+'</svg>';
+}
+const CRACK_SVG='<svg class="crack" viewBox="0 0 100 100" width="170" height="170"><g stroke="rgba(240,244,255,.55)" stroke-width="1.6" fill="none"><path d="M50 50 L18 28"/><path d="M50 50 L84 24"/><path d="M50 50 L12 60"/><path d="M50 50 L80 76"/><path d="M50 50 L46 10"/><path d="M50 50 L58 90"/><path d="M33 38 L44 46"/><path d="M68 36 L58 44"/><path d="M30 56 L42 54"/></g></svg>';
+function pigeonHit(){
+  if(!S.started)return;
+  AudioEngine.sfx('pigeon');
+  document.body.classList.add('shake');setTimeout(()=>document.body.classList.remove('shake'),580);
+  const el=document.getElementById('pigeon');
+  const caps=['一隻鴿子用臉，確認了七樓玻璃的存在。','牠看起來很趕時間。現在不趕了。','玻璃：1，鴿子：0。','牠瞪了你兩秒，彷彿這一切是你的錯。'];
+  el.innerHTML=CRACK_SVG+'<span class="bird">'+pigeonSVG()+'</span><div class="bang">碰——！</div><div class="pigeoncap">'+caps[Math.floor(Math.random()*caps.length)]+'</div>';
+  el.style.display='block';
+  setTimeout(()=>{el.style.display='none';toast('……是鴿子撞上玻璃。牠抖了抖，飛走了。');},2600);
+}
+setInterval(pigeonHit,180000);
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.style.display='block';
   clearTimeout(toast._t);toast._t=setTimeout(()=>el.style.display='none',2600);}
 function showReward(name){const card=document.getElementById('rewardCard'),parts=name.trim().split(/\s+/);document.getElementById('rewardIcon').textContent=parts.shift()||'◆';document.getElementById('rewardName').textContent='重要道具取得\n'+parts.join(' ');card.style.display='block';clearTimeout(showReward._t);showReward._t=setTimeout(()=>card.style.display='none',1500);}
@@ -988,13 +1046,13 @@ function showClueBoard(){
   AudioEngine.sfx('messageOpen');
   const has=id=>!!S.inv[id],f=id=>!!S.flags[id];
   let h='<div class="clueboard">';
-  h+='<div class="cluegroup"><b>高于雯的抽屜｜四位數</b>'+clueText(f('sawConan'),'漫畫殘頁：【APTX-48□□】')+clueText(f('sawBlackArt'),'黑色畫作背面：收藏標籤【No. 69】')+'</div>';
+  h+='<div class="cluegroup"><b>高于雯的抽屜｜碎片×3</b>'+clueText(f('sawConan'),'漫畫殘頁：【APTX-48】')+clueText(f('mwPiece'),'微波爐門縫：紙片【6】')+clueText(f('sawBlackArt'),'黑畫背面：半張標籤【No.9】')+'</div>';
   h+='<div class="cluegroup"><b>塔羅牌盒｜兩位數</b>'+clueText(true,'劉世華：「密碼是我最怕的那張牌」')+clueText(f('sawTowerArt'),'古塔畫銘牌：【XVI／THE TOWER】')+'</div>';
   h+='<div class="cluegroup"><b>Gina & Ruru 共用抽屜｜四位數</b>'+clueText(f('sawGinaAward'),'獎座刻字：【十二月・年度業務獎】')+clueText(f('sawRuruFile'),'結案文件：【final_v07】（Gina 前、Ruru 後）')+'</div>';
   h+='<div class="cluegroup"><b>公用電腦｜英文</b>'+clueText(f('sawMenu'),'菜單：LUROUFAN／ZHUXUEGAO／GONGWAN／XIANGGU（紅圈：貢丸湯＝伊淇最愛）')+clueText(f('sawChanFood'),'陳資涵：「伊淇這輩子最恨的就是香菇」')+'</div>';
-  h+='<div class="cluegroup"><b>Kat 的保險箱｜四位數</b>'+clueText(f('slideSeen'),'簡報頁尾：【專案編號 BP-24□□】')+clueText(f('sawBlueArt'),'藍色畫標籤：【系列編號 86】')+'</div>';
+  h+='<div class="cluegroup"><b>Kat 的保險箱｜碎片×3</b>'+clueText(f('slideSeen'),'簡報頁尾：【BP-2】')+clueText(f('wbPiece'),'白板磁鐵下：紙片【48】')+clueText(f('sawBlueArt'),'藍色畫標籤：【6】')+'</div>';
   h+='<div class="cluegroup"><b>孫寧的抽屜｜三位數</b>'+clueText(f('sawSunLabels'),'立牌數字：毛毛【7】花花【4】泡泡【9】')+clueText(f('sawSunOrder'),'紅筆排序：毛毛 ＞ 泡泡 ＞ 花花')+'</div>';
-  h+='<div class="cluegroup"><b>A 路線：正門</b>'+clueText(f('code404'),'系統信：識別碼【404】＋覆核碼')+clueText(has('sun_override')||f('code725'),'覆核卡背面：【725】')+clueText(f('sawWireMemo'),'檢線備忘：紅＝市電、藍＝備援、黃線不要動')+clueText(S.power,'正門面板已恢復供電')+'</div>';
+  h+='<div class="cluegroup"><b>A 路線：正門</b>'+clueText(f('code404'),'系統信：識別碼【404】＋覆核碼')+clueText(has('sun_override')||f('code725'),'覆核卡背面：【725】')+clueText(f('sawWireMemo'),'檢線備忘：白＝市電、紅＝接地、綠＝備援；藍黃不要接')+clueText(S.power,'正門面板已恢復供電')+'</div>';
   h+='<div class="cluegroup"><b>B 路線：頂樓消防梯</b>'+clueText(has('tempcard'),'無名測試卡（7F-01）')+clueText(f('chipGot'),'帕恰狗吊飾裡的維修晶片（背蓋已撬開）')+'</div>';
   h+='<div class="cluegroup"><b>C 路線：一樓後勤側門</b>'+clueText(has('release_handle'),'方形金屬把手（後勤側門・停電用）')+'</div>';
   h+='</div>';
@@ -1044,6 +1102,52 @@ function padKey(k){
     if(LOCK.type!=='txt')inp.value='';
   }
 }
+let PL=null;
+function openPieceLock(cfg){
+  PL={cfg:cfg,placed:cfg.pieces.map(()=>null)};
+  renderPieceLock();
+}
+function renderPieceLock(){
+  const cfg=PL.cfg;
+  let html=(cfg.poem?'<div class="poembox">'+cfg.poem.replace(/\n/g,'<br>')+'</div>':'')+'<div class="slotrow">';
+  cfg.pieces.forEach((_,i)=>{
+    const pi=PL.placed[i];
+    html+='<button class="slot'+(pi!==null?' filled':'')+'" onclick="slotTap('+i+')">'
+      +(pi!==null?'<span class="piecechip" style="background:'+cfg.pieces[pi].color+'">'+cfg.pieces[pi].short+'</span>':'<span class="slotq">＋</span>')
+      +'</button>';
+  });
+  html+='</div><div class="tray">';
+  let missing=0;
+  cfg.pieces.forEach((p,i)=>{
+    const got=!!S.flags[p.flag],placed=PL.placed.includes(i);
+    if(!got){missing++;html+='<div class="pieceline">❔ '+p.hint+'</div>';}
+    else if(!placed)html+='<button class="piecechip intray" style="background:'+p.color+'" onclick="pieceTap('+i+')">'+p.n+'</button>';
+  });
+  html+='</div>';
+  const full=PL.placed.every(v=>v!==null);
+  html+='<div class="optlist"><button class="opt"'+(full?' onclick="pieceTry()"':' disabled style="opacity:.45;cursor:not-allowed"')
+    +'>🔓 '+(full?'就這樣拼，試著解鎖':(missing?'還缺 '+missing+' 個碎片':'把碎片放進上面的格子'))+'</button></div>';
+  showModal(cfg.title,cfg.desc,html);
+}
+function pieceTap(i){
+  const idx=PL.placed.indexOf(null);
+  if(idx<0)return;
+  PL.placed[idx]=i;AudioEngine.sfx('tap');renderPieceLock();
+}
+function slotTap(i){
+  if(PL.placed[i]!==null){PL.placed[i]=null;AudioEngine.sfx('tap');renderPieceLock();}
+}
+function pieceTry(){
+  const ok=PL.placed.every((pi,slot)=>pi!==null&&PL.cfg.pieces[pi].slot===slot);
+  if(ok){AudioEngine.sfx('unlock');const f=PL.cfg.onOK;closeModal();f();return;}
+  AudioEngine.sfx('wrong');
+  PL.placed=PL.cfg.pieces.map(()=>null);
+  document.getElementById('modal').classList.add('shake');
+  setTimeout(()=>{document.getElementById('modal').classList.remove('shake');renderPieceLock();toast('❌ 拼起來對不上……順序好像不對');},380);
+}
+function gainPiece(flag,label){
+  if(!S.flags[flag]){S.flags[flag]=1;setTimeout(()=>{toast('🧩 密碼碎片：'+label);AudioEngine.sfx('item');},350);}
+}
 
 
 /* ================= WEB AUDIO BGM ================= */
@@ -1091,6 +1195,7 @@ const AudioEngine=(()=>{
     else if(kind==='endingBad'){tone(146.83,.42,'sawtooth',.18,0,'sfx');tone(110,.55,'square',.15,.22,'sfx');tone(73.42,.75,'sawtooth',.12,.46,'sfx');}
     else if(kind==='endingGood'){tone(392,.12,'square',.15,0,'sfx');tone(523.25,.16,'square',.15,.12,'sfx');tone(659.25,.22,'square',.13,.27,'sfx');}
     else if(kind==='endingTrue'){tone(523.25,.12,'square',.16,0,'sfx');tone(659.25,.12,'square',.15,.10,'sfx');tone(783.99,.16,'square',.15,.20,'sfx');tone(1046.5,.36,'sine',.14,.34,'sfx');}
+    else if(kind==='pigeon'){tone(64,.3,'sine',.55,0,'sfx');tone(48,.4,'triangle',.4,.04,'sfx');tone(900,.03,'square',.07,.14,'sfx');tone(760,.03,'square',.06,.2,'sfx');tone(880,.03,'square',.05,.26,'sfx');}
     else tone(260,.045,'square',.08,0,'sfx');
   }
   return{start,toggle,sfx,updateButton};
@@ -1244,11 +1349,76 @@ function checkSunDrawerCode(){
     S.flags.sunDrawerReady=1;toast('📋 數字有了，順序也有了……好像能拼出什麼');AudioEngine.sfx('unlock');
   }
 }
-function retryWire(){closeModal();SPOTS.roof.find(s=>s.id==='breaker').fn();}
-function wireTry(n){
-  if(n===1){
-    closeModal();S.power=true;draw();AudioEngine.sfx('unlock');
-    showModal('電力恢復',`紅線咬住【市電】，藍線扣上【備援】，黃線安分地垂在原處。
+let WIRES=null;
+const WIRE_NAMES={red:'紅',blue:'藍',green:'綠',white:'白',yellow:'黃'};
+const WIRE_COLS={red:'#a33c30',blue:'#31558f',green:'#3f7a44',white:'#cfcabb',yellow:'#b08a2a'};
+function openWirePanel(){
+  WIRES={sel:null,conn:{red:null,blue:null,green:null,white:null,yellow:null}};
+  renderWirePanel();
+}
+function renderWirePanel(){
+  const W=WIRES;
+  let html='<div class="wirebox" id="wirebox"><svg id="wiresvg"></svg><div class="wirecol">';
+  ['red','blue','green','white','yellow'].forEach(w=>{
+    html+='<button id="w_'+w+'" class="wirebtn'+(W.sel===w?' sel':'')+'" style="--wc:'+WIRE_COLS[w]+'" onclick="wireSel(\''+w+'\')">'+WIRE_NAMES[w]+'線</button>';
+  });
+  html+='</div><div class="wirecol">';
+  [['mains','市電'],['backup','備援'],['ground','接地']].forEach(([id,label])=>{
+    const cw=Object.keys(W.conn).find(k=>W.conn[k]===id);
+    html+='<button id="t_'+id+'" class="termbtn'+(cw?' conn':'')+'" onclick="termTap(\''+id+'\')">'+label+(cw?'｜'+WIRE_NAMES[cw]+'線':'')+'</button>';
+  });
+  html+='</div></div>';
+  html+='<div class="optlist"><button class="opt" onclick="wireCommit()">⚡ 推上總開關</button>'
+      +'<button class="opt" onclick="wireReset()">全部拆掉重接</button></div>';
+  showModal('頂樓電箱',`護蓋下垂著五條線，接線座上有三個端子。
+先點一條線，再點要接的端子。
+不是每條線都該接——哪幾條該、接哪裡，
+備忘的正本，聽說由「主管」保管。`,html);
+  drawWireLines();
+}
+function wireSel(w){WIRES.sel=(WIRES.sel===w?null:w);AudioEngine.sfx('tap');renderWirePanel();}
+function termTap(t){
+  const W=WIRES;
+  const existing=Object.keys(W.conn).find(k=>W.conn[k]===t);
+  if(W.sel){if(existing)W.conn[existing]=null;W.conn[W.sel]=t;W.sel=null;AudioEngine.sfx('tap');}
+  else if(existing){W.conn[existing]=null;AudioEngine.sfx('tap');}
+  renderWirePanel();
+}
+function wireReset(){WIRES.sel=null;WIRES.conn={red:null,blue:null,green:null,white:null,yellow:null};AudioEngine.sfx('tap');renderWirePanel();}
+function drawWireLines(){
+  const box=document.getElementById('wirebox'),svg=document.getElementById('wiresvg');
+  if(!box||!svg)return;
+  const br=box.getBoundingClientRect();let s='';
+  Object.entries(WIRES.conn).forEach(([w,t])=>{
+    if(!t)return;
+    const a=document.getElementById('w_'+w).getBoundingClientRect(),b=document.getElementById('t_'+t).getBoundingClientRect();
+    s+='<line x1="'+(a.right-br.left)+'" y1="'+(a.top+a.height/2-br.top)+'" x2="'+(b.left-br.left)+'" y2="'+(b.top+b.height/2-br.top)+'" stroke="'+WIRE_COLS[w]+'" stroke-width="4" stroke-linecap="round"/>';
+  });
+  svg.setAttribute('viewBox','0 0 '+br.width+' '+br.height);
+  svg.style.width=br.width+'px';svg.style.height=br.height+'px';
+  svg.innerHTML=s;
+}
+function wireCommit(){
+  const c=WIRES.conn;
+  if(c.white==='mains'&&c.red==='ground'&&c.green==='backup'&&!c.blue&&!c.yellow){closeModal();wireSuccess();return;}
+  AudioEngine.sfx('wrong');
+  let t;
+  if(c.blue||c.yellow)t=`接上那條線的瞬間，整個電箱「滋」了一聲，
+所有的燈都暗了一下。
+
+備忘上好像寫過——有幾條線，碰都不要碰。`;
+  else if(!c.white||!c.red||!c.green)t=`總開關推到一半就彈回來了。
+該接的線還垂在半空——接好再來。`;
+  else t=`火花「啪」地炸開，汗毛集體立正。
+迴路發出一聲很不健康的嗡嗡聲，然後跳閘。
+
+顏色和端子的對應……你確定沒有想當然？`;
+  showModal('接線失敗',t,'<button class="opt" onclick="retryWire()">重新接線</button>');
+}
+function wireSuccess(){
+  S.power=true;draw();AudioEngine.sfx('unlock');
+  showModal('電力恢復',`白線咬住【市電】，紅線落進【接地】，綠線扣上【備援】。
+藍線與黃線，安分地垂在原處。
 你用燈桿頂住總開關，用力一撥——
 
 「碰。」
@@ -1257,25 +1427,8 @@ function wireTry(n){
 最後是一樓玄關的一小點綠光。
 
 正門的密碼面板，活了。`,'<span class="getitem">⚡ 正門面板已恢復供電</span>');
-    return;
-  }
-  AudioEngine.sfx('wrong');
-  const t=n===2
-    ?`火花「啪」地炸開，汗毛集體立正。
-備援迴路發出一聲很不健康的嗡嗡聲，然後跳閘。
-
-……還好沒燒起來。再想想。`
-    :n===3
-    ?`三條全接上去的瞬間，電箱發出類似咳嗽的聲音，
-跳閘了。
-
-貪心，不是接線的美德。`
-    :`黃線輕輕晃了一下，像是在嘲笑你。
-然後，什麼都沒有發生。
-
-你隱約記得，好像有哪張備忘寫過：黃線，不要動它。`;
-  showModal('接線失敗',t,'<button class="opt" onclick="retryWire()">重新接線</button>');
 }
+function retryWire(){closeModal();openWirePanel();}
 const SPOTS={
 office2:[
  {id:'workdesk',x:36,y:122,w:46,h:30,label:'你的座位',fn(){
@@ -1304,20 +1457,30 @@ office2:[
 ——是董伊淇的字跡。`);
  }},
  {id:'kaodesk',x:150,y:126,w:42,h:22,label:'高于雯的桌面',fn(){
-   S.flags.sawConan=1;
+   gainPiece('sawConan','漫畫殘頁【APTX-48】');
    showModal('高于雯的桌面',`桌面收得很整齊，殺氣也收得很整齊。
 
 一本《名偵探柯南》被撕掉了右下角，斷口處只剩半組編號：
-【APTX-48□□】
+【APTX-48】
 
 撕掉的那一角不在桌上。便利貼只寫著：
 「另一半掛在牆上。夠黑的那面。==」`);
  }},
  {id:'kaodrawer',x:150,y:152,w:40,h:14,label:'高于雯的抽屜（密碼鎖）',fn(){
    if(S.flags.kaoOpen){showModal('高于雯的抽屜','已經打開。裡面只剩逗貓棒和一包貓草。\n你決定不要動那些。為了活命。');return;}
-   openLock({title:'高于雯的抽屜',desc:'四位數密碼鎖，鎖上貼著警告：\n「打開之前，請先寫好遺書==」',len:4,code:'4869',wrong:'不對。背後彷彿傳來一聲冷笑。',onOK(){
+   openPieceLock({title:'高于雯的抽屜',desc:'四位數密碼鎖。鎖上貼著警告：\n「打開之前，請先寫好遺書==」\n\n警告下面，還用便利貼貼著一首詩：',poem:`故事的開頭，永遠是那顆毒藥；
+中場休息，用不存在的爐子加熱；
+謝幕時燈全滅，只剩一面牆。
+——拼錯順序的人，貓都記得。`,pieces:[
+     {flag:'sawConan',slot:0,color:'#3f5b8f',short:'APTX-48',n:'漫畫殘頁【APTX-48】',hint:'碎片①：被撕掉一角的推理'},
+     {flag:'mwPiece',slot:1,color:'#4a6b3a',short:'6',n:'紙片【6】',hint:'碎片②：七樓「沒有」的那台電器'},
+     {flag:'sawBlackArt',slot:2,color:'#7a3040',short:'9',n:'半張標籤【No.9】',hint:'碎片③：七樓最黑的地方，記得翻面'}
+   ],onOK(){
      S.flags.kaoOpen=1;addItem('battery');addItem('firekit');addFrag('frag1');
-     showModal('抽屜開了',`裡面整齊排著：
+     showModal('抽屜開了',`碎片拼起來：APTX-48｜6｜9——4869。
+轉盤「喀」的一聲鬆開。
+
+裡面整齊排著：
 ・三號電池一排（逗貓棒備品）
 ・固態火種、打火機油、月亮打火機
 ・一本小本本——裡面夾著一張摺起來的表
@@ -1358,10 +1521,13 @@ office2:[
 貢丸不要偷吃==`),800);
  }},
  {id:'microwave',x:288,y:120,w:22,h:14,label:'微波爐',fn(){
+   gainPiece('mwPiece','紙片【6】');
    showModal('微波爐',`時鐘閃著 88:88——從你入職那天起就是 88:88。
 
 門上的公告：「禁止微波：金屬、榴槤、以及來路不明的道具。」
-最後一項，是今天下午才新貼上去的。`);
+最後一項，是今天下午才新貼上去的。
+
+門縫裡卡著一小截紙片，印著一個「6」。`);
  }},
 ],
 window_:[
@@ -1453,11 +1619,11 @@ sales:[
 ],
 meet_s:[
  {id:'projector',x:296,y:48,w:78,h:60,label:'投影幕',fn(){
-   S.flags.slideSeen=1;showModal('投影幕',`投影機循環播放著一份「BLACKOUT 預演簡報」。
+   gainPiece('slideSeen','簡報頁尾【BP-2】');showModal('投影幕',`投影機循環播放著一份「BLACKOUT 預演簡報」。
 按到最後一頁，頁尾印著：
 
-【專案編號：BP-24□□】
-【完整編號請洽視覺識別組】
+【專案編號：BP-2】
+【其餘部分：由各組分開保管】
 
 視覺識別組做的東西……通常都掛在牆上。`);
  }},
@@ -1475,21 +1641,24 @@ meet_s:[
 不知道為什麼，畫得特別用心。`);}},
 ],
 meet_b:[
- {id:'whiteboard',x:30,y:52,w:96,h:56,label:'白板議程',fn(){showModal('白板議程',`下週的議程排得滿滿的，其中一格用紅筆框起來：
+ {id:'whiteboard',x:30,y:52,w:96,h:56,label:'白板議程',fn(){gainPiece('wbPiece','磁鐵下的紙片【48】');showModal('白板議程',`下週的議程排得滿滿的，其中一格用紅筆框起來：
 「週五 22:00 夜間封鎖演練（正式）」
 
-至於今晚？
-今晚在白板上，是一片空白。`);}},
+至於今晚？今晚在白板上，是一片空白。
+
+角落一顆磁鐵下壓著一小片紙，
+印著「48」。`);}},
  {id:'towerart',x:140,y:52,w:68,h:54,label:'古塔畫作',fn(){S.flags.sawTowerArt=1;showModal('古塔畫作',`一幅古塔的版畫：塔頂劈著閃電，人影往下墜。
 看著就不太吉利。
 
 銘牌：【XVI／THE TOWER】
 
 畫框角落夾著劉世華的便條：「每次經過都心悸。」`);}},
- {id:'blackart',x:220,y:52,w:64,h:54,label:'黑色畫作',fn(){S.flags.sawBlackArt=1;showModal('黑色畫作',`整幅畫幾乎全黑，還掛在整層樓最暗的牆角。黑上加黑。
+ {id:'blackart',x:220,y:52,w:64,h:54,label:'黑色畫作',fn(){gainPiece('sawBlackArt','半張標籤【No.9】');showModal('黑色畫作',`整幅畫幾乎全黑，還掛在整層樓最暗的牆角。黑上加黑。
 
 你把畫掀起來看背面——
-貼著一張收藏標籤：【No. 69】
+貼著半張收藏標籤：【No.9】
+另外半張，不知去向。
 
 標籤旁邊有一道新的膠帶痕，
 形狀像是……漫畫的一角。`);}},
@@ -1504,8 +1673,18 @@ meet_b:[
  }},
  {id:'safe',x:40,y:140,w:34,h:32,label:'Kat 的保險箱',fn(){
    if(S.flags.safeOpen){showModal('Kat 的保險箱','開著。裡面只剩零錢盒和一疊過期的停車券。');return;}
-   openLock({title:'Kat 的保險箱',desc:'四位數電子鎖。貼著 Kat 的紙條：\n「密碼＝本季專案編號」。',len:4,code:'2486',wrong:'錯誤。\n專案編號是「拼」出來的，不是猜出來的。',onOK(){
-     S.flags.safeOpen=1;addItem('release_handle');showModal('保險箱開了',`裡面放著一支方形金屬把手，
+   openPieceLock({title:'Kat 的保險箱',desc:'四位數電子鎖。貼著 Kat 的紙條——\n上面不是密碼，是一首詩：',poem:`先讓放了一整晚的簡報開口，
+再聽磁鐵咬住的那一句，
+最後，才輪到牆上最貴的沉默。
+——順序，就是資訊安全。（Kat）`,pieces:[
+     {flag:'slideSeen',slot:0,color:'#2f6a55',short:'BP-2',n:'簡報頁尾【BP-2】',hint:'碎片①：七樓放了一整晚的那份簡報'},
+     {flag:'wbPiece',slot:1,color:'#8a5a2a',short:'48',n:'磁鐵下的紙片【48】',hint:'碎片②：被磁鐵咬住的那片'},
+     {flag:'sawBlueArt',slot:2,color:'#31558f',short:'6',n:'作品標籤【6】',hint:'碎片③：七樓據說最貴的那面牆'}
+   ],onOK(){
+     S.flags.safeOpen=1;addItem('release_handle');showModal('保險箱開了',`BP-2｜48｜6——2486。
+面板亮起綠燈，門彈開。
+
+裡面放著一支方形金屬把手，
 標籤寫著：「後勤側門・停電用」。
 
 旁邊還有一張便條：
@@ -1544,17 +1723,20 @@ director:[
  {id:'sundrawer',x:116,y:158,w:180,h:16,label:'孫寧的上鎖抽屜',fn(){
    if(S.flags.sunDrawerOpen){showModal('孫寧的抽屜','已打開。覆核卡被你拿走了。');return;}
    openLock({title:'孫寧的上鎖抽屜',desc:'三位數電子鎖。鎖旁貼著孫寧的字條：\n「密碼＝我心中的排名。」',len:3,code:'794',wrong:'錯誤。\n她「心中的排名」……你在哪裡看過？',onOK(){
-     S.flags.sunDrawerOpen=1;S.flags.code725=1;addItem('sun_override');showModal('孫寧的抽屜開了',`抽屜裡只有一張卡，躺得端端正正——主管覆核卡。
+     S.flags.sunDrawerOpen=1;S.flags.code725=1;S.flags.sawWireMemo=1;addItem('sun_override');showModal('孫寧的抽屜開了',`抽屜裡放著主管覆核卡——卡背印著【725】，
+和一行小字：「勿與識別碼分開保管。」
 
-卡背印著【725】，和一行小字：
-「勿與識別碼分開保管。」
+卡片下面還壓著《頂樓電箱檢線備忘》的正本：
+「白＝市電。紅＝接地。綠＝備援。
+藍、黃：原因不明。總之，不要接。」
 
-偏偏，就是分開保管了。`,'<span class="getitem">🪪 主管覆核卡</span>');
+主管的抽屜，果然什麼都有。`,'<span class="getitem">🪪 主管覆核卡</span><span class="getitem">📄 檢線備忘</span>');
    }});
  }},
- {id:'blueart',x:48,y:80,w:82,h:44,label:'藍色幾何畫',fn(){S.flags.sawBlueArt=1;showModal('藍色幾何畫',`一幅藍色幾何畫，據說很貴。
+ {id:'blueart',x:48,y:80,w:82,h:44,label:'藍色幾何畫',fn(){gainPiece('sawBlueArt','作品標籤【6】');showModal('藍色幾何畫',`一幅藍色幾何畫，據說很貴。
 
-作品標籤：【系列編號 86】
+作品標籤上只剩一個字：【6】
+其他部分被顏料隨手蓋掉了。
 
 標籤下有人用鉛筆補了一行：
 「視覺識別組出品」。`);}},
@@ -1598,17 +1780,7 @@ roof:[
 手伸不進去——硬伸的話，大概會上社會新聞。
 
 槽口貼著維修單：「暫時可用長柄物操作。」`);return;}
-   showModal('頂樓電箱',`你用燈桿撥開深槽的護蓋——裡面不只是開關。
-檢修中的接線被拆開了：三條線垂在半空，紅、藍、黃。
-接線座上只有兩個端子，標著【市電】與【備援】。
-
-接對了，總開關才推得動。接錯了……應該會很精彩。`,
-   '<div class="optlist">'
-   +'<button class="opt" onclick="wireTry(1)">紅→市電，藍→備援，黃線不接</button>'
-   +'<button class="opt" onclick="wireTry(2)">紅→備援，藍→市電，黃線不接</button>'
-   +'<button class="opt" onclick="wireTry(3)">三條全接上去，能通就好</button>'
-   +'<button class="opt danger" onclick="wireTry(4)">只接黃線。直覺告訴我就是它</button>'
-   +'</div>');
+   openWirePanel();
  }},
  {id:'firedoor',x:270,y:88,w:66,h:70,label:'消防梯門（B 路線）',fn(){
    if(!S.inv.tempcard||!S.flags.chipGot){
@@ -1643,15 +1815,13 @@ roof:[
 ],
 lobby:[
  {id:'door',x:146,y:66,w:108,h:110,label:'公司正門（A 路線）',fn(){doorAction();}},
- {id:'guard',x:36,y:126,w:62,h:42,label:'警衛桌',fn(){S.flags.sawWireMemo=1;showModal('警衛桌',`警衛伯伯的桌墊下壓著：孫子的畫、班表（週日：休），
-一張「夜間演練聯絡表」——三條路線的「負責人」欄位全部空白，
-還有一張《頂樓電箱檢線備忘》：
+ {id:'guard',x:36,y:126,w:62,h:42,label:'警衛桌',fn(){showModal('警衛桌',`警衛伯伯的桌墊下壓著：孫子的畫、班表（週日：休），
+和一張「夜間演練聯絡表」——三條路線的「負責人」欄位全部空白。
 
-「紅＝市電。藍＝備援。
-黃線是誰牽的？查不到。總之，不要動它。」
+桌墊角落有一道撕痕，殘留的紙角上印著：
+「……電箱檢線備忘……正本由主管保管……」
 
-對講機沒電。
-深夜的一樓，安靜得聽得到自己的心跳。`);}},
+對講機沒電。深夜的一樓，安靜得聽得到自己的心跳。`);}},
  {id:'ginaaward',x:292,y:34,w:72,h:42,label:'牆上的得獎合照',fn(){S.flags.sawGinaAward=1;showModal('牆上的得獎合照',`新裱框的合照：Gina 高舉獎座，笑容燦爛。
 獎座底座刻著：【十二月・年度業務獎】
 
@@ -1940,7 +2110,7 @@ function paintScene(){
 }
 function draw(){g.imageSmoothingEnabled=false;paintScene();drawHotspots();}
 function canvasPoint(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*400/r.width,y:(e.clientY-r.top)*225/r.height};}
-function spotAt(x,y){return (SPOTS[S.zone]||[]).find(sp=>x>=sp.x-3&&x<=sp.x+sp.w+3&&y>=sp.y-3&&y<=sp.y+sp.h+3)||null;}
+function spotAt(x,y){const M=TOUCH_MODE?6:3;return (SPOTS[S.zone]||[]).find(sp=>x>=sp.x-M&&x<=sp.x+sp.w+M&&y>=sp.y-M&&y<=sp.y+sp.h+M)||null;}
 cv.addEventListener('mousemove',e=>{
   if(TOUCH_MODE||darkZone()){cv.style.cursor='default';return;}
   const p=canvasPoint(e),next=spotAt(p.x,p.y);if(next!==hoverSpot){hoverSpot=next;cv.style.cursor=next?'pointer':'default';draw();}
