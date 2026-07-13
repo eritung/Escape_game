@@ -1091,7 +1091,7 @@
       <div class="paper">
         <div class="papermeta"><span>七管字第 0407 號</span><span>發文日期：（字跡暈開，無法辨識）</span></div>
         <div class="paperhead">七 樓 夜 間 守 則</div>
-        <div class="paperorg">Ad2 大樓管理委員會（七樓）｜本守則於 23:00 後自動生效</div>
+        <div class="paperorg">協和大樓管理委員會｜本守則於 23:00 後自動生效</div>
         <div class="intro-sign-zone">
           <label class="name-entry" for="playerNameInput"><span>簽收人姓名</span><input id="playerNameInput" maxlength="20" autocomplete="name" placeholder="請輸入姓名或暱稱"></label>
           <div class="name-entry-error" id="nameEntryError"></div>
@@ -1101,20 +1101,18 @@
           </div>
           <div class="profile-summary" id="profileSummary"></div>
         </div>
-        <div class="device-notice">裝置提示｜本演練包含拖曳、旋轉與滑動機關，建議使用電腦遊玩；手機亦可操作。</div>
-        <div class="story">週日深夜加班，23:00 整——
+        <div class="device-notice">操作提示｜本互動包含拖曳、旋轉與滑動機關，建議使用電腦遊玩，以獲得最佳遊玩體驗。</div>
+        <div class="story">週一深夜加班，23:00 整——
 燈滅，大門上鎖。
-沒接電源線的印表機，吐出了這張紙：
+前陣子被宣告故障的印表機，吐出了這張紙：
 
-「七樓已進入夜間狀態，你的權限已失效。
-想離開，需要『驗證』。
-同事們留下的東西，就是留給你的。
-打不開的鎖，想想上鎖的那個人。
+「本大樓已進入封鎖狀態，1F大門已被鎖上。
+想離開，需要自己探索找到能出去的出口。
+尋找線索時，需留心是否有小動物闖入⋯
 
-天亮之前，守則只保護遵守守則的人。
-祝週一愉快。」</div>
+祝 逃出順利。」</div>
         <div class="clause dead" style="margin-top:12px"><b>附註</b>【已刪除】<span class="redactbar"></span></div>
-        <span class="stamp round">七樓管委會<br>之印</span>
+        <span class="stamp round">協和大樓管理委員會<br>之印</span>
       </div>
     </div>
   </div>
@@ -1122,15 +1120,15 @@
   <div class="fullov" id="ending">
     <div class="fullin">
       <div class="paper">
-        <div class="papermeta"><span>Ad2 大樓管理委員會（七樓）｜事件報告書</span><span>案號 BP-2486</span></div>
+        <div class="papermeta"><span>協和大樓管理委員會｜事件報告書</span><span>案號 BP-2486</span></div>
         <h2 id="endtitle"></h2>
         <div class="story" id="endbody" style="margin-top:12px"></div>
-        <div class="papersign"><span>報告人：<u id="endReporter">　測試者 7F-01　</u></span><span style="color:#6a5c40;font-size:11px" id="endArchive">歸檔：週一 00:00</span></div>
+        <div class="papersign"><span>報告人：<u id="endReporter">　測試者 7F-01　</u></span><span style="color:#6a5c40;font-size:11px" id="endArchive">歸檔：週二 00:00</span></div>
         <span class="stamp" id="endstamp">結案</span>
       </div>
       <div id="certificateWrap" class="certificate-wrap" hidden>
         <div id="certificateStampBook" class="certificate-stamp-book"></div>
-        <img id="certificateImg" alt="七樓夜間離場證書，可在手機上長按儲存">
+        <img id="certificateImg" alt="協和大樓夜間離場證書，可在手機上長按儲存">
         <div class="certificate-hint">手機可長按證書圖片儲存，再分享給朋友。</div>
         <a class="abtn certificate-download" id="certificateDownload" download="七樓夜間離場證書.png">下載證書圖片</a>
       </div>
@@ -1154,7 +1152,7 @@
         <div class="power-floor"><span></span><span></span><span></span><span></span><span></span><span></span></div>
         <div class="power-entry"></div>
       </div>
-      <div class="power-caption">主電源恢復｜照明迴路逐層啟動</div>
+      <div class="power-caption">主電源恢復💡｜照明迴路啟動中</div>
     </div>
   </div>
   <div id="pigeon"></div>
@@ -1164,14 +1162,14 @@
 <script>
 /* ================= GAME DATA ================= */
 const ZONES={
- office2:{label:'我的辦公區（含茶水間）'},
+ office2:{label:'辦公區1（含茶水間）'},
  window_:{label:'靠窗辦公區'},
  sales:{label:'業務辦公區'},
- meet_s:{label:'小會議室',needKey:'key_meet',lockText:'小會議室的門被鎖住了。門上貼著字條：「封鎖演練資料整理中，請勿進入。」\n備用鑰匙平常由 Gina 與 Ruru 收在共用抽屜。'},
+ meet_s:{label:'小會議室',needKey:'key_meet',lockText:'小會議室的門被鎖住了。門上貼著字條：「明日有重要會議，請勿進入。」\n備用鑰匙平常由 Gina 與 Ruru 收在共用抽屜。'},
  meet_b:{label:'大會議室'},
  director:{label:'主管辦公區'},
  toilet:{label:'女廁',dark:true},
- roof:{label:'頂樓',needKey:'key_roof',lockText:'通往頂樓的鐵門上了掛鎖。\n鎖上貼著一張小紙條：「電箱檢修中，鑰匙暫由劉世華保管。她堅持鑰匙要先做『能量防護』。——Kat」\n能量防護……全公司只有一個人會做這種事。'},
+ roof:{label:'頂樓',needKey:'key_roof',lockText:'通往頂樓的鐵門上了掛鎖。\n鎖上貼著一張小紙條：「電箱檢修中，鑰匙暫由一名塔羅師保管。她堅持鑰匙要先做『能量防護』。——Kat」'},
  lobby:{label:'一樓玄關（大門）'},
 };
 const ZONE_ORDER=['office2','window_','sales','meet_s','meet_b','director','toilet','roof','lobby'];
@@ -1180,37 +1178,27 @@ const ITEMS={
  key_locker:{n:'🔑 冰凍的小鑰匙',d:`從反向封口的貢丸袋裡撈出來的，凍得黏手。
 鑰匙圈上掛著一枚小牌：「7F 備品櫃」。
 下午資涵說她被塞了一個「道具」……原來是這個。`},
- flashlight:{n:'🔦 緊急手電筒',d:`置物櫃裡的手電筒。拿起來輕得可疑——轉開一看，沒有電池。
+ flashlight:{n:'🔦 緊急手電筒',d:`置物櫃裡的手電筒。轉開一看，裡面沒有電池。
 緊急備品沒裝電池，很難不懷疑是故意的。`},
- flashlight_on:{n:'🔦 緊急手電筒（亮）',d:`裝上電池的手電筒，亮得可以照進這層樓每一個陰暗角落。
-比稽核還亮。`},
- battery:{n:'🔋 三號電池',d:`高于雯抽屜裡的三號電池，原本是逗貓棒備品。
-（她已透過已讀不回表達了同意。大概。）`},
+ flashlight_on:{n:'🔦 緊急手電筒（亮）',d:`裝上電池的手電筒，可以照進這層樓每一個陰暗角落。`},
+ battery:{n:'🔋 三號電池',d:`高于雯抽屜裡的三號電池。`},
  selfie:{n:'📸 伸縮應援燈桿',d:`彭筠喬的伸縮應援燈桿，可以伸到 1.5 公尺。
-貼紙寫著：「子瑜專用。拿去勾東西者，粉籍除名。」
+貼紙寫著：「見子瑜專用。」
 ……人命關天，特別赦免。`},
  key_meet:{n:'🗝 小會議室鑰匙',d:`鑰匙牌寫著「小會議室・備用」。
-和一本「機密」手冊一起躺在業務的共用抽屜裡。
-這間公司對機密的理解，一如既往。`},
- key_roof:{n:'🗝 頂樓鑰匙',d:`塔羅牌盒裡的鑰匙，纏著一條紫水晶手鍊。
-劉世華說這叫「鑰匙的能量防護」。不影響開門。`},
+和一份標著「福委內部」的活動決議紀錄一起躺在業務的共用抽屜裡。`},
+ key_roof:{n:'🗝 頂樓鑰匙',d:`塔羅牌盒裡的鑰匙，纏著一條綠水晶手鍊。`},
  firekit:{n:'🔥 火種組',d:`固態火種、打火機油、月亮打火機。
-「露營用的。」高于雯是這麼說的。
 你有一種不太妙的預感——最好別讓自己有用到它的理由。`},
- charm:{n:'🐶 帕恰狗吊飾',d:`Rickey 哭著找了一個月的那隻。眼神無辜。
+ charm:{n:'🐶 帕恰狗娃娃',d:`Rickey 哭著找了一個月的那隻。眼神無辜。
 背蓋有點鬆，搖起來裡面好像有東西——
-但接縫咬得很緊，徒手撬不開。
-Rickey 到底把什麼藏在裡面？`},
+但接縫咬得很緊，徒手撬不開。`},
  tempcard:{n:'💳 無名的測試卡',d:`女廁洗手台下撿到的卡。沒有照片，沒有姓名，只印著：
-【BLACKOUT TESTER／7F-01】
-7F-01——門禁系統叫你的那個代號。
-這張卡在那裡等的人，就是你。`},
+【BLACKOUT TESTER／7F-01】`},
  release_handle:{n:'🛠 方形金屬把手',d:`沉甸甸的金屬把手，標籤寫著「後勤側門・停電用」。
-它能轉動鎖芯，但門框上方的安全扣必須同時固定。
 保養說明建議使用長柄工具完成單人操作。`},
- sun_override:{n:'🪪 主管覆核卡',d:`孫寧抽屜裡的覆核卡，躺得端端正正。
-卡背印著【725】，和一行小字：「勿與識別碼分開保管。」
-——偏偏，就是分開保管了。`},
+ sun_override:{n:'🪪 主管覆核卡',d:`孫寧抽屜裡的覆核卡。
+卡背印著【725】`},
 };
 const ITEM_UNLOCK_HINTS={
  key_locker:'鑰匙牌：「7F 備品櫃」……這層樓上鎖的鐵櫃，在哪一區？',
@@ -1222,83 +1210,83 @@ const ITEM_UNLOCK_HINTS={
  charm:'背蓋裡好像藏著什麼。',
 };
 const FRAGS={
- frag1:{n:'📓 文件①佈置檢核表',d:`高于雯的小本本裡，夾著一張摺起來的表：
-「夜間守則・道具佈置檢核表」
-「冷凍庫鑰匙 ✓／牌盒鑰匙 ✓／測試卡 ✓／維修標籤 ✓／覆核卡 ✓」
-「佈置完成：本週日 16:40」
+ frag1:{n:'📓 文件①｜盲測佈置檢核表',d:`高于雯的小本本裡，夾著一張摺起來的表：
+「福委 8 月大活動｜辦公室密室逃脫」
+「第一次盲測・道具佈置檢核表」
 
-負責人簽名欄，工整地寫著——【7F-01】。
+冷凍庫鑰匙 ✓／牌盒鑰匙 ✓／測試卡 ✓
+維修標籤 ✓／覆核卡 ✓／盆栽攝影機 ✓
+影印機 C 遠端出紙 ✓／故障標籤保留 ✓
 
-今天下午 16:40，你還在改網站。
-你還不是 7F-01。
-那時候，是誰用這個名字簽的名？`},
- frag2:{n:'📒 文件②守則・原稿',d:`一疊泛黃的手寫紙，字跡老得不像這間公司的年紀：
-「七樓夜間守則（初稿）」
+受測者：7F-01
+預計留場原因：週一提案作業
+留場確認：已由專案群組確認
+事前告知：否
+佈置完成：週日 16:40
 
-每一條後面，都有一行小小的註記——
-「第三條（同事的遺留物）　驗證人：已離職」
-「第五條（女廁的鏡子）　驗證人：已離職」
-「第八條（排水管）　驗證人：（劃掉）已離職」
-「第十條（三份文件）　驗證人：（空白）」
+最下方一行小字：
+「受測者離開前，不得主動提供完整答案。」`},
+ frag2:{n:'📒 文件②｜福委活動決議紀錄_0602',d:`泛黃的手寫紙，紙張下半段被撕毀了：
+「福委 8 月大活動｜會議決議紀錄_0602」
 
-最後一頁只有一句話：
-「守則不是規定。
-　守則是活著離開的人，留下的筆記。」`},
- frag3:{n:'📄 文件③下期守則草稿',d:`影印機吐出來的紙，墨還是溫的：
-「七樓夜間守則（下期修訂）」
-「生效日：下週五 22:00」
-「修訂內容：新增第十三條（內容待填）」
-「測試者欄位：7F-02（招募中）」
+提案項目：
+1. 80 人大型劇本殺
+2. 辦公室密室逃脫
+3. 艾迪英特 BIBA 籃球競賽
 
-下方有人手寫：「Kat，這台影印機沒有接電源線。」
-旁邊只蓋了一個「已讀」章。
+決議：採用第二案。
+測試方式：不事前告知受測者之實地盲測。
+測試標準：受測者能以任一正常出口完成離場。
 
-已讀。不回。
-然後，就是今晚。`},
+對外文件抬頭：協和大樓管理委員會
+印章：向行政借用，活動後歸還。
+備註：僅供活動情境使用，不代表管理委員會正式公告。`},
+ frag3:{n:'📄 文件③｜BLACKOUT 盲測排程表_0610',d:`剛從影印機吐出來的紙，墨還是溫的：
+「福委 8 月大活動｜BLACKOUT 盲測排程表_0610」
+
+申請單位：福委會活動籌備組
+測試模式：不告知受測者之實地盲測
+
+第一次測試：週一 23:00
+測試者：7F-01
+門禁環境：PROD-ACCESS
+
+第二次測試：週四 23:00
+測試者：7F-02（待選定）
+
+備註：受測者完成任一離場路線，即視為測試完成。`},
 };
-
 /* ---- messages ---- */
 const MSG0=[
  {thread:'董伊淇',who:'董伊淇',tm:'17:18',tx:`你還在七樓？？聽我說。
-印表機印出「守則」的話——那不是整人遊戲。
-我離職前一晚也收過一張。`},
- {thread:'董伊淇',who:'董伊淇',tm:'17:19',tx:`照著做，不要自作聰明。
-尤其是「出口」那段。
-看起來像出口的，不一定是。`},
+我離職前被叫去跑過一次「設備預演」，卡片編號是【7F-00】。
+那次沒有真的鎖門，但他們叫我不能告訴下一位受測者。`},
+ {thread:'董伊淇',who:'董伊淇',tm:'17:19',tx:`如果印表機吐出守則，你可能就是下一位。
+主辦單位的名字被遮掉了。先找出口——完整資料應該還留在公司裡。`},
  {thread:'陳資涵',who:'陳資涵',tm:'17:32',tx:`下午桌上多了張紙條，叫我把一支鑰匙
-封進貢丸袋、夾子反向、收進冷凍庫？？
-字跡超像我自己的==但我沒寫過`},
+封進貢丸袋後夾子反向夾，再收進冷凍庫？？`},
  {thread:'陳資涵',who:'陳資涵',tm:'17:33',tx:`我照做了。紙條最後一行寫：
 「不照做的話，貢丸會知道。」
 貢丸會知道什麼？？`},
- {thread:'陳資涵',who:'陳資涵',tm:'17:35',tx:`伊淇的點餐備註又更新了：
+ {thread:'陳資涵',who:'陳資涵',tm:'17:35',tx:`Eri的點餐備註又更新了：
 不吃菇類、香菜、豆製品、苦瓜、鹹蛋、仙草、蚵仔、
 沒切片的大型牡蠣、假葷食、芋頭、人工火鍋料、
-蒟蒻、木耳、四神湯。餐廳看到都先深呼吸。`},
- {thread:'高于雯',who:'高于雯',tm:'18:05',tx:`我也收到紙條==
+蒟蒻、木耳、四神湯。哪來的挑食人？`},
+ {thread:'高于雯',who:'高于雯',tm:'18:05',tx:`我也收到紙條，
 叫我把抽屜密碼撕成三片、藏在三個地方，
-還要在鎖上貼一首詩。詩是它寫好的。`},
- {thread:'高于雯',who:'高于雯',tm:'18:06',tx:`詩看得懂就打得開。看不懂的不要來吵我
-（茶水間的豬血糕是我的，誰動誰死）`},
+還要在鎖上貼一首詩。詩是「他們」寫好的。`},
+ {thread:'高于雯',who:'高于雯',tm:'18:06',tx:`詩看得懂就打得開⋯⋯吧？`},
  {thread:'劉世華',who:'劉世華',tm:'19:11',tx:`紙條叫我把鑰匙鎖進牌盒，我照做了🔮
-密碼是「我最怕的那張牌」的編號`},
- {thread:'劉世華',who:'劉世華',tm:'19:13',tx:`……那張牌今天自己掉出牌堆三次，
-第三次是正面朝上。
-速查表被我收起來了，不想再看到它。`},
- {thread:'彭筠喬',who:'彭筠喬',tm:'20:00',tx:`我的應援燈桿留在座位旁了！！
-紙條叫我留我就留！！`},
- {thread:'彭筠喬',who:'彭筠喬',tm:'20:01',tx:`紙條還抄了一句守則：
-「高處的東西想下來，給它一根桿子。」
-……說的該不會就是它？？
-誰都不准弄斷！！子瑜看著你！！`},
+ 密碼是什麼呢⋯⋯我忘記了！`},
+ {thread:'劉世華',who:'劉世華',tm:'19:13',tx:`我今天洗牌時一直掉出高塔牌，好可怕。`},
+ {thread:'彭筠喬',who:'彭筠喬',tm:'20:00',tx:`週六要去演唱會，但紙條叫我把應援燈桿留在座位上！！`},
+ {thread:'彭筠喬',who:'彭筠喬',tm:'20:01',tx:`誰都不准弄斷！！我跟子瑜都偷偷看著你！！`},
  {thread:'Gina',who:'Gina',tm:'21:51',tx:`我跟 Ruru 的共用抽屜照紙條上鎖了～
 密碼是我們各自的「得意之作」，我的在前💅
 紙條連我得過什麼獎都知道，有點毛`},
  {thread:'Ruru',who:'Ruru',tm:'21:53',tx:`我的在後🙂
-文件今天剛送去主管辦公區待簽。`},
- {thread:'Ruru',who:'Ruru',tm:'21:54',tx:`另外，紙條上的釘書針，
-是我們公司沒進過的牌子。
-我查過。不要問我為什麼查。`}
+文件今天剛送去桑尼辦公區待簽。`},
+ {thread:'Ruru',who:'Ruru',tm:'21:54',tx:`最近都在看崔傘的直拍，好帥==`}
 ];
 
 /* contextual hint lines (劉世華遠端占卜) */
@@ -1331,7 +1319,7 @@ function getHint(){
  if(!f('code404')||!has('sun_override'))return `「審判：六位數，兩段。」
 「一段在公用電腦的系統信裡；一段被鎖在孫寧的抽屜。」`;
  if(!(S.frags.frag1&&S.frags.frag2&&S.frags.frag3))return `「月亮：這棟樓今晚說了三次謊。」
-「檢核表、手冊、排程通知——三份都帶上，門後的真相才是完整的。」`;
+「活動決議、佈置檢核、盲測排程——三份都帶上，門後的真相才是完整的。」`;
  return `「世界，正位。三條路都通了：正門、消防梯、側門。」
 「走哪條都出得去——差別在於，你想帶走多少答案。」`;
 }
@@ -1409,8 +1397,8 @@ function pigeonHit(reason='random'){
   PIGEON_ACTIVE=true;AudioEngine.sfx('pigeon');
   document.body.classList.add('shake');setTimeout(()=>document.body.classList.remove('shake'),580);
   const el=document.getElementById('pigeon');
-  const randomCaps=['一隻鴿子用臉，確認了七樓玻璃的存在。','牠看起來很趕時間。現在不趕了。','玻璃：1，鴿子：0。','牠瞪了你兩秒，彷彿這一切是你的錯。'];
-  const errorCaps=['密碼錯得太有節奏，連窗外的鴿子都來確認。','第三次錯誤響起時，鴿子替系統按下了實體警報。','讀卡機沒有回應。玻璃外倒是有人回應了。'];
+  const randomCaps=['一隻鴿子用臉，確認了七樓玻璃的存在。','牠看起來很趕時間。現在不趕了。','股！姑！股！','牠瞪了你兩秒，彷彿這一切是你的錯。'];
+  const errorCaps=['錯太多次囉🎵連窗外的鴿子都來確認。','第三次錯誤響起時，鴿子替系統按下了實體警報。','讀卡機沒有回應。玻璃外倒是有人回應了。'];
   const caps=reason==='password'?errorCaps:randomCaps;
   el.innerHTML=CRACK_SVG+'<span class="bird">'+pigeonSVG()+'</span><div class="bang">碰——！</div><div class="pigeoncap">'+caps[Math.floor(Math.random()*caps.length)]+'</div>';
   el.style.display='block';
@@ -1479,7 +1467,7 @@ function pushMsg(who,tm,tx,me,thread){
 }
 function renderBadge(){['msgbadge','menubadge'].forEach(id=>{const b=document.getElementById(id);if(!b)return;b.style.display=S.unread>0?'block':'none';b.textContent=S.unread;});}
 function threadTitle(key){return key==='group'?'今天也要笑著上班（12）':key;}
-function threadIcon(key){if(key==='group')return '💬';const icons={'董伊淇':'🧋','高于雯':'🐈','劉世華':'🔮','陳資涵':'🍢','彭筠喬':'⭐','孫寧':'📋','Gina':'☕','Ruru':'📎'};return icons[key]||'👤';}
+function threadIcon(key){if(key==='group')return '💬';const icons={'董伊淇':'🧋','高于雯':'🐈','劉世華':'🔮','陳資涵':'🍢','彭筠喬':'⭐','孫寧':'✨','Gina':'🐔','Ruru':'🐰'};return icons[key]||'👤';}
 function renderChatList(){
   const box=document.getElementById('chatlist');box.innerHTML='';
   const keys=[];S.msgs.forEach(m=>{if(!keys.includes(m.thread))keys.push(m.thread);});
@@ -1507,7 +1495,7 @@ function showPhoneHome(){
   document.getElementById('phoneHome').style.display='block';document.getElementById('threadView').style.display='none';document.getElementById('callPanel').style.display='none';renderChatList();
 }
 function openThread(key){
-  AudioEngine.sfx('messageOpen');S.phoneThread=key;if(key==='陳資涵'&&!S.flags.sawChanFood){S.flags.sawChanFood=1;queueReward({icon:'🚫',name:'伊淇的飲食避雷清單',desc:'聊天室列出了大量避雷食材，可用來排除圖像登入中的干擾項。',kind:'重要線索取得'});}S.msgs.forEach(m=>{if(m.thread===key&&m.unread){m.unread=false;S.unread=Math.max(0,S.unread-1);}});renderBadge();
+  AudioEngine.sfx('messageOpen');S.phoneThread=key;if(key==='陳資涵'&&!S.flags.sawChanFood){S.flags.sawChanFood=1;queueReward({icon:'🚫',name:'Eri 的飲食避雷清單',desc:'聊天室列出了大量Eri不敢吃的東西，或許可用來排除圖像登入中的干擾項？',kind:'重要線索取得'});}S.msgs.forEach(m=>{if(m.thread===key&&m.unread){m.unread=false;S.unread=Math.max(0,S.unread-1);}});renderBadge();
   document.getElementById('phoneTitle').textContent=threadTitle(key);document.getElementById('phoneBack').style.display='inline-block';
   document.getElementById('phoneHome').style.display='none';document.getElementById('threadView').style.display='block';document.getElementById('callPanel').style.display='none';renderThread(key);
 }
@@ -1528,36 +1516,59 @@ function callKat(){
 為避免第 11 通，緊急資訊自動公開：
 【七樓大門管理密碼：404725】
 
-「請勿再撥。週一再說。」
+「請勿再撥。上班時間再說。」
 
 ——嘟。`
     :`您已進入 Kat 的語音信箱。
 
 「您好，目前非上班時間。若為門禁或系統權限問題，請先自行排除，謝謝。」
 
-本次為第 ${S.katCalls} 通。距離系統自動公開緊急資訊的門檻還有 ${10-S.katCalls} 通。`;
+本次為第 ${S.katCalls} 通。距離系統耐心上限似乎還有 ${10-S.katCalls} 通。`;
   if(tenth){S.flags.code404=1;S.flags.code725=1;setTimeout(()=>{queueReward({icon:'🔢',name:'管理密碼【404725】',desc:'非上班時間的緊急資訊已由系統自動公開。',kind:'重要線索'});toast('🔢 系統公開管理密碼：404725');AudioEngine.sfx('unlock');},1750);}
   startCall({name:'Kat',avatar:'K',message:msg});
 }
 function callSun(){
   S.sunCalls++;
-  startCall({name:'孫寧',avatar:'孫',delay:1900,message:`電話響了很久，沒有人接。
+  startCall({name:'孫寧',avatar:'Ning✨',delay:1900,message:`電話響了很久，沒有人接。
 
 「您好，我是孫寧。若是急件，請先整理完資料再傳文字，不要只傳『在嗎』。」
 
 目前已撥第 ${S.sunCalls} 通。`});
-  if(S.sunCalls===5&&!S.flags.sunDoNotDisturb){S.flags.sunDoNotDisturb=1;setTimeout(()=>pushMsg('孫寧','23:23','== 勿擾',false,'孫寧'),2300);}
+  if(S.sunCalls===5&&!S.flags.sunDoNotDisturb){S.flags.sunDoNotDisturb=1;setTimeout(()=>pushMsg('孫寧','23:23','我在睡覺⋯',false,'孫寧'),2300);}
 }
 
 const MAILS={
  facility:{from:'Kat',subject:'設備維修週報（節錄）',body:`1. 頂樓電箱把手斷裂，備料下週到貨。期間如需操作總開關，請使用長柄物，勿徒手伸入。
 2. 後勤側門緊急把手已拆下保養，暫存於大會議室 Kat 的保險箱。
 3. 保險箱改裝「巡檢碎片鎖」測試中：標記附於會議設備、主要門禁與緊急出口，排列依例行巡檢順序。
-4. 後勤側門手動釋放時，需先固定上方安全扣，再操作把手復位。`},
- system:{from:'BLACKOUT PROTOCOL',subject:'【自動通知】離場驗證規格',body:`A 路線／正門：六位數驗證碼。\n組成方式：系統識別碼【404】＋ 主管覆核碼【詳見覆核卡背面】。\n覆核卡持有人：孫寧。\n\n本信由系統自動發送，請勿回覆。`},
- tung:{from:'董伊淇',subject:'RE: 今晚的通知',body:`我到家了還在收系統通知，很不對勁。\n操作手冊上寫的正式演練明明是「下週五」。\n如果今晚跑的是測試，它不應該碰到真的門禁。\n\n……你該不會還在七樓吧？\n先別慌。這層樓到處都是今天下午才藏好的東西。`},
- rickey:{from:'Rickey',subject:'FW: 消防梯備援讀卡器測試件',body:`轉發 Kat 的通知：B 路線消防梯的備援讀卡器採雙重驗證——測試卡＋維修標籤，缺一不可。\n\n維修標籤我藏在一個「絕對不會有人想偷」的地方：我帕恰狗吊飾的背蓋裡。\n……現在想想可能藏得太安全了，它在大會議室高櫃頂上，連我自己都搆不到。`},
- kat:{from:'Kat／自動通知',subject:'排程同步完成',body:`排程：BLACKOUT_TEST\n環境：PROD-ACCESS\n時間：週日 23:00\n狀態：已同步\n\n此信由系統自動寄送，請勿回覆。`}
+4. 後勤側門手動釋放時，需先固定上方安全扣，再操作把手復位。
+
+附註：本週報僅提供設備狀態，不含活動排程與受測者名單。`},
+ system:{from:'BLACKOUT PROTOCOL',subject:'【自動通知】離場驗證規格',body:`申請單位：福委會活動籌備組
+A 路線／正門：六位數驗證碼。
+組成方式：系統識別碼【404】＋主管覆核碼【詳見覆核卡背面】。
+覆核卡持有人：孫寧。
+
+本信由系統自動發送，請勿回覆。`},
+ tung:{from:'董伊淇',subject:'RE: 今晚的盲測通知',body:`我剛翻到福委會的內部測試單。
+今晚不是系統誤啟動——他們刻意把測試環境切到正式門禁。
+備註還寫著：「為避免受測者預演，不得事前通知。」
+
+你就是 7F-01。
+先別慌，所有離場機關都應該有完整解法；福委會要的是盲測，不是把人永遠留在裡面。`},
+ rickey:{from:'Rickey',subject:'FW: 消防梯備援讀卡器測試件',body:`轉發 Kat 的通知：B 路線消防梯的備援讀卡器採雙重驗證——測試卡＋維修標籤，缺一不可。
+
+維修標籤我藏在一個「絕對不會有人想偷」的地方：我帕恰狗娃娃的背蓋裡。
+……現在想想可能藏得太安全了，它在大會議室高櫃頂上，連我自己都搆不到。`},
+ kat:{from:'BLACKOUT 門禁系統',subject:'【福委會申請】盲測排程同步完成',body:`排程：BLACKOUT_TEST
+申請單位：福委會活動籌備組
+環境：PROD-ACCESS
+時間：週一 23:00
+測試者：7F-01
+通知模式：SILENT
+狀態：已同步
+
+此信由系統自動寄送，請勿回覆。`}
 };
 function openMailbox(){
   let html='<div class="mailbox">';
@@ -1614,7 +1625,7 @@ const FOOD_CARDS=[
   {id:'basilClam',icons:'🌱＋🐚',label:'九層塔炒蛤蠣',safe:true},
   {id:'coriander',icons:'🌿＋🥚',label:'香菜皮蛋'},
   {id:'tofu',icons:'⬜＋🌶️',label:'麻婆豆腐'},
-  {id:'mackerel',icons:'🐟＋🍚',label:'鹽烤鯖魚＋白飯',safe:true},
+  {id:'mackerel',icons:'🧄＋🐔',label:'蒜頭雞湯',safe:true},
   {id:'bitter',icons:'🥒＋🧂🥚',label:'苦瓜鹹蛋'},
   {id:'grassJelly',icons:'⬛＋🥛',label:'仙草鮮奶'},
   {id:'oyster',icons:'🦪＋🔥',label:'蚵仔酥'},
@@ -1633,12 +1644,12 @@ function openFoodPuzzle(){
   FOOD_PUZZLE={selected:[],cards:shuffledFoodCards(),locked:false};
   renderFoodPuzzle();
 }
-function renderFoodPuzzle(message='選出 3 組未含避雷食材的餐點。',bad=false){
+function renderFoodPuzzle(message='選出 3 組Eri可以順利吃下的餐點。',bad=false){
   if(!FOOD_PUZZLE)return;
   const slots=[0,1,2].map(i=>{const id=FOOD_PUZZLE.selected[i],card=FOOD_CARDS.find(x=>x.id===id);return '<div class="food-slot'+(card?' filled':'')+'">'+(card?'<span>'+card.icons+'</span><small>'+card.label+'</small>':(i+1))+'</div>';}).join('');
   const cards=FOOD_PUZZLE.cards.map(card=>'<button class="food-tile'+(FOOD_PUZZLE.selected.includes(card.id)?' used':'')+'" aria-label="'+card.label+'" onclick="foodPick(\''+card.id+'\')"><span class="food-icons">'+card.icons+'</span><span class="food-label">'+card.label+'</span></button>').join('');
   const html='<div class="food-puzzle"><div class="food-screen" id="foodScreen"'+(bad?' style="color:#e1a09a;border-color:#9b4a42"':'')+'>'+message+'</div><div class="food-sequence">'+slots+'</div><div class="food-grid">'+cards+'</div><div class="food-actions"><button class="side-mini-btn" onclick="foodUndo()">← 退回一格</button><button class="side-mini-btn" onclick="foodReset()">↺ 清除</button></div></div>';
-  showModal('公用電腦／圖像登入',`登入頁沒有提供答案，只要求從餐點圖卡中選出三組未含避雷食材的組合。`,html);
+  showModal('公用電腦／圖像登入',`登入頁沒有提供答案，只要求從餐點圖卡中選出 3 組Eri可以順利吃下的餐點。`,html);
 }
 function foodPick(id){
   if(!FOOD_PUZZLE||FOOD_PUZZLE.locked||FOOD_PUZZLE.selected.includes(id)||FOOD_PUZZLE.selected.length>=3)return;
@@ -1647,11 +1658,11 @@ function foodPick(id){
   FOOD_PUZZLE.locked=true;
   const ok=FOOD_PUZZLE.selected.length===FOOD_ANSWER.size&&FOOD_PUZZLE.selected.every(id=>FOOD_ANSWER.has(id));
   if(ok){
-    renderFoodPuzzle('三組餐點皆未含避雷食材。正在開啟共用信箱……');AudioEngine.sfx('unlock');
+    renderFoodPuzzle('正確｜正在開啟共用信箱……');AudioEngine.sfx('unlock');
     S.flags.pcOpen=1;queueReward({icon:'💻',name:'公用電腦已登入',desc:'圖像驗證已通過，共用信箱權限開啟。',kind:'系統權限取得'});
     setTimeout(()=>{FOOD_PUZZLE=null;openMailbox();},760);
   }else{
-    renderFoodPuzzle('其中至少一組含有避雷食材。登入頁已清除選取。',true);AudioEngine.sfx('wrong');registerPasswordError('圖像登入');
+    renderFoodPuzzle('錯誤｜登入頁已清除選取。',true);AudioEngine.sfx('wrong');registerPasswordError('圖像登入');
     setTimeout(()=>{if(!FOOD_PUZZLE)return;FOOD_PUZZLE.selected=[];FOOD_PUZZLE.locked=false;renderFoodPuzzle();},720);
   }
 }
@@ -1915,7 +1926,7 @@ function endGame(type){
   if(success){S.elapsedMs=S.startAt?Date.now()-S.startAt:0;S.route=type;recordCompletion(type);}
   T.className='';
   if(type==='fire'){
-    AudioEngine.sfx('endingBad');T.classList.add('bad');T.textContent='✖ 壞結局：消防演練超前部署';
+    AudioEngine.sfx('endingBad');T.classList.add('bad');T.textContent='✖ 壞結局：消防系統超前部署';
     B.textContent=`你點燃火種，湊近大門的門縫。
 
 0.8 秒後，灑水器全面啟動。
@@ -1926,7 +1937,7 @@ function endGame(type){
 手裡還握著那支月亮打火機。
 
 手機亮起。高于雯：
-「我說露營用的==」
+「你怎麼先用了⋯？」
 
 封鎖確實解除了。
 用的是消防系統，不是腦子。`;
@@ -1934,13 +1945,12 @@ function endGame(type){
     AudioEngine.sfx('endingBad');T.classList.add('bad');T.textContent='✖ 壞結局：七樓不是動作片';
     B.textContent=`你抓住排水管，往下爬。
 
-不到半層，你的核心肌群開始寫辭職信。
-最後你卡在公司招牌後面，進退不得——
-被路過的大學生開了直播：
-「深夜大樓驚見行動藝術（還在動）」
+不到半層，你全身的肌肉都在尖叫。
+後悔沒有認真去上BARRE課的你，卡在公司招牌後面，進退不得——
+被住在對面的劉世華開了直播⋯⋯
 
-雲梯車把你接下來的時候，觀看人數突破三萬。
-你和招牌上的公司 LOGO，合了一張時代的照片。`;
+當雲梯車把你接下來的時候，觀看人數突破三萬。
+你和招牌上的公司 LOGO，有了一張幸福甜蜜的合照。`;
   }else if(type==='firestairs'){
     AudioEngine.sfx('endingGood');T.textContent='◆ 安全結局：消防梯的綠燈';
     B.textContent=`「嗶。」「嗶。」
@@ -1957,7 +1967,7 @@ function endGame(type){
 出是出來了。
 有些問題，留給明天。
 
-你隱約覺得——如果帶齊那三份「不該存在的文件」，
+你隱約覺得——如果帶齊那三份內部文件，
 再打開正門，今晚也許會有完整的解釋。`;
   }else if(type==='side'){
     AudioEngine.sfx('endingGood');T.textContent='◆ 機械結局：不插電的團體作業';
@@ -1967,8 +1977,6 @@ function endGame(type){
 「鏗。」
 
 彈簧扣縮回，厚重的側門終於鬆開。
-沒有密碼。沒有讀卡器。沒有「系統忙碌中，請稍候」。
-保養程序要求先固定安全扣，再依序轉動並拉出鎖芯。
 
 在全公司最先進的封鎖系統面前，
 最後獲勝的是一支鐵把手、一根應援燈桿，
@@ -1976,39 +1984,35 @@ function endGame(type){
 
 維修備忘留下的程序，確實完成了最後一步。
 
-只是你隱約覺得——如果帶齊那三份「不該存在的文件」，
+只是你隱約覺得——如果帶齊那三份內部文件，
 再打開正門，今晚也許會有完整的解釋。`;
   }else if(type==='true'){
-    AudioEngine.sfx('endingTrue');T.classList.add('true');T.textContent='★ 真結局：排程比鬼更可怕';
+    AudioEngine.sfx('endingTrue');T.classList.add('true');T.textContent='★ 真結局：福委會的驚喜，不需要本人同意';
     B.textContent=`「嗶——喀。」
 
 大門解鎖。但你沒有立刻走出去。
 你把三份文件，在警衛桌上一字排開：
 
-佈置檢核表——道具，今天下午 16:40 全部就位。
-操作手冊——正式演練，排在下週五 22:00。
-排程通知——測試排程接錯了正式門禁，執行時間：今晚 23:00。
+福委活動決議紀錄——證明福委會選中了「辦公室密室逃脫」。
+盲測佈置檢核表——證明道具、攝影機與你的加班行程都被事先確認。
+BLACKOUT 盲測排程表——證明今晚 23:00、正式門禁與測試者 7F-01，全都不是意外。
 
-拼起來，就是全部的真相：
+連開場那張「協和大樓管理委員會」守則，也是福委會為了增加沉浸感製作的道具公文。
+真正的管理委員會，大概只貢獻了那顆被借走的印章。
 
-有人提前把演練道具佈置好了。
-有人把測試環境接到了正式系統。
-有人在手寫的警告旁邊，蓋了一個「已讀」章。
-
-然後今晚 23:00，系統準時醒來，
-把整層樓變成演練場——
-而你，只是週日晚上最後一個還沒下班的人。
+同事們只收到各自的藏物任務，沒有人掌握完整流程。
+董伊淇是設備預演的 7F-00；而你，是第一位完全不知情的正式盲測者。
+福委會確認你會為了週一提案留到 23:00，才把排程切到 PROD-ACCESS，遠端鎖上真正的大門。
 
 手機震了一下。系統通知：
-「BLACKOUT 演練完成率：100%。異常回報：1。」
+「BLACKOUT 盲測完成率：100%。受測者：7F-01。」
+「下一位測試者：7F-02（待選定）。」
 
-你回覆：
-「異常不是 1。異常是你們把下週五的事，排在今天。」
+今晚沒有系統故障。
+系統從頭到尾，都精準執行了福委會的計畫。
 
-已讀。
-
-七樓重新亮起。你替公司完成了一次
-非常昂貴、非常真實、非常不自願的上線前測試。`;
+你走出大樓前，替事件報告補上一行：
+「活動可行。建議下次先取得受測者同意。」`;
   }else{
     AudioEngine.sfx('endingGood');T.textContent='◆ 好結局：封鎖解除';
     B.textContent=`「嗶——喀。」
@@ -2016,9 +2020,9 @@ function endGame(type){
 大門解鎖，七樓在你身後恢復照明。
 你走進雨後的夜色，自由的空氣混著滷味攤收攤的味道。
 
-至於系統為什麼半夜啟動、
+至於是誰申請了半夜的門禁排程、
 誰把你編成 7F-01、
-為什麼聯絡始終轉進語音信箱——
+又是誰確認你今晚會留到最後——
 
 明天再說。今晚你只想睡覺。
 
@@ -2027,7 +2031,7 @@ function endGame(type){
 是知道每個同事會把東西藏在哪裡的、你。
 
 只是……口袋好像太輕了。
-這層樓還藏著幾份「不該存在的文件」——
+這層樓還藏著幾份內部文件——
 下次，把它們帶齊，再開這扇門。`;
   }
   const btn=document.getElementById('endingBtn'),reporter=document.getElementById('endReporter'),archive=document.getElementById('endArchive'),cert=document.getElementById('certificateWrap');
@@ -2087,7 +2091,6 @@ function renderWirePanel(){
   html+='<div class="breaker-console" id="breakerConsole"><div class="breaker-title">MAIN BREAKER／總開關</div><div class="breaker-shell"><span class="breaker-label-on">ON</span><span class="breaker-label-off">OFF</span><div class="breaker-track"><div class="breaker-handle" id="mainBreaker" aria-label="可向上推動的總開關"></div></div></div><div class="breaker-arrow">↑ 抓住開關往上推</div><div class="breaker-status" id="breakerStatus">接線完成後，將開關推至 ON。</div></div>';
   html+='<div class="wire-actions"><button class="side-mini-btn" onclick="wireReset()">↺ 全部拆除</button></div>';
   showModal('頂樓電箱',`護蓋下垂著五條線，接線座上有三個端子。
-不是每條線都該接——哪幾條該、接哪裡，
 備忘的正本，聽說由「主管」保管。`,html);
   setTimeout(()=>{bindWireDrag();bindBreakerSwitch();drawWireLines();},0);
 }
@@ -2377,8 +2380,8 @@ function resetSideMechanism(){SIDE_MECH={stage:'brace',angle:0,pull:0,drag:null,
 const SPOTS={
 office2:[
  {id:'workdesk',x:36,y:122,w:46,h:30,label:'你的座位',fn(){
-   showModal('你的座位',`週一提案網站的測試頁還開著，檔名：
-「最終版_真最終版_這次真的不改_v7」。
+   showModal('你的座位',`週一提案簡報還開著，檔名：
+「Ad2提案_明治-2025 巧克力 Winter campaign_0607」。
 
 螢幕角落彈出一則系統通知：
 【BLACKOUT PROTOCOL／測試者 7F-01 已簽到】
@@ -2387,52 +2390,50 @@ office2:[
 手機在桌上，好幾個聊天室在下午閃過訊息。`);
  }},
  {id:'tungdesk',x:82,y:102,w:38,h:52,label:'董伊淇的舊座位',fn(){
-   showModal('董伊淇的舊座位',`她離職前的座位還沒清，七個手搖杯疊成一座塔。
+   showModal('董伊淇的舊座位',`她的座位還沒清，七個手搖杯疊成一座塔。
 
 杯塔旁壓著一張公用電腦的登入通知：
-「圖像驗證已啟用。請依點餐備註，選出三組未含避雷食材的餐點。」
+「圖像驗證已啟用。請依點餐備註，選出三組Eri敢吃的料理。」
 
-通知上沒有列出避雷內容。
+但通知上沒有列出避雷內容。
 那份資料，應該在其他地方。`);
  }},
  {id:'kaodesk',x:150,y:126,w:42,h:22,label:'高于雯的桌面',fn(){
    gainPiece('catDeskPiece','被推下桌的紙片【48】');
-   showModal('高于雯的桌面',`桌面收得很整齊，殺氣也收得很整齊。
+   showModal('高于雯的桌面',`桌面收得很整齊，還有許多吉伊卡哇周邊。
 
 桌腳旁躺著一支逗貓棒，下面壓著一張被踩皺的紙片：
 【48】
 
 桌緣貼著一張便條：
-「今晚巡邏：桌下 → 茶水間 → 影印機。」
+「🐈 今晚巡邏：桌下 → 茶水間 → 影印機。」
 
-貓本人不在公司。
-但有人很認真地替牠走完了行程。`);
+貓本人似乎不在公司。
+但有人即將替牠走完這些行程。`);
  }},
  {id:'kaodrawer',x:150,y:152,w:40,h:14,label:'高于雯的抽屜（密碼鎖）',fn(){
-   if(S.flags.kaoOpen){showModal('高于雯的抽屜','已經打開。裡面只剩逗貓棒和一包貓草。\n你決定不要動那些。為了活命。');return;}
-   openPieceLock({title:'高于雯的抽屜',desc:'四位數密碼鎖。鎖上貼著警告：\n「打開之前，請先寫好遺書==」\n\n警告下面，還用便利貼貼著一首詩：',poem:`第一個被牠推下桌，
+   if(S.flags.kaoOpen){showModal('高于雯的抽屜','已經打開。裡面只剩逗貓棒和一包貓草。\n你決定不要動那些。');return;}
+   openPieceLock({title:'高于雯的抽屜',desc:'四位數密碼鎖。鎖上貼著紙條：\n「密碼應該很簡單吧！」\n\n紙條下面，還用便利貼貼著一首詩：',poem:`第一個被牠推下桌，
 第二個藏在沒人使用的杯底，
 第三個卡在影印機吐不出的紙裡。
 
 別照你找到的順序。
 照牠今晚留下的痕跡。`,pieces:[
-     {flag:'catDeskPiece',slot:0,color:'#3f5b8f',short:'48',n:'桌下紙片【48】'},
-     {flag:'cupPiece',slot:1,color:'#4a6b3a',short:'6',n:'杯底紙片【6】'},
-     {flag:'copierPiece',slot:2,color:'#7a3040',short:'9',n:'卡紙碎片【9】'}
+     {flag:'catDeskPiece',slot:0,color:'#3f5b8f',short:'48',n:'紙片【48】'},
+     {flag:'cupPiece',slot:1,color:'#4a6b3a',short:'6',n:'紙片【6】'},
+     {flag:'copierPiece',slot:2,color:'#7a3040',short:'9',n:'碎片【9】'}
    ],onOK(){
      S.flags.kaoOpen=1;addItem('battery');addItem('firekit');addFrag('frag1');
      showModal('抽屜開了',`碎片拼起來：48｜6｜9——4869。
 轉盤「喀」的一聲鬆開。
 
 裡面整齊排著：
-・三號電池一排（逗貓棒備品）
+・三號電池一排
 ・固態火種、打火機油、月亮打火機
 ・一本小本本——裡面夾著一張摺起來的表
 
-你全部帶走了。包括那張，看完手心會發涼的表。`,'<span class="getitem">🔋 三號電池</span><span class="getitem">🔥 火種組</span><span class="getfrag">📓 佈置檢核表</span>');
-     setTimeout(()=>pushMsg('高于雯','23:14',`我抽屜的防盜警報響了==
-電池拿去用，火種給我放回來。
-夾著的那張紙……你自己看吧。`),900);
+你全部帶走了。包括那張看完手心會發涼的表。`,'<span class="getitem">🔋 三號電池</span><span class="getitem">🔥 火種組</span><span class="getfrag">📓 佈置檢核表</span>');
+     setTimeout(()=>pushMsg('高于雯','23:14',`夾著的那張紙……你自己看吧。`),900);
    }});
  }},
  {id:'pengdesk',x:214,y:120,w:46,h:28,label:'彭筠喬的座位',fn(){
@@ -2445,9 +2446,9 @@ office2:[
  }},
  {id:'plant',x:264,y:148,w:16,h:24,label:'座位旁盆栽',fn(){
    showModal('盆栽',`葉片間藏著一顆小鏡頭，紅燈微微閃爍。
-底下貼著標籤：「演練紀錄用」。
+底下貼著標籤：「活動測試／觀察設備 01」。
 
-所以今晚發生的一切，都會有錄影。
+所以今晚發生的一切，都會有錄影，而且有人早就知道鏡頭該對準哪個座位。
 你對著鏡頭，比了一個「加油」的手勢。`);
  }},
  {id:'fridge',x:312,y:100,w:34,h:70,label:'茶水間冷凍庫',fn(){
@@ -2460,9 +2461,8 @@ office2:[
 是一支凍得黏手的小鑰匙，鑰匙圈上掛著小牌：「7F 備品櫃」。
 
 下午資涵在聊天室說的「道具」……原來是這個。`,'<span class="getitem">🔑 冰凍的小鑰匙</span>');
-   setTimeout(()=>pushMsg('陳資涵','23:11',`反向那袋被打開了齁（我媽的箱子有貼震動感應貼紙）
-就跟你說是道具吧！鑰匙拿去用
-貢丸不要偷吃==`),800);
+   setTimeout(()=>pushMsg('陳資涵','23:11',`就跟你說是道具吧！鑰匙拿去用
+貢丸不要偷吃。。。`),800);
  }},
  {id:'microwave',x:288,y:120,w:22,h:14,label:'微波爐上的馬克杯',fn(){
    gainPiece('cupPiece','杯底紙片【6】');
@@ -2471,18 +2471,16 @@ office2:[
 
 沒有人記得它的主人是誰。
 你把杯子翻過來，杯底黏著一小張紙片：【6】。
-
-杯內的灰塵，已經比部分同事的年資更資深。`);
+`);
  }},
 ],
 window_:[
  {id:'liudesk',x:40,y:128,w:48,h:26,label:'劉世華的桌位',fn(){
    showModal('劉世華的桌位',`占卜絨布、水晶陣，和一張字條：
-「牌盒上鎖了。密碼是我最怕的那張牌——編號自己想。」
+「牌盒上鎖了。密碼是我最怕的那張牌——編號是幾號呢～」
 
 牆上原本貼「牌義速查表」的位置，只剩四個膠帶印。
-有人把它收走了。
-真是敬業的出題人。`);
+有人把它收走了。`);
  }},
  {id:'tarotbox',x:92,y:134,w:20,h:14,label:'塔羅牌盒（密碼鎖）',fn(){
    if(S.flags.tarotOpen){showModal('塔羅牌盒','盒子開著，77 張牌安靜地躺著。\n鑰匙已經被你拿走了。');return;}
@@ -2500,13 +2498,13 @@ window_:[
 
 它今晚對你說的話，比某些同事一週說的還多。`);return;}
    addFrag('frag3');showModal('影印機',`面板閃著紅字：「E-04 卡紙」。
-你熟練地拉開側蓋（社畜的隱藏被動技），抽出卡住的紙——
+你熟練地拉開側蓋，抽出卡住的紙——
 
 最上方黏著一張小碎片：【9】。
-下面則是一張系統自動列印的排程通知。
+下面則是一張福委會申請的 BLACKOUT 盲測排程表。
 
 讀完最後一行，你把兩張紙都收進口袋。
-手心，有一點冷。`,'<span class="getitem">🧩 卡紙碎片【9】</span><span class="getfrag">📄 排程同步通知</span>');
+手心，有一點冷。`,'<span class="getitem">🧩 卡紙碎片【9】</span><span class="getfrag">📄 BLACKOUT 盲測排程表</span>');
  }},
  {id:'pc',x:216,y:120,w:34,h:26,label:'公用電腦',fn(){
    if(S.flags.pcOpen){openMailbox();return;}
@@ -2519,26 +2517,24 @@ window_:[
    showModal('置物櫃開了',`小鑰匙一轉，「喀」。
 
 裡面有：一支手電筒（拿起來輕得可疑）、
-一頂安全帽、一包陳家貢丸乾。
+一頂安全帽、一包陳家貢丸。
 
-你吃了貢丸乾。很好吃。士氣回復。`,'<span class="getitem">🔦 緊急手電筒</span>');
+太餓的你生吃了貢丸。意外的很好吃。士氣回復。`,'<span class="getitem">🔦 緊急手電筒</span>');
  }},
  {id:'windowglass',x:264,y:24,w:116,h:54,label:'七樓窗戶',fn(){
    showModal('七樓窗戶',`玻璃上映著你自己，和身後一整層的黑。
 
 窗角貼著 Kat 的安全貼紙：
-「緊急逃生請走既有出口，請勿自行新增出口。」
+「請勿自行新增出口。」
 
 說得很有道理。`);
  }},
 ],
 sales:[
- {id:'board',x:26,y:56,w:80,h:50,label:'業務白板',fn(){showModal('業務白板',`本月業績榜上，Gina 和 Ruru 的名字咬得很緊，
-差距小到用立可白就能改寫歷史。
+ {id:'board',x:26,y:56,w:80,h:50,label:'業務白板',fn(){showModal('業務白板',`業績王👑：Gina
 
 白板角落的公告：
-「白板筆沒水請登記領用，不要拿麥克筆假裝。——Kat」
-
+「白板筆沒水請登記領用，不要拿麥克筆寫⋯ ——Kat」
 那行公告本身，就是麥克筆寫的。擦不掉了。`);}},
  {id:'mavisbag',x:116,y:154,w:56,h:16,label:'桌底睡袋',fn(){showModal('桌底睡袋',`桌底捲著一條睡袋，枕頭繡著「使命必達」，
 提神飲料空瓶在旁邊排成一直線。
@@ -2548,29 +2544,30 @@ sales:[
  {id:'ginadesk',x:184,y:120,w:52,h:28,label:'Gina 的座位',fn(){showModal('Gina 的座位',`桌上立著一個小相框：Gina 抱著獎座，笑得見牙不見眼。
 
 相框旁的便條：
-「正式的那張，掛一樓了💅」`);}},
- {id:'rurudesk',x:250,y:120,w:52,h:28,label:'Ruru 的座位',fn(){showModal('Ruru 的座位',`桌面貼著一張自製流程圖：
+「正式的那張照騙，掛一樓了💅」`);}},
+ {id:'rurudesk',x:250,y:120,w:52,h:28,label:'Ruru 的座位',fn(){showModal('Ruru 的座位',`桌面貼著一張紙條：
 「結案 → 排版 → 送簽 → 慶祝🎉」
 
 「送簽」那格今天剛打勾，下面補了一行：
-「已送主管辦公區待簽櫃。等等，慶祝呢？」`);}},
+「已送桑尼辦公區待簽櫃。等等，慶祝呢？」`);}},
  {id:'salesdrawer',x:320,y:134,w:52,h:36,label:'Gina & Ruru 共用抽屜',fn(){
-   if(S.flags.salesDrawerOpen){showModal('共用抽屜','已打開。鑰匙與手冊都被你拿走了。');return;}
-   openLock({title:'Gina & Ruru 共用抽屜',desc:'四位數密碼鎖。抽屜上貼著兩人合寫的紙條：\n「密碼是我們各自的得意之作：Gina 在前，Ruru 在後。」',len:4,code:'1207',wrong:'不對。\n兩個人的「得意之作」……你都親眼看過了嗎？',onOK(){
+   if(S.flags.salesDrawerOpen){showModal('共用抽屜','已打開。鑰匙與福委會內部文件都被你拿走了。');return;}
+   openLock({title:'Gina & Ruru 共用抽屜',desc:'四位數密碼鎖。抽屜上貼著兩人合寫的紙條：\n「密碼是我們各自的得意數字：Gina 在前，Ruru 在後。」',len:4,code:'1207',wrong:'不對。\n兩個人的「得意之作」……你都親眼看過了嗎？',onOK(){
      S.flags.salesDrawerOpen=1;addItem('key_meet');addFrag('frag2');
      showModal('共用抽屜開了',`裡面有一支鑰匙，鑰匙牌寫著「小會議室・備用」——
-和一本裝訂整齊的手冊，封面印著大大的「機密」。
+和一份標著「福委內部」的會議決議紀錄。
 
-印著「機密」的東西，放在業務的共用抽屜裡。
-這間公司對機密的理解，一如既往。`,'<span class="getitem">🗝 小會議室鑰匙</span><span class="getfrag">📒 演練操作手冊</span>');
-     setTimeout(()=>pushMsg('董伊淇','23:20',`你找到操作手冊了？快翻「離場驗證」那章
-記住：出口不會只有正門一個`),900);
+文件第二案被紅筆圈起：辦公室密室逃脫。
+下面還寫著「不事前告知受測者之實地盲測」。
+這不是臨時故障，而是有人開過會、投過票、還做了紀錄。`,'<span class="getitem">🗝 小會議室鑰匙</span><span class="getfrag">📒 福委活動決議紀錄</span>');
+     setTimeout(()=>pushMsg('董伊淇','23:20',`你找到福委會議紀錄了？那份文件只能證明他們決定做盲測。
+繼續找受測者名單和排程，才能證明今晚是故意的。`),900);
    }});
  }},
 ],
 meet_s:[
  {id:'projector',x:296,y:48,w:78,h:60,label:'投影幕／投影機',fn(){
-   gainPiece('projectorTag','投影機維修貼紙【BP-2】');showModal('小會議室投影機',`投影機循環播放著一份「BLACKOUT 預演簡報」。
+   gainPiece('projectorTag','投影機維修貼紙【BP-2】');showModal('小會議室投影機',`投影機循環播放著一份「福委 8 月大活動｜BLACKOUT 盲測流程」。
 
 機身側面貼著 Kat 的巡檢貼紙：
 【會議設備／BP-2】
@@ -2585,7 +2582,7 @@ meet_s:[
 
 你把冷氣關了。
 測試個頭。`);}},
- {id:'meettable',x:180,y:120,w:90,h:30,label:'會議桌上的草稿',fn(){showModal('會議桌上的草稿',`桌上攤著演練的流程草圖，三個箭頭通向樓外：
+ {id:'meettable',x:180,y:120,w:90,h:30,label:'會議桌上的草稿',fn(){showModal('會議桌上的草稿',`桌上攤著福委活動的逃生流程草圖，三個箭頭通向樓外：
 正門旁畫了一個密碼面板；
 消防梯旁畫了兩張卡；
 側門旁畫了一支把手。
@@ -2595,14 +2592,10 @@ meet_s:[
 ],
 meet_b:[
  {id:'whiteboard',x:30,y:52,w:96,h:56,label:'白板議程',fn(){showModal('白板議程',`下週的議程排得滿滿的，其中一格用紅筆框起來：
-「週五 22:00 夜間封鎖演練（正式）」
+「週五 22:00｜密室逃脫盲測檢討會」
 
-至於今晚？今晚在白板上，是一片空白。
-
-角落有人補了一句：
-「測試不是正式，正式也不要拿來測試。」
-
-沒有人簽名。大家都很有求生欲。`);}},
+旁邊列著議程：7F-01 回饋、7F-02 名單確認、正式活動修正。
+`);}},
  {id:'towerart',x:140,y:52,w:68,h:54,label:'古塔畫作',fn(){if(!S.flags.sawTowerArt){S.flags.sawTowerArt=1;queueReward({icon:'⚡',name:'古塔畫銘牌【XVI】',desc:'THE TOWER 的羅馬數字編號。',kind:'重要線索取得'});}showModal('古塔畫作',`一幅古塔的版畫：塔頂劈著閃電，人影往下墜。
 看著就不太吉利。
 
@@ -2612,18 +2605,18 @@ meet_b:[
  {id:'blackart',x:220,y:52,w:64,h:54,label:'黑色畫作',fn(){showModal('黑色畫作',`整幅畫幾乎全黑，還掛在整層樓最暗的牆角。黑上加黑。
 
 你把畫掀起來看背面。
-沒有密碼、沒有暗格，只有一張價格標籤。
+沒有密碼、沒有暗格，只有一張天價的價格標籤。
 
 你看了一眼金額，又默默把畫掛回去。
 今晚最恐怖的東西，找到了。`);}},
- {id:'preferencefile',x:176,y:120,w:82,h:16,label:'主管偏好調查文件',fn(){
-   if(!S.flags.sawSunOrder){S.flags.sawSunOrder=1;queueReward({icon:'📋',name:'角色排序【毛毛＞泡泡＞花花】',desc:'可配合立牌底座數字排列抽屜密碼。',kind:'重要線索取得'});}showModal('主管偏好調查文件',`一份「主管辦公用品偏好調查」。
+ {id:'preferencefile',x:176,y:120,w:82,h:16,label:'偏好調查文件',fn(){
+   if(!S.flags.sawSunOrder){S.flags.sawSunOrder=1;queueReward({icon:'📋',name:'據說她的喜好排名是這樣的⋯【毛毛＞泡泡＞花花】',desc:'可配合立牌底座數字排列抽屜密碼。',kind:'重要線索取得'});}showModal('主管偏好調查文件',`一份「主管辦公用品偏好調查」。
 孫寧的欄位，用紅筆寫著：
 
 毛毛 ＞ 泡泡 ＞ 花花
 
 下面補了一行小字：「這很重要。」
-主管的世界你不懂。但你把順序記下來了。`);checkSunDrawerCode();
+你不知道是誰寫的，但你把順序記下來了。`);checkSunDrawerCode();
  }},
  {id:'safe',x:40,y:140,w:34,h:32,label:'Kat 的保險箱',fn(){
    if(S.flags.safeOpen){showModal('Kat 的保險箱','開著。裡面只剩零錢盒和一疊過期的停車券。');return;}
@@ -2668,16 +2661,15 @@ meet_b:[
  }},
 ],
 director:[
- {id:'sundesk',x:116,y:138,w:150,h:20,label:'孫寧的辦公桌',fn(){showModal('孫寧的辦公桌',`桌面乾淨得不像有人類使用過。
+ {id:'sundesk',x:116,y:138,w:150,h:20,label:'孫寧的辦公桌',fn(){showModal('孫寧的辦公桌',`桌面乾淨得不像有人使用過。
 左側站著三個小小的角色立牌，抽屜掛著三位數電子鎖。
 
-桌上的電話直通孫寧本人。
-理論上。`);}},
+桌上的電話似乎直通孫寧本人，要直接問他嗎⋯⋯？`);}},
  {id:'sunlabels',x:130,y:128,w:66,h:20,label:'三個角色立牌',fn(){if(!S.flags.sawSunLabels){S.flags.sawSunLabels=1;queueReward({icon:'🔢',name:'立牌數字【7／4／9】',desc:'需依主管偏好調查中的角色順序排列。',kind:'重要線索取得'});}showModal('飛天小女警立牌',`三個立牌的底座，各貼著一個數字：
 
 毛毛【7】　花花【4】　泡泡【9】
 
-為什麼主管桌上會有這個？為什麼還要編號？
+為什麼桑尼桌上會有這個？為什麼還要編號？
 你選擇不問，默默記下。`);checkSunDrawerCode();}},
  {id:'sundrawer',x:116,y:158,w:180,h:16,label:'孫寧的上鎖抽屜',fn(){
    if(S.flags.sunDrawerOpen){showModal('孫寧的抽屜','已打開。覆核卡被你拿走了。');return;}
@@ -2687,7 +2679,7 @@ director:[
 
 卡片下面還壓著《頂樓電箱檢線備忘》的正本：
 「白＝市電。紅＝接地。綠＝備援。
-藍、黃：原因不明。總之，不要接。」
+藍、黃：原因不明。總之不要接。」
 
 主管的抽屜，果然什麼都有。`,'<span class="getitem">🪪 主管覆核卡</span><span class="getitem">📄 檢線備忘</span>');
    }});
@@ -2698,10 +2690,9 @@ director:[
 「名稱：權限不足」
 「媒材：壓克力、焦慮、未結案需求」
 
-視覺識別組出品。
-至少這次沒有把密碼貼在藝術品上。`);}},
+可惡，為何沒有把密碼貼在藝術品上。`);}},
  {id:'sunphone',x:266,y:126,w:30,h:30,label:'孫寧的桌上電話',fn(){openPhone();callSun();}},
- {id:'suntray',x:318,y:98,w:52,h:72,label:'待簽文件櫃',fn(){if(!S.flags.sawRuruFile){S.flags.sawRuruFile=1;queueReward({icon:'📎',name:'Ruru 結案版本【07】',desc:'共用抽屜密碼的後半段。',kind:'重要線索取得'});}showModal('待簽文件櫃',`第二層放著 Ruru 今天剛送來的結案文件：
+ {id:'suntray',x:318,y:98,w:52,h:72,label:'待簽文件櫃',fn(){if(!S.flags.sawRuruFile){S.flags.sawRuruFile=1;queueReward({icon:'📎',name:'Ruru 結案報告書【07】',desc:'共用抽屜密碼的後半段。',kind:'重要線索取得'});}showModal('待簽文件櫃',`第二層放著 Ruru 今天剛送來的結案文件：
 「weekly_close_final_v07」
 
 右上角的【07】被她自己用螢光筆圈起來，
@@ -2714,7 +2705,7 @@ toilet:[
 【B 路線＝卡 ＋ 標籤】
 【缺一不可】
 
-鏡面上的字跡像是演練佈置時留下的操作註記。`);}},
+鏡面上的字跡像是盲測佈置時留下的操作註記。`);}},
  {id:'sink',x:56,y:118,w:92,h:22,label:'洗手台下方',fn(){
    if(S.inv.tempcard){showModal('洗手台下方','已經沒有別的東西了。\n水管滴著水。一滴，一滴。你決定快點離開這裡。');return;}
    addItem('tempcard');showModal('洗手台下方',`手電筒往洗手台下一照——縫隙裡塞著一張卡。
@@ -2768,18 +2759,20 @@ roof:[
 ],
 lobby:[
  {id:'door',x:146,y:66,w:108,h:110,label:'公司正門（A 路線）',fn(){doorAction();}},
- {id:'guard',x:36,y:126,w:62,h:42,label:'警衛桌',fn(){showModal('警衛桌',`警衛伯伯的桌墊下壓著：孫子的畫、班表（週日：休），
-和一張「夜間演練聯絡表」——三條路線的「負責人」欄位全部空白。
+ {id:'guard',x:36,y:126,w:62,h:42,label:'警衛桌',fn(){showModal('警衛桌',`警衛伯伯的桌墊下壓著：孫子的畫、班表（本日休假），
+和一張「福委 8 月大活動／辦公室密室逃脫企劃書」。
+封面備註寫著：「測試模式：不事前告知受測者。」
+三條路線的「現場協助人員」欄位全部空白——看來福委會打算全程遠端觀察。
 
 桌墊角落有一道撕痕，殘留的紙角上印著：
 「……電箱檢線備忘……正本由主管保管……」
 
 對講機沒電。深夜的一樓，安靜得聽得到自己的心跳。`);}},
- {id:'ginaaward',x:292,y:34,w:72,h:42,label:'牆上的得獎合照',fn(){if(!S.flags.sawGinaAward){S.flags.sawGinaAward=1;queueReward({icon:'🏆',name:'Gina 得獎月份【12】',desc:'共用抽屜密碼的前半段。',kind:'重要線索取得'});}showModal('牆上的得獎合照',`新裱框的合照：Gina 高舉獎座，笑容燦爛。
-獎座底座刻著：【十二月・年度業務獎】
+ {id:'ginaaward',x:292,y:34,w:72,h:42,label:'牆上的得獎合照',fn(){if(!S.flags.sawGinaAward){S.flags.sawGinaAward=1;queueReward({icon:'🏆',name:'Gina 蟬聯月份數【12】',desc:'共用抽屜密碼的前半段。',kind:'重要線索取得'});}showModal('牆上的得獎合照',`新裱框的合照：Gina 高舉獎座，笑容燦爛。
+獎座底座刻著：【蟬聯12個月業績ＴＯＰ的王牌業務🏅】
 
 照片旁邊還留了一個空框，貼著便條：
-「Ruru 的。遲早。」`);}},
+「我會追上你的！」`);}},
  {id:'sidedoor',x:300,y:82,w:64,h:90,label:'後勤側門（C 路線）',fn(){
    gainPiece('sideTag','後勤側門保養標籤【6】');
    S.flags.sideStepsKnown=1;
