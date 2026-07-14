@@ -1777,6 +1777,7 @@ function callKat(){
   startCall({name:'Kat',avatar:'K',message:msg});
 }
 const SUNNY_SPOKEN_LINE='喂？為什麼打給我？你還在公司？電子鎖密碼不能告訴你，但覆核碼是七、二、五。用一用快點回家，掰。';
+if('speechSynthesis' in window){try{window.speechSynthesis.getVoices();window.speechSynthesis.addEventListener?.('voiceschanged',()=>window.speechSynthesis.getVoices(),{once:true});}catch(_){}}
 function chooseSunnyVoice(){
   if(!('speechSynthesis' in window))return null;
   const voices=window.speechSynthesis.getVoices()||[];
@@ -1787,13 +1788,22 @@ function chooseSunnyVoice(){
 function speakSunnyLine(attempt=0){
   if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window))return;
   const synth=window.speechSynthesis,voice=chooseSunnyVoice();
-  if(!voice&&attempt<2&&!(synth.getVoices()||[]).length){setTimeout(()=>speakSunnyLine(attempt+1),180);return;}
-  synth.cancel();
-  const u=new SpeechSynthesisUtterance(SUNNY_SPOKEN_LINE);
-  if(voice)u.voice=voice;u.lang=(voice&&voice.lang)||'zh-TW';u.rate=.96;u.pitch=1.22;u.volume=1;
-  synth.speak(u);
+  if(!voice&&attempt<3&&!(synth.getVoices()||[]).length){setTimeout(()=>speakSunnyLine(attempt+1),220);return;}
+  try{
+    synth.cancel();synth.resume();
+    const u=new SpeechSynthesisUtterance(SUNNY_SPOKEN_LINE);
+    if(voice)u.voice=voice;
+    u.lang=(voice&&voice.lang)||'zh-TW';u.rate=.96;u.pitch=1.22;u.volume=1;
+    u.onerror=()=>{if(attempt<2)setTimeout(()=>speakSunnyLine(attempt+1),260);};
+    synth.speak(u);
+    /* Safari may pause the queue after returning from the phone animation. */
+    setTimeout(()=>{try{synth.resume();}catch(_){}},80);
+    setTimeout(()=>{try{synth.resume();}catch(_){}},420);
+  }catch(_){if(attempt<2)setTimeout(()=>speakSunnyLine(attempt+1),260);}
 }
 function callSun(){
+  if(typeof window.__primeGameSpeech==='function')window.__primeGameSpeech();
+  AudioEngine.prime();
   S.sunCalls++;
   const answered=S.sunCalls>=5;
   if(!answered){
@@ -2230,29 +2240,66 @@ const AudioEngine=(()=>{
     else if(kind==='pigeon'){tone(64,.3,'sine',.55,0,'sfx');tone(48,.4,'triangle',.4,.04,'sfx');tone(900,.03,'square',.07,.14,'sfx');tone(760,.03,'square',.06,.2,'sfx');tone(880,.03,'square',.05,.26,'sfx');}
     else tone(260,.045,'square',.08,0,'sfx');
   }
+  function startFromGesture(){
+    musicEnabled=true;updateButton();
+    const c=ensure();
+    if(!c)return Promise.resolve(false);
+    const begin=()=>{
+      if(c.state!=='running')return false;
+      musicGain.gain.cancelScheduledValues(c.currentTime);
+      musicGain.gain.setTargetAtTime(.42,c.currentTime,.03);
+      if(!musicStarted){musicStarted=true;startDrone();pulse();timer=setInterval(pulse,260);}
+      return true;
+    };
+    /* Calling resume while still inside the pointer/click handler matters on
+       Safari. Some browsers resume immediately; others settle a Promise. */
+    try{
+      const result=c.resume();
+      if(begin())return Promise.resolve(true);
+      return Promise.resolve(result).then(()=>begin()).catch(()=>false);
+    }catch(_){return Promise.resolve(begin());}
+  }
+  function recover(){
+    if(!ctx||!musicEnabled)return;
+    if(ctx.state!=='running'){
+      try{ctx.resume().then(()=>{if(musicEnabled&&!musicStarted)startFromGesture();}).catch(()=>{});}catch(_){}
+    }
+  }
   function status(){return {supported:!!AC,state:ctx?ctx.state:'not-created',musicEnabled,musicStarted};}
-  return{start,prime,toggle,sfx,updateButton,status};
+  return{start,startFromGesture,prime,toggle,sfx,updateButton,status,recover};
 })();
 
 /* Mobile browsers require Web Audio to be resumed inside a real user gesture.
    Prime it while the player focuses/types/clicks, but start the BGM only after signing. */
 (function bindAudioUnlockGesture(){
-  let done=false;
+  let audioReady=false,speechPrimed=false;
+  function primeSpeech(){
+    if(speechPrimed||!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window))return;
+    try{
+      const synth=window.speechSynthesis;
+      synth.resume();
+      /* A silent utterance created during a real gesture unlocks delayed speech
+         on iOS Safari and several in-app browsers. */
+      const u=new SpeechSynthesisUtterance(' ');
+      u.lang='zh-TW';u.volume=0;u.rate=1;
+      u.onend=u.onerror=()=>{speechPrimed=true;};
+      synth.speak(u);
+      setTimeout(()=>{speechPrimed=true;},120);
+    }catch(_){speechPrimed=true;}
+  }
   function tryUnlock(){
-    if(done)return;
-    AudioEngine.prime().then(ok=>{
-      if(!ok)return;
-      done=true;
-      document.removeEventListener('pointerdown',tryUnlock,true);
-      document.removeEventListener('touchstart',tryUnlock,true);
-      document.removeEventListener('keydown',tryUnlock,true);
-    });
+    primeSpeech();
+    if(!audioReady){
+      AudioEngine.prime().then(ok=>{if(ok)audioReady=true;});
+    }else AudioEngine.recover();
   }
   document.addEventListener('pointerdown',tryUnlock,{capture:true,passive:true});
   document.addEventListener('touchstart',tryUnlock,{capture:true,passive:true});
   document.addEventListener('keydown',tryUnlock,true);
+  document.addEventListener('click',tryUnlock,true);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)AudioEngine.recover();});
+  window.__primeGameSpeech=primeSpeech;
 })();
-
 
 
 function recordOddAttempt(id){if(!S.oddAttempts.includes(id))S.oddAttempts.push(id);}
@@ -3730,8 +3777,8 @@ function startGame(){
   const name=(input?.value||'').trim();
   if(!name){if(err)err.textContent='請先輸入姓名或暱稱。';input?.classList.add('shake');setTimeout(()=>input?.classList.remove('shake'),420);input?.focus();return;}
   if(err)err.textContent='';
-  AudioEngine.start().then(ok=>{
-    if(!ok)setTimeout(()=>AudioEngine.start(),80);
+  AudioEngine.startFromGesture().then(ok=>{
+    if(!ok)setTimeout(()=>AudioEngine.start(),120);
   });
   S.playerName=name;S.playNumber=recordPlay(name);S.startAt=Date.now();S.started=true;scheduleNextPigeon();
   document.getElementById('intro').style.display='none';
