@@ -1776,7 +1776,10 @@ function callKat(){
   if(tenth&&!S.flags.code404){S.flags.code404=1;setTimeout(()=>{queueReward({icon:'🔢',name:'系統紀錄【404】',desc:'這組數字可能和某處的門禁有關。',kind:'重要線索'});toast('🔢 系統重新顯示紀錄：404');AudioEngine.sfx('unlock');},1750);}
   startCall({name:'Kat',avatar:'K',message:msg});
 }
-const SUNNY_SPOKEN_LINE='喂？為什麼打給我？你還在公司？電子鎖密碼不能告訴你，但覆核碼是七、二、五。用一用快點回家，掰。';
+function sunnySpokenLine(){
+  const name=String(S.playerName||'').trim()||'你';
+  return `喂，${name}？為什麼打給我？你還在公司？電子鎖密碼不能告訴你，但覆核碼是七、二、五。用一用快點回家，掰。`;
+}
 if('speechSynthesis' in window){try{window.speechSynthesis.getVoices();window.speechSynthesis.addEventListener?.('voiceschanged',()=>window.speechSynthesis.getVoices(),{once:true});}catch(_){}}
 function chooseSunnyVoice(){
   if(!('speechSynthesis' in window))return null;
@@ -1791,7 +1794,7 @@ function speakSunnyLine(attempt=0){
   if(!voice&&attempt<3&&!(synth.getVoices()||[]).length){setTimeout(()=>speakSunnyLine(attempt+1),220);return;}
   try{
     synth.cancel();synth.resume();
-    const u=new SpeechSynthesisUtterance(SUNNY_SPOKEN_LINE);
+    const u=new SpeechSynthesisUtterance(sunnySpokenLine());
     if(voice)u.voice=voice;
     u.lang=(voice&&voice.lang)||'zh-TW';u.rate=.96;u.pitch=1.22;u.volume=1;
     u.onerror=()=>{if(attempt<2)setTimeout(()=>speakSunnyLine(attempt+1),260);};
@@ -1819,7 +1822,7 @@ function callSun(){
   const av=document.getElementById('callAvatar');av.textContent='N';av.className='callavatar sunny-avatar';
   document.getElementById('callName').textContent='Ning✨';
   const st=document.getElementById('callStatus'),vm=document.getElementById('voicemailBox');st.textContent='撥號中⋯⋯';vm.style.display='none';
-  vm.textContent='通話逐字稿：\n「'+SUNNY_SPOKEN_LINE+'」\n\n主管口頭覆核：【725】';
+  vm.textContent='通話逐字稿：\n「'+sunnySpokenLine()+'」\n\n主管口頭覆核：【725】';
   AudioEngine.sfx('ring');setTimeout(()=>AudioEngine.sfx('ring'),430);
   setTimeout(()=>{
     st.textContent='已接通';vm.style.display='block';AudioEngine.sfx('messageOpen');speakSunnyLine();
