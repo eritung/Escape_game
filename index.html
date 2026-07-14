@@ -2501,15 +2501,15 @@ function inspectBlueArtwork(){
   const art=CUSTOM_ARTWORKS.blueart;
   if(!S.flags.sunCallHint){
     S.flags.sunCallHint=1;
-    queueReward({icon:'☎️',name:'電話系統轉接備忘【5】',desc:'連續未接記錄達 5 次後，系統會轉接本人。',kind:'重要線索取得'});
+    queueReward({icon:'☎️',name:'電話系統轉接備忘【5】',desc:'連續未接記錄達？？？次後，系統會轉接本人。',kind:'重要線索取得'});
     AudioEngine.sfx('item');
   }
   showModal(art.title,`${art.description}
 
 畫框背面貼著一張電話系統測試備忘：
-「緊急聯絡模式：同一分機連續未接記錄達【5】次後，轉接本人。」
+「緊急聯絡模式：同一分機連續未接記錄達【???】次後，將強制轉接本人。」
 
-難怪桑尼的桌上電話一直保留著這個奇怪設定。`,artworkPreviewHTML('blueart'));
+`,artworkPreviewHTML('blueart'));
 }
 
 const SPOTS={
