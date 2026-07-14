@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>《協和大樓逃脫計劃》</title>
+<script>document.documentElement.classList.add('app-preloading');</script>
 <style>
   :root{
     --bg:#07070f; --panel:#101022; --panel2:#0c0c1a; --line:#3a3a6e;
@@ -1025,9 +1026,101 @@
   /* 3:4 portrait artwork preview */
   .artwork-preview{margin:14px auto 2px;text-align:center;color:#77694d;font-size:10px;letter-spacing:1px;}
   .artwork-preview img{display:block;width:min(250px,72vw);aspect-ratio:3/4;object-fit:cover;margin:0 auto 8px;border:8px solid #4a3523;outline:2px solid #a68d61;box-shadow:0 12px 28px rgba(45,31,15,.35);background:#211a12;}
+
+
+  /* initial resource loading screen */
+  html.app-preloading,
+  body.app-loading{overflow:hidden!important;background:#090805!important;}
+  body.app-loading #wrap{visibility:hidden!important;}
+  body.app-loading .intro-paper-sheet{
+    animation:none!important;
+    opacity:0!important;
+    transform:translateY(-360px) scaleY(.18)!important;
+  }
+  #appLoader{
+    position:fixed;inset:0;z-index:9999;
+    display:grid;place-items:center;
+    padding:24px;
+    background:
+      radial-gradient(700px 330px at 50% 42%,rgba(117,82,35,.14),transparent 72%),
+      linear-gradient(165deg,#15110b 0%,#080704 72%,#100c07 100%);
+    color:#e8d9b3;
+    opacity:1;visibility:visible;
+    transition:opacity .42s ease,visibility .42s ease;
+  }
+  #appLoader.is-done{opacity:0;visibility:hidden;pointer-events:none;}
+  .app-loader-card{
+    position:relative;width:min(430px,88vw);
+    padding:29px 25px 24px;
+    border:1px solid rgba(205,179,119,.42);
+    border-radius:8px;
+    background:rgba(30,23,14,.88);
+    box-shadow:0 25px 70px rgba(0,0,0,.62),inset 0 0 34px rgba(164,117,51,.06);
+    text-align:center;overflow:hidden;
+  }
+  .app-loader-card::before{
+    content:'';position:absolute;inset:8px;
+    border:1px solid rgba(205,179,119,.13);
+    pointer-events:none;
+  }
+  .app-loader-eyebrow{font-size:9px;letter-spacing:5px;color:#9f8c67;margin-bottom:16px;}
+  .app-loader-file{
+    position:relative;width:68px;height:82px;margin:0 auto 18px;
+    border:3px solid #c7ab70;background:#e6d8b5;
+    box-shadow:8px 8px 0 rgba(0,0,0,.24);
+    animation:loaderFileFloat 1.35s steps(4) infinite;
+  }
+  .app-loader-file::before{
+    content:'';position:absolute;right:-3px;top:-3px;
+    width:22px;height:22px;background:#6e5834;
+    clip-path:polygon(0 0,100% 100%,0 100%);
+  }
+  .app-loader-file::after{
+    content:'';position:absolute;left:12px;right:12px;top:35px;height:3px;
+    background:#765f39;box-shadow:0 11px 0 #765f39,0 22px 0 #765f39;
+    opacity:.72;
+  }
+  .app-loader-title{
+    margin:0;color:#f0dfb8;font-size:18px;letter-spacing:4px;
+    font-family:"Kaiti TC","DFKai-SB","標楷體","Noto Serif TC",serif;
+  }
+  .app-loader-status{min-height:22px;margin:10px 0 15px;color:#a99a78;font-size:11px;letter-spacing:2px;line-height:1.8;}
+  .app-loader-track{
+    position:relative;height:10px;margin:0 auto;
+    background:#080704;border:1px solid #6d5a38;
+    box-shadow:inset 0 0 7px rgba(0,0,0,.8);overflow:hidden;
+  }
+  .app-loader-bar{
+    width:7%;height:100%;
+    background:repeating-linear-gradient(90deg,#a5332d 0 12px,#c05a3f 12px 18px,#a5332d 18px 26px);
+    box-shadow:0 0 12px rgba(192,90,63,.3);
+    transition:width .22s ease;
+  }
+  .app-loader-meta{display:flex;justify-content:space-between;gap:12px;margin-top:9px;color:#74674f;font:10px monospace;letter-spacing:1px;}
+  .app-loader-dot{animation:loaderBlink .9s steps(2) infinite;}
+  @keyframes loaderFileFloat{50%{transform:translateY(-4px)}}
+  @keyframes loaderBlink{50%{opacity:.28}}
+  @media(max-width:520px){
+    .app-loader-card{padding:25px 18px 21px;}
+    .app-loader-title{font-size:16px;letter-spacing:3px;}
+    .app-loader-status{font-size:10px;}
+  }
+
 </style>
 </head>
-<body>
+<body class="app-loading">
+
+<div id="appLoader" role="status" aria-live="polite" aria-label="遊戲資源載入中">
+  <div class="app-loader-card">
+    <div class="app-loader-eyebrow">KYOWA BUILDING · NIGHT FILE</div>
+    <div class="app-loader-file" aria-hidden="true"></div>
+    <h2 class="app-loader-title">夜間檔案載入中</h2>
+    <div class="app-loader-status" id="appLoaderStatus">正在確認七樓資源<span class="app-loader-dot">……</span></div>
+    <div class="app-loader-track" aria-hidden="true"><div class="app-loader-bar" id="appLoaderBar"></div></div>
+    <div class="app-loader-meta"><span>BLACKOUT_PROTOCOL</span><span id="appLoaderPercent">7%</span></div>
+  </div>
+</div>
+
 <div id="wrap">
   <h1 class="title">◆ 《協和大樓逃脫計劃》 ◆</h1>
 
@@ -3370,6 +3463,79 @@ document.addEventListener('dblclick',function(e){e.preventDefault();},{passive:f
 renderNav();renderInv();renderClock();renderChips();renderPhone();AudioEngine.updateButton();renderProfileSummary();renderCertificateStampBook();document.getElementById('playerNameInput').value=PROFILE.lastName||'';draw();
 document.getElementById('scenename').textContent='▸ '+ZONES[S.zone].label;
 document.getElementById('intro').style.display='block';
+
+/* Wait until the initial visual resources are ready before revealing the printer scene. */
+(function setupInitialLoader(){
+  const loader=document.getElementById('appLoader');
+  const bar=document.getElementById('appLoaderBar');
+  const percent=document.getElementById('appLoaderPercent');
+  const status=document.getElementById('appLoaderStatus');
+  if(!loader){document.body.classList.remove('app-loading');document.documentElement.classList.remove('app-preloading');return;}
+
+  const startedAt=performance.now();
+  let shown=7,finished=false;
+  const statusSteps=[
+    [24,'正在讀取場景資料……'],
+    [48,'正在載入牆面畫作……'],
+    [70,'正在確認互動機關……'],
+    [86,'正在準備夜間守則……']
+  ];
+  function paintProgress(value){
+    shown=Math.max(shown,Math.min(100,Math.round(value)));
+    if(bar)bar.style.width=shown+'%';
+    if(percent)percent.textContent=shown+'%';
+    for(let i=statusSteps.length-1;i>=0;i--){
+      if(shown>=statusSteps[i][0]){if(status&&!finished)status.textContent=statusSteps[i][1];break;}
+    }
+  }
+  const progressTimer=setInterval(()=>{
+    if(finished)return;
+    const ceiling=shown<48?48:shown<70?70:shown<86?86:93;
+    paintProgress(Math.min(ceiling,shown+2+Math.random()*5));
+  },170);
+
+  const windowReady=document.readyState==='complete'
+    ? Promise.resolve()
+    : new Promise(resolve=>window.addEventListener('load',resolve,{once:true}));
+  const fontsReady=document.fonts&&document.fonts.ready
+    ? document.fonts.ready.catch(()=>{})
+    : Promise.resolve();
+  const artworkReady=new Promise(resolve=>{
+    const deadline=performance.now()+3200;
+    function check(){
+      let ready=true;
+      try{
+        const assets=Object.values(ARTWORK_ASSETS||{});
+        ready=!assets.length||assets.every(asset=>asset&&asset.ready);
+      }catch(_e){ready=true;}
+      if(ready||performance.now()>=deadline)resolve();
+      else requestAnimationFrame(check);
+    }
+    check();
+  });
+  const minimumTime=new Promise(resolve=>setTimeout(resolve,760));
+
+  Promise.all([windowReady,fontsReady,artworkReady,minimumTime]).then(()=>{
+    finished=true;clearInterval(progressTimer);paintProgress(100);
+    if(status)status.textContent='載入完成｜正在輸出夜間守則';
+    setTimeout(()=>{
+      loader.classList.add('is-done');
+      setTimeout(()=>{
+        document.body.classList.remove('app-loading');
+        document.documentElement.classList.remove('app-preloading');
+        const intro=document.getElementById('intro');
+        if(intro){void intro.offsetWidth;}
+        loader.remove();
+      },430);
+    },250);
+  }).catch(()=>{
+    finished=true;clearInterval(progressTimer);paintProgress(100);
+    document.body.classList.remove('app-loading');
+    document.documentElement.classList.remove('app-preloading');
+    loader.remove();
+  });
+})();
+
 </script>
 </body>
 </html>
