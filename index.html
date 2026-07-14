@@ -1106,6 +1106,118 @@
     .app-loader-status{font-size:10px;}
   }
 
+
+
+  /* torn-paper fragment puzzles */
+  .paper-puzzle-board{
+    margin:14px auto 8px;
+    padding:15px 10px 12px;
+    max-width:430px;
+    background:linear-gradient(160deg,rgba(77,63,40,.13),rgba(255,248,226,.25));
+    border:1px dashed #8f7d59;
+    border-radius:7px;
+  }
+  .paper-puzzle-caption{
+    margin:0 0 10px;
+    color:#746448;
+    font-size:10.5px;
+    letter-spacing:1px;
+    text-align:center;
+    line-height:1.6;
+  }
+  .slotrow.paper-assembly{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:0;
+    width:min(100%,360px);
+    margin:0 auto;
+    align-items:center;
+    filter:drop-shadow(0 5px 5px rgba(55,40,20,.22));
+  }
+  .paper-assembly .slot{
+    position:relative;
+    min-width:0;
+    width:100%;
+    height:82px;
+    padding:0;
+    border:0;
+    background:rgba(255,252,240,.2);
+    overflow:visible;
+    display:grid;
+    place-items:center;
+  }
+  .paper-assembly .slot::after{
+    content:'';
+    position:absolute;
+    inset:5px 4px;
+    border:1px dashed rgba(112,94,62,.36);
+    pointer-events:none;
+  }
+  .paper-assembly .slot.filled::after{display:none;}
+  .paper-fragment{
+    --paper-rot:0deg;
+    position:relative;
+    width:112px;
+    height:72px;
+    border:0;
+    padding:0 9px;
+    display:grid;
+    place-items:center;
+    color:#33291d;
+    background:
+      repeating-linear-gradient(0deg,rgba(94,76,46,.055) 0 1px,transparent 1px 8px),
+      linear-gradient(150deg,#fffdf5,#eee7d7);
+    font:700 22px/1.1 "Microsoft JhengHei","Noto Sans TC",sans-serif;
+    letter-spacing:2px;
+    cursor:pointer;
+    transform:rotate(var(--paper-rot));
+    filter:drop-shadow(0 4px 3px rgba(55,40,20,.26));
+    touch-action:manipulation;
+  }
+  .paper-fragment::before{
+    content:'';
+    position:absolute;
+    inset:6px 8px;
+    border-top:1px solid rgba(105,87,56,.12);
+    border-bottom:1px solid rgba(105,87,56,.1);
+    pointer-events:none;
+  }
+  .paper-fragment.piece-0{
+    --paper-rot:-1.6deg;
+    clip-path:polygon(1% 8%,88% 2%,94% 14%,91% 29%,99% 43%,91% 57%,98% 72%,90% 96%,2% 92%);
+  }
+  .paper-fragment.piece-1{
+    --paper-rot:.8deg;
+    clip-path:polygon(9% 3%,91% 7%,99% 18%,93% 33%,100% 47%,92% 62%,99% 80%,91% 97%,8% 92%,1% 79%,8% 63%,1% 49%,8% 33%,1% 16%);
+  }
+  .paper-fragment.piece-2{
+    --paper-rot:-.5deg;
+    clip-path:polygon(10% 5%,99% 2%,97% 94%,9% 98%,1% 82%,8% 65%,1% 50%,8% 34%,2% 18%);
+  }
+  .paper-assembly .paper-fragment{position:absolute;inset:0;width:auto;height:auto;filter:none;transform:none;justify-self:stretch;align-self:stretch;}
+  .paper-assembly .slot:nth-child(1){z-index:1;}
+  .paper-assembly .slot:nth-child(2){z-index:2;margin-left:-7px;margin-right:-7px;width:calc(100% + 14px);}
+  .paper-assembly .slot:nth-child(3){z-index:1;}
+  .tray.paper-tray{
+    min-height:102px;
+    margin:13px auto 2px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    flex-wrap:wrap;
+  }
+  .paper-tray .paper-fragment{margin:4px -2px;}
+  .paper-tray .paper-fragment:hover{transform:translateY(-3px) rotate(var(--paper-rot));}
+  .paper-puzzle-missing{width:100%;color:#7a6b50;font-size:11px;line-height:1.65;text-align:center;}
+  @media(max-width:520px){
+    .paper-puzzle-board{padding:12px 5px 10px;}
+    .paper-assembly .slot{height:70px;}
+    .paper-assembly .paper-fragment{height:auto;}
+    .paper-fragment{width:94px;height:64px;font-size:19px;}
+    .tray.paper-tray{gap:2px;min-height:92px;}
+  }
+
 </style>
 </head>
 <body class="app-loading">
@@ -1411,8 +1523,8 @@ function getHint(){
  if(!f('salesDrawerOpen'))return `「錢幣三：兩個人的得意之作。」
 「一件掛在一樓的牆上，一件躺在主管的待簽櫃裡。」`;
  if(!has('key_meet'))return `「小會議室的備用鑰匙，在兩位業務的共用抽屜裡沉睡。」`;
- if(!f('pcOpen'))return `「寶劍侍從，正位：電腦醒了，登入頁要你做的是排除。」
-「先把聊天室裡那份避雷清單看完，再從圖卡裡留下沒有踩雷的三組。」`;
+ if(!f('pcOpen'))return `「寶劍侍從，正位：電腦正在比對一份屬於 Eri 的個人資料。」
+「聊天室裡有人抱怨過一長串飲食限制。那段抱怨，可能比密碼更有用。」`;
  if(S.inv.charm&&!S.flags.chipGot)return `「吊飾守著它的祕密。想打開它，先去讀信。」
 「Rickey 轉發過一封關於『測試件』的通知——就在公用電腦的信箱。」`;
  if(!f('safeOpen'))return `「保險箱要三個巡檢標記。」
@@ -1674,6 +1786,14 @@ function callSun(){
 }
 
 const MAILS={
+ audit:{from:'BLACKOUT_TEST／系統封存',subject:'【隱藏】7F-01 執行紀錄',body:`身分標記：7F-01
+通知狀態：SILENT／未事前告知
+觀察設備：CAM-01 ACTIVE
+離場模組：A、B、C 已啟用
+結束條件：任一路線完成
+同意欄位：＿＿＿＿＿＿
+
+最後一欄是空白的。系統卻已經開始記錄你的完成率。`},
  facility:{from:'Kat',subject:'設備維修週報（節錄）',body:`1. 頂樓電箱把手斷裂，備料下週到貨。期間如需操作總開關，請使用長柄物，勿徒手伸入。
 2. 後勤側門緊急把手已拆下保養，暫存於大會議室 Kat 的保險箱。
 3. 保險箱改裝「巡檢碎片鎖」測試中：標記附於會議設備、主要門禁與緊急出口，排列依例行巡檢順序。
@@ -1711,7 +1831,7 @@ function openMailbox(){
   let html='<div class="mailbox">';
   Object.entries(MAILS).forEach(([id,m])=>{html+='<button class="mailrow '+(S.flags['mail_'+id]?'read':'')+'" onclick="readMail(\''+id+'\')"><span class="mailfrom">'+m.from+'</span><span class="mailsubject">'+m.subject+'</span></button>';});
   html+='</div>';
-  showModal('💻 公用電腦／信箱','登入成功。收件匣最上面的五封信，全都和今晚有關。',html);
+  showModal('💻 公用電腦／BLACKOUT_TEST','登入成功。原本的桌面閃了一下，接著自動展開一個平常看不到的封存資料夾。裡面有六筆紀錄，全都指向今晚。',html);
 }
 function gainChip(){
   if(S.flags.chipGot||!S.inv.charm)return;
@@ -1723,6 +1843,7 @@ function gainChip(){
 }
 function readMail(id){
   const m=MAILS[id];if(!m)return;S.flags['mail_'+id]=1;
+  if(id==='audit'&&!S.flags.sawAuditLog){S.flags.sawAuditLog=1;queueReward({icon:'🗃️',name:'7F-01 執行紀錄',desc:'你並非意外被鎖在公司；系統在未事前告知的狀態下，早已啟用三條離場模組與觀察攝影機。',kind:'隱藏紀錄取得'});AudioEngine.sfx('item');}
   if(id==='system'&&!S.flags.code404){S.flags.code404=1;toast('🔢 信件中出現數字：404');queueReward({icon:'🔢',name:'系統識別記錄【404】',desc:'這串數字可能和某處的門禁有關。',kind:'重要線索取得'});AudioEngine.sfx('unlock');}
   if(id==='rickey'){S.flags.pochaccoKnown=1;gainChip();}
   showModal('✉ '+m.subject,'寄件者：'+m.from+'\n\n'+m.body,'<button class="opt" onclick="openMailbox()">← 回信箱</button>');
@@ -1736,7 +1857,7 @@ function showClueBoard(){
   h+='<div class="cluegroup"><b>塔羅牌盒｜兩位數</b>'+clueText(true,'劉世華：「密碼是我最怕的那張牌」')+clueText(f('sawTowerArt'),'古塔畫銘牌：【XVI／THE TOWER】')+'</div>';
   h+='<div class="cluegroup"><b>Gina & Ruru 共用抽屜｜四位數</b>'+clueText(f('sawGinaAward'),'獎座刻字：【十二月・年度業務獎】')+clueText(f('sawRuruFile'),'結案文件：【final_v07】（Gina 前、Ruru 後）')+'</div>';
   h+='<div class="cluegroup"><b>主電源恢復</b>'+clueText(has('flashlight_on'),'已取得可直接使用的緊急手電筒')+clueText(f('sawRoofNotice'),'停電處置卡：先檢查頂樓總電箱；鑰匙由劉世華保管')+clueText(has('power_fuse'),'已取得【7F／MAIN】主電源保險片')+clueText(has('key_roof'),'已取得頂樓鑰匙')+clueText(f('sawWireMemo'),'檢線備忘：白＝市電、紅＝接地、綠＝備援；藍黃不要接')+clueText(S.power,'主電源已恢復，辦公室與電子設備重新啟動')+'</div>';
-  h+='<div class="cluegroup"><b>公用電腦｜圖像驗證</b>'+clueText(S.power,'主電源已恢復，公用電腦可以啟動')+clueText(f('sawChanFood'),'聊天室中的點餐備註列出了避雷食材；登入頁需選出三組未含避雷食材的餐點')+'</div>';
+  h+='<div class="cluegroup"><b>公用電腦｜圖像驗證</b>'+clueText(S.power,'主電源已恢復，公用電腦可以啟動')+clueText(f('sawChanFood'),'聊天室留下了 Eri 的飲食避雷清單')+clueText(f('pcOpen'),'圖像驗證已通過，BLACKOUT_TEST 封存資料夾已開啟')+'</div>';
   h+='<div class="cluegroup"><b>Kat 的保險箱｜巡檢標記×3</b>'+clueText(f('projectorTag'),'投影機維修貼紙：【BP-2】')+clueText(f('doorLog'),'大會議室海報背面的正門巡檢紀錄：【48】')+clueText(f('sideTag'),'後勤側門保養標籤：【6】')+'</div>';
   h+='<div class="cluegroup"><b>孫寧的抽屜｜三位數</b>'+clueText(f('sawSunLabels'),'立牌數字：毛毛【7】花花【4】泡泡【9】')+clueText(f('sawSunOrder'),'紅筆排序：毛毛 ＞ 泡泡 ＞ 花花')+'</div>';
   h+='<div class="cluegroup"><b>A 路線：正門</b>'+clueText(f('code404'),'系統信中出現數字：【404】')+clueText(f('sunCallHint'),'主管辦公區海報背面：連續未接達【？？？】次後轉接本人')+clueText(f('code725'),'第五通電話中，孫寧親口說出：【725】')+clueText(S.power,'正門面板已恢復供電')+'</div>';
@@ -1793,12 +1914,12 @@ function openFoodPuzzle(){
   FOOD_PUZZLE={selected:[],cards:shuffledFoodCards(),locked:false};
   renderFoodPuzzle();
 }
-function renderFoodPuzzle(message='選出 3 組Eri可以順利吃下的餐點。',bad=false){
+function renderFoodPuzzle(message='終端機要求選取 3 張可通過 Eri 飲食條件的餐點卡。',bad=false){
   if(!FOOD_PUZZLE)return;
   const slots=[0,1,2].map(i=>{const id=FOOD_PUZZLE.selected[i],card=FOOD_CARDS.find(x=>x.id===id);return '<div class="food-slot'+(card?' filled':'')+'">'+(card?'<span>'+card.icons+'</span><small>'+card.label+'</small>':(i+1))+'</div>';}).join('');
   const cards=FOOD_PUZZLE.cards.map(card=>'<button class="food-tile'+(FOOD_PUZZLE.selected.includes(card.id)?' used':'')+'" aria-label="'+card.label+'" onclick="foodPick(\''+card.id+'\')"><span class="food-icons">'+card.icons+'</span><span class="food-label">'+card.label+'</span></button>').join('');
   const html='<div class="food-puzzle"><div class="food-screen" id="foodScreen"'+(bad?' style="color:#e1a09a;border-color:#9b4a42"':'')+'>'+message+'</div><div class="food-sequence">'+slots+'</div><div class="food-grid">'+cards+'</div><div class="food-actions"><button class="side-mini-btn" onclick="foodUndo()">← 退回一格</button><button class="side-mini-btn" onclick="foodReset()">↺ 清除</button></div></div>';
-  showModal('公用電腦／圖像登入',`登入頁沒有提供答案，只要求從餐點圖卡中選出 3 組Eri可以順利吃下的餐點。`,html);
+  showModal('公用電腦／圖像登入',`螢幕只顯示「PROFILE：ERI」與三個空白欄位。你得用在其他地方看過的資料完成比對。`,html);
 }
 function foodPick(id){
   if(!FOOD_PUZZLE||FOOD_PUZZLE.locked||FOOD_PUZZLE.selected.includes(id)||FOOD_PUZZLE.selected.length>=3)return;
@@ -1941,27 +2062,29 @@ function openPieceLock(cfg){
 }
 function renderPieceLock(){
   const cfg=PL.cfg;
-  let html=(cfg.poem?'<div class="poembox">'+cfg.poem.replace(/\n/g,'<br>')+'</div>':'')+'<div class="slotrow">';
+  let html=(cfg.poem?'<div class="poembox">'+cfg.poem.replace(/\n/g,'<br>')+'</div>':'');
+  html+='<div class="paper-puzzle-board"><div class="paper-puzzle-caption">把三張白紙碎片放進上方缺口；邊緣吻合時，紙面會連成一張完整密碼紙。</div><div class="slotrow paper-assembly">';
   cfg.pieces.forEach((_,i)=>{
     const pi=PL.placed[i];
     html+='<button class="slot'+(pi!==null?' filled':'')+'" onclick="slotTap('+i+')">'
-      +(pi!==null?'<span class="piecechip" style="background:'+cfg.pieces[pi].color+'">'+cfg.pieces[pi].short+'</span>':'<span class="slotq">＋</span>')
+      +(pi!==null?'<span class="paper-fragment piece-'+i+'">'+cfg.pieces[pi].short+'</span>':'<span class="slotq">＋</span>')
       +'</button>';
   });
-  html+='</div><div class="tray">';
+  html+='</div><div class="tray paper-tray">';
   let missing=0;
   PL.order.forEach(i=>{
     const p=cfg.pieces[i],got=!!S.flags[p.flag],placed=PL.placed.includes(i);
     if(!got)missing++;
-    else if(!placed)html+='<button class="piecechip intray" style="background:'+p.color+'" onclick="pieceTap('+i+')">'+p.n+'</button>';
+    else if(!placed)html+='<button class="paper-fragment piece-'+i+'" onclick="pieceTap('+i+')" aria-label="紙張碎片 '+p.short+'">'+p.short+'</button>';
   });
-  if(missing)html+='<div class="pieceline">❔ 尚有 '+missing+' 個碎片未取得</div>';
-  html+='</div>';
+  if(missing)html+='<div class="paper-puzzle-missing">❔ 還有 '+missing+' 張白紙碎片散落在場景裡</div>';
+  html+='</div></div>';
   const full=PL.placed.every(v=>v!==null);
   html+='<div class="optlist"><button class="opt"'+(full?' onclick="pieceTry()"':' disabled style="opacity:.45;cursor:not-allowed"')
-    +'>🔓 '+(full?'就這樣拼，試著解鎖':(missing?'還缺 '+missing+' 個碎片':'把碎片放進上面的格子'))+'</button></div>';
+    +'>🔓 '+(full?'確認紙張拼接順序':(missing?'還缺 '+missing+' 張碎片':'把碎片放進上方缺口'))+'</button></div>';
   showModal(cfg.title,cfg.desc,html);
 }
+
 function pieceTap(i){
   const idx=PL.placed.indexOf(null);
   if(idx<0)return;
@@ -2093,7 +2216,8 @@ const AudioEngine=(()=>{
 
 function recordOddAttempt(id){if(!S.oddAttempts.includes(id))S.oddAttempts.push(id);}
 function formatElapsed(ms){const total=Math.max(0,Math.round(ms/1000)),m=Math.floor(total/60),sec=total%60;return m?`${m} 分 ${String(sec).padStart(2,'0')} 秒`:`${sec} 秒`;}
-function routeName(type){return {normal:'正門・一般離場',true:'正門・完整調查',firestairs:'頂樓消防梯',side:'後勤側門手動釋放'}[type]||type;}
+function routeName(type){return {normal:'公司正門',true:'公司正門',firestairs:'頂樓消防梯',side:'後勤側門手動釋放'}[type]||type;}
+function investigationResult(){const n=importantFileCount();return n===3?'完整真相解明（3／3）':`調查尚未完成（${n}／3）`;}
 function oddActionList(){const a=[];if(S.oddAttempts.includes('pipe'))a.push('曾嘗試沿排水管下降');if(S.oddAttempts.includes('fire'))a.push('曾嘗試以火種處理正門');if(S.katCalls>=10)a.push('連續撥打 Kat 十次');if(S.sunCalls>=5)a.push('連續撥打孫寧五次');return a.length?a:['無異常離場嘗試'];}
 function canvasWrappedText(ctx,text,x,y,maxWidth,lineHeight){const chars=[...text];let line='',lines=[];for(const ch of chars){const test=line+ch;if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=ch;}else line=test;}if(line)lines.push(line);for(const ln of lines){ctx.fillText(ln,x,y);y+=lineHeight;}return y;}
 function generateCertificate(type){
@@ -2106,16 +2230,18 @@ function generateCertificate(type){
   c.strokeStyle='#6e5b37';c.lineWidth=3;c.beginPath();c.moveTo(210,300);c.lineTo(990,300);c.stroke();
   c.font='32px "Microsoft JhengHei",sans-serif';c.fillStyle='#665538';c.fillText('BLACKOUT PROTOCOL · TESTER 7F-01',600,360);
   c.font='700 58px "Noto Serif TC","Microsoft JhengHei",serif';c.fillStyle='#742c27';c.fillText(S.playerName||'測試者',600,470);
-  c.font='30px "Microsoft JhengHei",sans-serif';c.fillStyle='#3b2d1b';c.fillText('已完成七樓夜間離場驗證',600,530);
-  const rows=[['離場方式',routeName(type)],['本次時間',formatElapsed(S.elapsedMs)],['本瀏覽器遊玩',`第 ${S.playNumber||PROFILE.plays||1} 次`],['逃生方式解鎖',`${unlockedRouteCount()}／3`],['取得文件',`${Object.keys(S.frags).length}／3`]];
-  c.textAlign='left';let y=625;for(const [k,v] of rows){c.fillStyle='#6d5c3e';c.font='700 27px "Microsoft JhengHei",sans-serif';c.fillText(k,220,y);c.fillStyle='#2f2518';c.font='31px "Microsoft JhengHei",sans-serif';c.fillText(v,475,y);c.strokeStyle='rgba(109,92,62,.35)';c.beginPath();c.moveTo(215,y+22);c.lineTo(985,y+22);c.stroke();y+=82;}
-  c.fillStyle='#6d5c3e';c.font='700 27px "Microsoft JhengHei",sans-serif';c.fillText('特殊紀錄',220,y);c.fillStyle='#2f2518';c.font='26px "Microsoft JhengHei",sans-serif';let yy=y;for(const item of oddActionList()){yy=canvasWrappedText(c,'・'+item,475,yy,505,40);}y=Math.max(y+70,yy+24);
-  c.textAlign='center';c.fillStyle='#6d5c3e';c.font='700 28px "Microsoft JhengHei",sans-serif';c.fillText('逃 生 戳 章 冊',600,1225);
-  const xs=[330,600,870],stampY=1345;
+  const fullInvestigation=importantFileCount()===3;
+  c.font='30px "Microsoft JhengHei",sans-serif';c.fillStyle='#3b2d1b';c.fillText(fullInvestigation?'已完成七樓離場驗證與完整調查':'已完成七樓夜間離場驗證',600,530);
+  const rows=[['離場方式',routeName(type)],['調查結果',investigationResult()],['本次時間',formatElapsed(S.elapsedMs)],['本瀏覽器遊玩',`第 ${S.playNumber||PROFILE.plays||1} 次`],['逃生方式解鎖',`${unlockedRouteCount()}／3`],['取得文件',`${Object.keys(S.frags).length}／3`]];
+  c.textAlign='left';let y=610;for(const [k,v] of rows){c.fillStyle='#6d5c3e';c.font='700 26px "Microsoft JhengHei",sans-serif';c.fillText(k,220,y);c.fillStyle='#2f2518';c.font='29px "Microsoft JhengHei",sans-serif';c.fillText(v,475,y);c.strokeStyle='rgba(109,92,62,.35)';c.beginPath();c.moveTo(215,y+20);c.lineTo(985,y+20);c.stroke();y+=72;}
+  c.fillStyle='#6d5c3e';c.font='700 26px "Microsoft JhengHei",sans-serif';c.fillText('特殊紀錄',220,y);c.fillStyle='#2f2518';c.font='24px "Microsoft JhengHei",sans-serif';let yy=y;for(const item of oddActionList()){yy=canvasWrappedText(c,'・'+item,475,yy,505,38);}y=Math.max(y+62,yy+18);
+  c.save();c.textAlign='center';c.translate(600,1165);c.rotate(-.025);c.lineWidth=fullInvestigation?6:3;c.strokeStyle=fullInvestigation?'#a33a32':'#9b8d72';c.fillStyle=fullInvestigation?'rgba(163,58,50,.055)':'rgba(120,110,90,.025)';if(!fullInvestigation)c.setLineDash([12,8]);c.strokeRect(-205,-35,410,70);c.fillRect(-205,-35,410,70);c.setLineDash([]);c.fillStyle=fullInvestigation?'#a33a32':'#8d8068';c.font='700 28px "Microsoft JhengHei",sans-serif';c.fillText(fullInvestigation?'完整真相解明｜調查認證':'調查未完成｜離場紀錄',0,10);c.restore();
+  c.textAlign='center';c.fillStyle='#6d5c3e';c.font='700 28px "Microsoft JhengHei",sans-serif';c.fillText('逃 生 戳 章 冊',600,1260);
+  const xs=[330,600,870],stampY=1370;
   Object.entries(ESCAPE_STAMPS).forEach(([key,info],i)=>{const on=!!PROFILE.unlocked[key];c.save();c.translate(xs[i],stampY);c.rotate((i-1)*.07);c.lineWidth=on?7:4;c.strokeStyle=on?'#a33a32':'#9b8d72';c.fillStyle=on?'rgba(163,58,50,.06)':'rgba(120,110,90,.03)';if(!on)c.setLineDash([14,10]);c.beginPath();c.arc(0,0,82,0,Math.PI*2);c.fill();c.stroke();c.setLineDash([]);c.fillStyle=on?'#a33a32':'#9b8d72';c.font='700 24px "Microsoft JhengHei",sans-serif';c.fillText(on?info.seal:'未解鎖',0,-3);c.font='21px "Microsoft JhengHei",sans-serif';c.fillText(info.short,0,35);c.restore();});
-  c.fillStyle='#6d5c3e';c.font='23px "Microsoft JhengHei",sans-serif';c.textAlign='center';c.fillText(`已收集 ${unlockedRouteCount()}／3 枚｜資料保存於目前瀏覽器`,600,1510);
-  c.fillText(new Intl.DateTimeFormat('zh-TW',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date()),600,1570);
-  c.font='20px "Microsoft JhengHei",sans-serif';c.fillStyle='#756648';c.fillText('本證書由七樓門禁系統自動產生',600,1630);
+  c.fillStyle='#6d5c3e';c.font='23px "Microsoft JhengHei",sans-serif';c.textAlign='center';c.fillText(`已收集 ${unlockedRouteCount()}／3 枚｜資料保存於目前瀏覽器`,600,1525);
+  c.fillText(new Intl.DateTimeFormat('zh-TW',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date()),600,1580);
+  c.font='20px "Microsoft JhengHei",sans-serif';c.fillStyle='#756648';c.fillText('本證書由七樓門禁系統自動產生',600,1635);
   const url=canvas.toDataURL('image/png');const img=document.getElementById('certificateImg'),link=document.getElementById('certificateDownload'),wrap=document.getElementById('certificateWrap');if(img)img.src=url;if(link){link.href=url;link.download=`${S.playerName||'測試者'}_七樓夜間離場證書.png`;}renderCertificateStampBook();if(wrap)wrap.hidden=false;
 }
 
@@ -2127,7 +2253,7 @@ function offerExit(route){
   let note='你已找到可以離開公司的路。';
   if(!all)note+=`\n\n目前重要文件：${count}／3\n有些地方似乎還沒調查完。現在離開，可能無法知道今晚的完整真相。`;
   else if(route==='main')note+='\n\n三份重要文件都在你手上。從這裡離開，應該能把今晚的真相一起帶出去。';
-  else note+='\n\n三份重要文件都已找齊。這條路可以安全離開；若想確認文件指向的完整真相，也可以先回到正門。';
+  else note+='\n\n三份重要文件都已找齊。無論從哪條路離開，證書都會分別記錄你的離場方式與「完整真相解明」調查認證。';
   const html=`<div class="optlist"><button class="opt" onclick="confirmExit('${route}')">🚪 現在離開</button><button class="opt" onclick="closeModal();toast('出口保持開啟。你決定再調查一下。')">↩ 先不走，繼續調查</button></div>`;
   showModal('出口已開啟｜'+routeLabel,note,html);
 }
@@ -2142,6 +2268,7 @@ function fmtTime(){return clockStr();}
 function endGame(type){
   const T=document.getElementById('endtitle'),B=document.getElementById('endbody');
   const success=!['fire','pipe'].includes(type);
+  const fullTruth=importantFileCount()===3;
   if(success){clearTimeout(PIGEON_TIMER);PIGEON_TIMER=null;}
   if(type==='fire')recordOddAttempt('fire');
   if(type==='pipe')recordOddAttempt('pipe');
@@ -2174,8 +2301,24 @@ function endGame(type){
 當雲梯車把你接下來的時候，觀看人數突破三萬。
 你和招牌上的公司 LOGO，有了一張幸福甜蜜的合照。`;
   }else if(type==='firestairs'){
-    AudioEngine.sfx('endingGood');T.textContent='◆ 安全結局：消防梯的綠燈';
-    B.textContent=`「嗶。」「嗶。」
+    AudioEngine.sfx(fullTruth?'endingTrue':'endingGood');
+    T.classList.toggle('true',fullTruth);
+    T.textContent=fullTruth?'★ 雙重結局：消防梯離場／真相解明':'◆ 安全結局：消防梯的綠燈';
+    B.textContent=fullTruth?`「嗶。」「嗶。」
+
+讀卡器亮起綠燈，消防梯的門彈開。
+你把三份內部文件塞進外套，沿著緊急照明一路下樓。
+
+活動決議、佈置檢核、盲測排程——
+它們已足以證明今晚不是事故，而是一場未經同意的福委會盲測。
+你不必從正門出去，真相也不會因此留在七樓。
+
+推開一樓消防門時，夜風灌進來。
+手機同步跳出兩筆紀錄：
+「離場路線：B／消防梯。」
+「調查狀態：完整。」
+
+你安全離開，也把完整證據一起帶了出去。`:`「嗶。」「嗶。」
 
 讀卡器亮起綠燈，消防梯的門彈開。
 緊急照明一路延伸到一樓，像一條替你鋪好的路。
@@ -2190,10 +2333,28 @@ function endGame(type){
 有些問題，留給明天。
 
 你隱約覺得——如果帶齊那三份內部文件，
-再打開正門，今晚也許會有完整的解釋。`;
+今晚也許會有完整的解釋。`;
   }else if(type==='side'){
-    AudioEngine.sfx('endingGood');T.textContent='◆ 機械結局：不插電的團體作業';
-    B.textContent=`你把伸縮燈桿頂住門框上方的安全扣，
+    AudioEngine.sfx(fullTruth?'endingTrue':'endingGood');
+    T.classList.toggle('true',fullTruth);
+    T.textContent=fullTruth?'★ 雙重結局：側門離場／真相解明':'◆ 機械結局：不插電的團體作業';
+    B.textContent=fullTruth?`你固定上方安全扣，轉動金屬把手，再向右拉出鎖芯。
+
+「鏗。」
+
+側門鬆開。你沒有空著手走出去——
+三份內部文件正壓在你的包裡：福委活動決議、盲測佈置檢核、BLACKOUT 排程。
+
+它們把整件事拼得非常完整：
+福委會確認你的加班行程、啟用正式門禁，再把你列為完全不知情的 7F-01。
+這不是系統故障，也不是臨時起意。
+
+手機同步留下兩筆結果：
+「離場路線：C／後勤側門。」
+「調查狀態：完整。」
+
+在最先進的封鎖系統前，最後獲勝的是一支鐵把手、一根應援燈桿，
+以及你帶出公司的全部證據。`:`你把伸縮燈桿頂住門框上方的安全扣，
 另一手握住金屬把手——左轉到底、順時針回到右側紅線，最後向右拉出鎖芯。
 
 「鏗。」
@@ -2207,7 +2368,7 @@ function endGame(type){
 維修備忘留下的程序，確實完成了最後一步。
 
 只是你隱約覺得——如果帶齊那三份內部文件，
-再打開正門，今晚也許會有完整的解釋。`;
+今晚也許會有完整的解釋。`;
   }else if(type==='true'){
     AudioEngine.sfx('endingTrue');T.classList.add('true');T.textContent='★ 真結局：福委會的驚喜，不需要本人同意';
     B.textContent=`「嗶——喀。」
@@ -2677,10 +2838,12 @@ office2:[
    showModal('董伊淇的舊座位',`她的座位還沒清，七個手搖杯疊成一座塔。
 
 杯塔旁壓著一張公用電腦的登入通知：
-「圖像驗證已啟用。請依點餐備註，選出三組Eri敢吃的料理。」
+「驗證模式：個人偏好比對／選取三項。」
+「詳細規則僅於終端機啟動後顯示。」
 
-但通知上沒有列出避雷內容。
-那份資料，應該在其他地方。`);
+通知沒有密碼，也沒有列出比對內容。
+只在右下角印著一行很小的字：
+【PROFILE：ERI】`);
  }},
  {id:'kaodesk',x:150,y:126,w:42,h:22,label:'高于雯的桌面',fn(){
    gainPiece('catDeskPiece','被推下桌的紙片【48】');
