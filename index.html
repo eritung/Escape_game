@@ -1986,21 +1986,38 @@ function gainPiece(flag,label,desc='已記錄於線索板。'){
 /* ================= WEB AUDIO BGM ================= */
 const AudioEngine=(()=>{
   let ctx=null,musicGain=null,sfxGain=null,compressor=null,timer=null,step=0,musicEnabled=true,drone=[];
+  let resumePromise=null,musicStarted=false;
   const AC=window.AudioContext||window.webkitAudioContext;
   function ensure(){
-    if(!AC)return false;
+    if(!AC)return null;
     if(!ctx){
-      ctx=new AC();compressor=ctx.createDynamicsCompressor();compressor.threshold.value=-18;compressor.knee.value=18;compressor.ratio.value=5;compressor.attack.value=.004;compressor.release.value=.2;
+      ctx=new AC();
+      compressor=ctx.createDynamicsCompressor();
+      compressor.threshold.value=-18;compressor.knee.value=18;compressor.ratio.value=5;compressor.attack.value=.004;compressor.release.value=.2;
       musicGain=ctx.createGain();sfxGain=ctx.createGain();musicGain.gain.value=.42;sfxGain.gain.value=.78;
       musicGain.connect(compressor);sfxGain.connect(compressor);compressor.connect(ctx.destination);
     }
-    if(ctx.state==='suspended')ctx.resume();return true;
+    return ctx;
   }
-  function tone(freq,dur=.16,type='square',vol=.035,when=0,bus='music'){
-    if(!ensure())return;if(bus==='music'&&!musicEnabled)return;
+  function unlock(){
+    const c=ensure();
+    if(!c)return Promise.resolve(false);
+    if(c.state==='running')return Promise.resolve(true);
+    if(resumePromise)return resumePromise;
+    resumePromise=Promise.resolve(c.resume()).then(()=>c.state==='running').catch(()=>false).finally(()=>{resumePromise=null;});
+    return resumePromise;
+  }
+  function scheduleTone(freq,dur=.16,type='square',vol=.035,when=0,bus='music'){
+    if(!ctx||ctx.state!=='running')return;
+    if(bus==='music'&&!musicEnabled)return;
     const t=ctx.currentTime+when,o=ctx.createOscillator(),gain=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,t);
     gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(vol,t+.012);gain.gain.exponentialRampToValueAtTime(.0001,t+dur);
     o.connect(gain);gain.connect(bus==='sfx'?sfxGain:musicGain);o.start(t);o.stop(t+dur+.03);
+  }
+  function tone(freq,dur=.16,type='square',vol=.035,when=0,bus='music'){
+    const c=ensure();if(!c)return;
+    if(c.state==='running'){scheduleTone(freq,dur,type,vol,when,bus);return;}
+    unlock().then(ok=>{if(ok)scheduleTone(freq,dur,type,vol,when,bus);});
   }
   function pulse(){
     const arp=[220,261.63,329.63,392,329.63,261.63,196,246.94];tone(arp[step%arp.length],.13,'square',.05,0,'music');
@@ -2008,15 +2025,33 @@ const AudioEngine=(()=>{
     if(step%8===7)tone(880,.055,'square',.024,.08,'music');step++;
   }
   function startDrone(){
-    if(drone.length||!ensure())return;[55,82.41].forEach((f,i)=>{const o=ctx.createOscillator(),gain=ctx.createGain();o.type=i?'sine':'triangle';o.frequency.value=f;gain.gain.value=i?.025:.038;o.connect(gain);gain.connect(musicGain);o.start();drone.push(o);});
+    if(drone.length||!ctx||ctx.state!=='running')return;
+    [55,82.41].forEach((f,i)=>{const o=ctx.createOscillator(),gain=ctx.createGain();o.type=i?'sine':'triangle';o.frequency.value=f;gain.gain.value=i?.025:.038;o.connect(gain);gain.connect(musicGain);o.start();drone.push(o);});
   }
   function start(){
-    if(!ensure())return false;musicEnabled=true;musicGain.gain.setTargetAtTime(.42,ctx.currentTime,.03);startDrone();if(!timer){pulse();timer=setInterval(pulse,260);}updateButton();return true;
+    musicEnabled=true;updateButton();
+    return unlock().then(ok=>{
+      if(!ok)return false;
+      musicGain.gain.cancelScheduledValues(ctx.currentTime);
+      musicGain.gain.setTargetAtTime(.42,ctx.currentTime,.03);
+      if(!musicStarted){
+        musicStarted=true;startDrone();pulse();timer=setInterval(pulse,260);
+      }
+      return true;
+    });
   }
-  function toggle(){musicEnabled=!musicEnabled;if(musicEnabled)start();else if(musicGain&&ctx)musicGain.gain.setTargetAtTime(.0001,ctx.currentTime,.03);updateButton();}
+  function prime(){return unlock();}
+  function toggle(){
+    if(musicEnabled){
+      musicEnabled=false;
+      if(musicGain&&ctx){musicGain.gain.cancelScheduledValues(ctx.currentTime);musicGain.gain.setTargetAtTime(.0001,ctx.currentTime,.03);}
+      updateButton();
+    }else{
+      musicEnabled=true;updateButton();start();
+    }
+  }
   function updateButton(){const b=document.getElementById('btnAudio');if(b)b.textContent=musicEnabled?'🔊 BGM':'🔇 BGM';}
   function sfx(kind){
-    if(!ensure())return;
     if(kind==='inspect'){tone(310,.045,'square',.12,0,'sfx');tone(465,.055,'square',.075,.035,'sfx');}
     else if(kind==='item'){tone(523.25,.08,'square',.14,0,'sfx');tone(783.99,.13,'square',.10,.08,'sfx');}
     else if(kind==='message'){tone(659.25,.07,'square',.13,0,'sfx');tone(880,.09,'square',.11,.075,'sfx');}
@@ -2031,7 +2066,27 @@ const AudioEngine=(()=>{
     else if(kind==='pigeon'){tone(64,.3,'sine',.55,0,'sfx');tone(48,.4,'triangle',.4,.04,'sfx');tone(900,.03,'square',.07,.14,'sfx');tone(760,.03,'square',.06,.2,'sfx');tone(880,.03,'square',.05,.26,'sfx');}
     else tone(260,.045,'square',.08,0,'sfx');
   }
-  return{start,toggle,sfx,updateButton};
+  function status(){return {supported:!!AC,state:ctx?ctx.state:'not-created',musicEnabled,musicStarted};}
+  return{start,prime,toggle,sfx,updateButton,status};
+})();
+
+/* Mobile browsers require Web Audio to be resumed inside a real user gesture.
+   Prime it while the player focuses/types/clicks, but start the BGM only after signing. */
+(function bindAudioUnlockGesture(){
+  let done=false;
+  function tryUnlock(){
+    if(done)return;
+    AudioEngine.prime().then(ok=>{
+      if(!ok)return;
+      done=true;
+      document.removeEventListener('pointerdown',tryUnlock,true);
+      document.removeEventListener('touchstart',tryUnlock,true);
+      document.removeEventListener('keydown',tryUnlock,true);
+    });
+  }
+  document.addEventListener('pointerdown',tryUnlock,{capture:true,passive:true});
+  document.addEventListener('touchstart',tryUnlock,{capture:true,passive:true});
+  document.addEventListener('keydown',tryUnlock,true);
 })();
 
 
@@ -3450,7 +3505,9 @@ function startGame(){
   const name=(input?.value||'').trim();
   if(!name){if(err)err.textContent='請先輸入姓名或暱稱。';input?.classList.add('shake');setTimeout(()=>input?.classList.remove('shake'),420);input?.focus();return;}
   if(err)err.textContent='';
-  AudioEngine.start();
+  AudioEngine.start().then(ok=>{
+    if(!ok)setTimeout(()=>AudioEngine.start(),80);
+  });
   S.playerName=name;S.playNumber=recordPlay(name);S.startAt=Date.now();S.started=true;scheduleNextPigeon();
   document.getElementById('intro').style.display='none';
   if(!S.msgs.length){MSG0.forEach(m=>S.msgs.push({...m,unread:true}));S.unread=MSG0.length;}
